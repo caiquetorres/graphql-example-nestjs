@@ -43,7 +43,7 @@ export class EnvModule {
     })
 
     if (errors.length > 0) {
-      Logger.error(errors)
+      Logger.error(errors.toString())
       throw new Error(errors.toString())
     }
     return validatedConfig
