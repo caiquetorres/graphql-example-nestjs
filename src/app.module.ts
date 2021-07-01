@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common'
+import { GraphQLModule } from '@nestjs/graphql'
+
+import { GraphQLService } from './modules/graphql/graphql.service'
 
 import { EnvModule } from './modules/env/env.module'
 
@@ -6,6 +9,9 @@ import { EnvModule } from './modules/env/env.module'
   imports: [
     EnvModule.forRoot({
       envFilePath: ['.env'],
+    }),
+    GraphQLModule.forRootAsync({
+      useClass: GraphQLService,
     }),
   ],
   controllers: [],
