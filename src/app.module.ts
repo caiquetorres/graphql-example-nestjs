@@ -6,9 +6,11 @@ import { GraphQLService } from './modules/graphql/graphql.service'
 import { TypeOrmService } from './modules/typeorm/typeorm.service'
 
 import { EnvModule } from './modules/env/env.module'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
   imports: [
+    UserModule,
     EnvModule.forRoot({
       envFilePath: ['.env'],
     }),
