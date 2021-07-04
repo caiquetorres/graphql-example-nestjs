@@ -104,6 +104,18 @@ export class EnvironmentVariables {
 
   //#endregion
 
+  //#region JWT
+
+  @IsDefined({ message: 'It is required to set the "JWT_SECRET_KEY"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public JWT_SECRET_KEY: string
+
+  @IsDefined({ message: 'It is required to set the "JWT_EXPIRES_IN"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public JWT_EXPIRES_IN: string
+
+  //#endregion
+
   //#region Sentry
 
   @IsDefined({ message: 'It is required to set the "SENTRY_DSN"' })
