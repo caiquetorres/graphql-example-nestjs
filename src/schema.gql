@@ -5,6 +5,7 @@
 input CreateUserInput {
   email: String!
   name: String!
+  password: String!
 }
 
 """
@@ -12,18 +13,31 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createOneUser(input: CreateUserInput!): User!
+  login(input: LoginInput!): TokenModel!
 }
 
 type Query {
   getOneUser(id: String!): User!
 }
 
+type TokenModel {
+  expiresIn: String!
+  token: String!
+}
+
 type User {
   active: Boolean
   createdAt: DateTime
+  email: String
   id: ID!
   name: String
+  permissions: String
   updatedAt: DateTime
 }
