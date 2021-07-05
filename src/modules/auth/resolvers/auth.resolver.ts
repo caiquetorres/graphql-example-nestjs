@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 
 import { AuthService } from '../services/auth.service'
@@ -8,15 +6,14 @@ import { LoginInput } from '../models/login.input'
 import { TokenModel } from '../models/token.model'
 
 /**
- * The class that represents the resolver that deals with the login in the
- * application
+ * The class that represents the resolver that deals with the authentication
  */
 @Resolver()
 export class AuthResolver {
   public constructor(private readonly authService: AuthService) {}
 
   /**
-   * Method that execute the login
+   * Method to perform the login
    *
    * @param loginInput defines the login input data (email and password)
    * @returns an object that represents the token data and some more information

@@ -23,7 +23,7 @@ export class AuthService {
   ) {}
 
   /**
-   * Method that execute the login
+   * Method to perform the login
    *
    * @param loginInput defines the login input data (email and password)
    * @returns an object that represents the token data and some more information
