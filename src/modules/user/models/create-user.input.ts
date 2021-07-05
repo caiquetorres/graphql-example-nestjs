@@ -2,6 +2,9 @@ import { Field, InputType } from '@nestjs/graphql'
 
 import { IsDefined, IsEmail, IsString } from 'class-validator'
 
+/**
+ * The class that represents the input that will perform the creation
+ */
 @InputType()
 export class CreateUserInput {
   @IsDefined({ message: 'It is required to send the name' })

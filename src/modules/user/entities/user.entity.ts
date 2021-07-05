@@ -7,6 +7,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
+/**
+ * The class that represents the user entity
+ */
 @Entity()
 @ObjectType()
 export class User {
