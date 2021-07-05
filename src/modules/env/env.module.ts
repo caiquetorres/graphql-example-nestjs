@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config'
 import { EnvService } from './services/env.service'
 
 import { EnvModuleOptions } from './interfaces/env-module-options.interface'
-import { EnvironmentVariables } from './models/enviroment-variables.model'
+import { EnvironmentVariables } from './models/environment-variables.model'
 import { plainToClass } from 'class-transformer'
 import { validateSync } from 'class-validator'
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-import { EnvironmentVariables } from '../models/enviroment-variables.model'
+import { EnvironmentVariables } from '../models/environment-variables.model'
 
 /**
  * The class that represents the service that deals with the environment
