@@ -1,5 +1,7 @@
-import { Logger } from '@nestjs/common'
+import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+
+import { JwtGuard } from 'src/guards/jwt/jwt.guard'
 
 import { User } from '../entities/user.entity'
 
@@ -16,15 +18,12 @@ export class UserResolver {
     @Args('input', { type: () => CreateUserInput })
     createUserInput: CreateUserInput,
   ): Promise<User> {
-    Logger.log(createUserInput)
     return await this.userService.createOne(createUserInput)
   }
 
+  @UseGuards(JwtGuard)
   @Query(() => User)
-  public async getOneUser(
-    @Args('id')
-    userId: string,
-  ): Promise<User> {
+  public async getOneUser(@Args('id') userId: string): Promise<User> {
     return await this.userService.getOne(userId)
   }
 }

@@ -10,29 +10,63 @@ import {
 @Entity()
 @ObjectType()
 export class User {
-  @Field(() => ID, { nullable: false })
   @PrimaryGeneratedColumn('uuid')
-  public id: number
+  @Field(() => ID, {
+    nullable: false,
+  })
+  public id: string
 
-  @Field({ nullable: true })
   @CreateDateColumn()
+  @Field({
+    nullable: true,
+  })
   public createdAt: Date
 
-  @Field({ nullable: true })
   @UpdateDateColumn()
+  @Field({
+    nullable: true,
+  })
   public updatedAt: Date
 
-  @Field({ nullable: true })
   @Column({
     nullable: false,
     default: true,
   })
+  @Field({
+    nullable: true,
+  })
   public active: boolean
 
-  @Field({ nullable: true })
   @Column({
     nullable: false,
     length: 50,
   })
+  @Field({
+    nullable: true,
+  })
   public name: string
+
+  @Column({
+    nullable: false,
+    length: 75,
+  })
+  @Field({
+    nullable: true,
+  })
+  public email: string
+
+  @Column({
+    nullable: false,
+  })
+  public password: string
+
+  @Column({
+    nullable: false,
+    length: 12,
+  })
+  @Field({
+    nullable: true,
+    name: 'permissions',
+  })
+  public roles: string
 }
