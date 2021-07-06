@@ -1,3 +1,4 @@
+import { FilterableField, IDField } from '@nestjs-query/query-graphql'
 import { Field, ObjectType, ID } from '@nestjs/graphql'
 import {
   Column,
@@ -14,19 +15,19 @@ import {
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID, {
+  @IDField(() => ID, {
     nullable: false,
   })
   public id: string
 
   @CreateDateColumn()
-  @Field({
+  @FilterableField({
     nullable: true,
   })
   public createdAt: Date
 
   @UpdateDateColumn()
-  @Field({
+  @FilterableField({
     nullable: true,
   })
   public updatedAt: Date
@@ -35,7 +36,7 @@ export class User {
     nullable: false,
     default: true,
   })
-  @Field({
+  @FilterableField({
     nullable: true,
   })
   public active: boolean
@@ -44,16 +45,14 @@ export class User {
     nullable: false,
     length: 50,
   })
-  @Field({
-    nullable: true,
-  })
+  @FilterableField()
   public name: string
 
   @Column({
     nullable: false,
     length: 75,
   })
-  @Field({
+  @FilterableField({
     nullable: true,
   })
   public email: string
