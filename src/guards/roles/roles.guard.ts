@@ -4,8 +4,11 @@ import {
   ForbiddenException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { GqlExecutionContext } from '@nestjs/graphql'
 
 import { User } from 'src/modules/user/entities/user.entity'
+
+import { Request } from 'express'
 
 /**
  * The class that represents the guard that protects some route comparing
@@ -25,9 +28,9 @@ export class RolesGuard implements CanActivate {
       return true
     }
 
-    const user = context
-      .switchToHttp()
-      .getRequest<Request & { user: User }>().user
+    const user = GqlExecutionContext.create(context).getContext<{
+      req: Request & { user: User }
+    }>().req.user
 
     if (!user) {
       throw new ForbiddenException()
