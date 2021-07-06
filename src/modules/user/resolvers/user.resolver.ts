@@ -1,9 +1,16 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
+import { UseGuards } from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
+
+import { Roles } from 'src/decorators/roles/roles.decorator'
+
+import { JwtGuard } from 'src/guards/jwt/jwt.guard'
+import { RolesGuard } from 'src/guards/roles/roles.guard'
 
 import { User } from '../entities/user.entity'
 
 import { UserQueryArgs } from '../dtos/user-query.args'
+import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { UserService } from '../services/user.service'
 
@@ -21,10 +28,11 @@ export class UserResolver {
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
    */
+  @Roles(RolesEnum.Admin)
+  @UseGuards(JwtGuard, RolesGuard)
   @Query(() => UserQueryArgs.ConnectionType)
-  public async getMany(
-    @Args()
-    queryArgs: UserQueryArgs,
+  public async getManyUsers(
+    @Args() queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
     return await UserQueryArgs.ConnectionType.createFromPromise(
       (query) => this.userService.query(query),

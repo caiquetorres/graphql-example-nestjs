@@ -90,7 +90,7 @@ type PageInfo {
 }
 
 type Query {
-  getMany(
+  getManyUsers(
     """Specify to filter the records returned."""
     filter: UserFilter = {}
 

@@ -126,7 +126,7 @@ export interface PageInfo {
 }
 
 export interface IQuery {
-    getMany(filter?: UserFilter, paging?: CursorPaging, sorting?: UserSort[]): UserConnection | Promise<UserConnection>;
+    getManyUsers(filter?: UserFilter, paging?: CursorPaging, sorting?: UserSort[]): UserConnection | Promise<UserConnection>;
 }
 
 export interface TokenModel {
