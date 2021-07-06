@@ -1,9 +1,9 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 
-import { AuthService } from '../services/auth.service'
+import { LoginInput } from '../dtos/login.input'
+import { TokenModel } from '../dtos/token.model'
 
-import { LoginInput } from '../models/login.input'
-import { TokenModel } from '../models/token.model'
+import { AuthService } from '../services/auth.service'
 
 /**
  * The class that represents the resolver that deals with the authentication

@@ -3,12 +3,12 @@ import { JwtService } from '@nestjs/jwt'
 
 import { User } from 'src/modules/user/entities/user.entity'
 
+import { LoginInput } from '../dtos/login.input'
+import { TokenModel } from '../dtos/token.model'
+
 import { EnvService } from 'src/modules/env/services/env.service'
 import { PasswordService } from 'src/modules/password/services/password.service'
 import { UserService } from 'src/modules/user/services/user.service'
-
-import { LoginInput } from '../models/login.input'
-import { TokenModel } from '../models/token.model'
 
 /**
  * The class that represents the service that deals with the authentication
@@ -34,7 +34,7 @@ export class AuthService {
   public async login(loginInput: LoginInput): Promise<TokenModel> {
     const { email, password } = loginInput
 
-    const entity = await this.userService.getOneByEmail(email)
+    const entity = await this.userService.getByEmail(email)
 
     if (!entity) {
       throw new UnauthorizedException(
@@ -70,7 +70,7 @@ export class AuthService {
    * @returns the token data
    */
   public async refresh(requestUser: User): Promise<TokenModel> {
-    const user = await this.userService.getOneById(requestUser.id)
+    const user = await this.userService.getById(requestUser.id)
     return await this.login(user)
   }
 
@@ -83,7 +83,7 @@ export class AuthService {
    * @returns the user himself if exists and he is not disabled
    */
   public async jwtAuthenticate(user: User): Promise<User> {
-    const entity = await this.userService.getOneById(user.id)
+    const entity = await this.userService.getById(user.id)
 
     if (!entity || !entity.active) {
       throw new UnauthorizedException('The informed token is no longer valid')
