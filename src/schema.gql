@@ -10,6 +10,12 @@ input BooleanFieldComparison {
 """Cursor for paging through collections"""
 scalar ConnectionCursor
 
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
 input CursorPaging {
   """Paginate after opaque cursor"""
   after: ConnectionCursor
@@ -72,6 +78,7 @@ input LoginInput {
 }
 
 type Mutation {
+  createOneUser(input: CreateUserInput!): User!
   login(input: LoginInput!): TokenModel!
 }
 

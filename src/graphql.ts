@@ -31,6 +31,12 @@ export interface BooleanFieldComparison {
     isNot?: boolean;
 }
 
+export interface CreateUserInput {
+    email: string;
+    name: string;
+    password: string;
+}
+
 export interface CursorPaging {
     after?: ConnectionCursor;
     before?: ConnectionCursor;
@@ -115,6 +121,7 @@ export interface UserSort {
 }
 
 export interface IMutation {
+    createOneUser(input: CreateUserInput): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
 }
 

@@ -71,4 +71,8 @@ export class User {
     name: 'permissions',
   })
   public roles: string
+
+  public constructor(partial: Partial<User>) {
+    Object.assign(this, partial)
+  }
 }
