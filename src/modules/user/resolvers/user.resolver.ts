@@ -1,11 +1,9 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
-import { UseGuards } from '@nestjs/common'
+import { ParseUUIDPipe } from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
 
-import { Roles } from 'src/decorators/roles/roles.decorator'
-
-import { JwtGuard } from 'src/guards/jwt/jwt.guard'
-import { RolesGuard } from 'src/guards/roles/roles.guard'
+import { CurrentUser } from 'src/decorators/current-user/current-user.decorator'
+import { ProtectTo } from 'src/decorators/protect-to/protect-to.decorator'
 
 import { User } from '../entities/user.entity'
 
@@ -24,19 +22,39 @@ export class UserResolver {
   /**
    * Method that searches for user entities based on the sent query
    *
+   * @param currentUser defines the current logged user
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
    */
-  @Roles(RolesEnum.Admin)
-  @UseGuards(JwtGuard, RolesGuard)
+  @ProtectTo(RolesEnum.Admin)
   @Query(() => UserQueryArgs.ConnectionType)
   public async getManyUsers(
     @Args() queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
-    return await UserQueryArgs.ConnectionType.createFromPromise(
-      (query) => this.userService.query(query),
-      queryArgs,
+    return await this.userService.getMany(queryArgs)
+  }
+
+  /**
+   * Method that searches one entity based on it id
+   *
+   * @param currentUser defines the request user
+   * @param userId defines the entity id
+   * @returns an object that represents the found entity
+   */
+  @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
+  @Query(() => User)
+  public async getOneUser(
+    @CurrentUser() currentUser: User,
+    @Args(
+      'userId',
+      {
+        nullable: true,
+      },
+      ParseUUIDPipe,
     )
+    userId: string,
+  ): Promise<User> {
+    return await this.userService.getOne(currentUser, userId)
   }
 }

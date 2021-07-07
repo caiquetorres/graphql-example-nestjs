@@ -34,7 +34,7 @@ export class AuthService {
   public async login(loginInput: LoginInput): Promise<TokenModel> {
     const { email, password } = loginInput
 
-    const entity = await this.userService.getByEmail(email)
+    const entity = await this.userService.getOneByEmail(email)
 
     if (!entity) {
       throw new UnauthorizedException(
