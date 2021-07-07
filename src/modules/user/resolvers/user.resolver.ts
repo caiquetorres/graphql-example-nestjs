@@ -8,6 +8,7 @@ import { ProtectTo } from 'src/decorators/protect-to/protect-to.decorator'
 import { User } from '../entities/user.entity'
 
 import { CreateUserInput } from '../dtos/create-user.input'
+import { UpdateUserInput } from '../dtos/update-user.input'
 import { UserQueryArgs } from '../dtos/user-query.args'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
@@ -31,7 +32,7 @@ export class UserResolver {
     @Args('input', { type: () => CreateUserInput })
     createUserInput: CreateUserInput,
   ): Promise<User> {
-    return await this.userService.createOne(createUserInput)
+    return await this.userService.createOneUser(createUserInput)
   }
 
   /**
@@ -46,9 +47,10 @@ export class UserResolver {
   @ProtectTo(RolesEnum.Admin)
   @Query(() => UserQueryArgs.ConnectionType)
   public async getManyUsers(
-    @Args() queryArgs: UserQueryArgs,
+    @Args()
+    queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
-    return await this.userService.getMany(queryArgs)
+    return await this.userService.getManyUsers(queryArgs)
   }
 
   /**
@@ -62,7 +64,8 @@ export class UserResolver {
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
   @Query(() => User)
   public async getOneUser(
-    @CurrentUser() currentUser: User,
+    @CurrentUser()
+    currentUser: User,
     @Args(
       'userId',
       {
@@ -72,6 +75,37 @@ export class UserResolver {
     )
     userId: string,
   ): Promise<User> {
-    return await this.userService.getOne(currentUser, userId)
+    return await this.userService.getOneUser(currentUser, userId)
+  }
+
+  /**
+   * Method that updates some data of some entity
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @param userId defines the entity id
+   * @param updateUserInput defines an object that has the new entity data
+   */
+  @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
+  @Mutation(() => User)
+  public async updateOneUser(
+    @CurrentUser()
+    currentUser: User,
+    @Args(
+      'userId',
+      {
+        nullable: true,
+      },
+      ParseUUIDPipe,
+    )
+    userId: string,
+    @Args('input', { type: () => UpdateUserInput })
+    updateUserInput: UpdateUserInput,
+  ): Promise<User> {
+    return await this.userService.updateOneUser(
+      currentUser,
+      userId,
+      updateUserInput,
+    )
   }
 }

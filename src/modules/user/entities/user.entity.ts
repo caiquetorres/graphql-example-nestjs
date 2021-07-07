@@ -18,19 +18,19 @@ export class User {
   @IDField(() => ID, {
     nullable: false,
   })
-  public id: string
+  public id!: string
 
   @CreateDateColumn()
   @FilterableField({
     nullable: true,
   })
-  public createdAt: Date
+  public createdAt!: Date
 
   @UpdateDateColumn()
   @FilterableField({
     nullable: true,
   })
-  public updatedAt: Date
+  public updatedAt!: Date
 
   @Column({
     nullable: false,
@@ -39,14 +39,14 @@ export class User {
   @FilterableField({
     nullable: true,
   })
-  public active: boolean
+  public active!: boolean
 
   @Column({
     nullable: false,
     length: 50,
   })
   @FilterableField()
-  public name: string
+  public name!: string
 
   @Column({
     nullable: false,
@@ -55,12 +55,12 @@ export class User {
   @FilterableField({
     nullable: true,
   })
-  public email: string
+  public email!: string
 
   @Column({
     nullable: false,
   })
-  public password: string
+  public password!: string
 
   @Column({
     nullable: false,
@@ -70,7 +70,7 @@ export class User {
     nullable: true,
     name: 'permissions',
   })
-  public roles: string
+  public roles!: string
 
   public constructor(partial: Partial<User>) {
     Object.assign(this, partial)

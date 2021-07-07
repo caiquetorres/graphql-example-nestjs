@@ -103,6 +103,10 @@ export interface StringFieldComparison {
     notLike?: string;
 }
 
+export interface UpdateUserInput {
+    name?: string;
+}
+
 export interface UserFilter {
     active?: BooleanFieldComparison;
     and?: UserFilter[];
@@ -123,6 +127,7 @@ export interface UserSort {
 export interface IMutation {
     createOneUser(input: CreateUserInput): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
+    updateOneUser(input: UpdateUserInput, userId?: string): User | Promise<User>;
 }
 
 export interface PageInfo {

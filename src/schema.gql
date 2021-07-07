@@ -80,6 +80,7 @@ input LoginInput {
 type Mutation {
   createOneUser(input: CreateUserInput!): User!
   login(input: LoginInput!): TokenModel!
+  updateOneUser(input: UpdateUserInput!, userId: String): User!
 }
 
 type PageInfo {
@@ -142,6 +143,10 @@ input StringFieldComparison {
 type TokenModel {
   expiresIn: String!
   token: String!
+}
+
+input UpdateUserInput {
+  name: String
 }
 
 type User {

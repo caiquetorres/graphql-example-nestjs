@@ -13,6 +13,7 @@ import { Repository } from 'typeorm'
 import { User } from '../entities/user.entity'
 
 import { CreateUserInput } from '../dtos/create-user.input'
+import { UpdateUserInput } from '../dtos/update-user.input'
 import { UserQueryArgs } from '../dtos/user-query.args'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
@@ -37,7 +38,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param createUserInput defines an object that has the entity data
    * @returns an object that represents the created entity
    */
-  public async createOne(createUserInput: CreateUserInput): Promise<User> {
+  public async createOneUser(createUserInput: CreateUserInput): Promise<User> {
     const hasWithEmail = !!(await this.getOneByEmail(createUserInput.email))
     if (hasWithEmail) {
       throw new ConflictException(
@@ -66,7 +67,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
    */
-  public async getMany(
+  public async getManyUsers(
     queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
     return await createCursorQueryArgsType(
@@ -77,11 +78,12 @@ export class UserService extends TypeOrmQueryService<User> {
   /**
    * Method that searches one entity based on it id
    *
+   * @param currentUser defines an object that represents the
    * request user data
    * @param userId defines the entity id
    * @returns an object that represents the found entity
    */
-  public async getOne(currentUser: User, userId: string): Promise<User> {
+  public async getOneUser(currentUser: User, userId: string): Promise<User> {
     if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
@@ -97,6 +99,39 @@ export class UserService extends TypeOrmQueryService<User> {
     }
 
     return entity
+  }
+
+  /**
+   * Method that updates some data of some entity
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @param userId defines the entity id
+   * @param updateUserInput defines an object that has the new entity data
+   */
+  public async updateOneUser(
+    currentUser: User,
+    userId: string,
+    updateUserInput: UpdateUserInput,
+  ): Promise<User> {
+    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+      throw new ForbiddenException(
+        'You have not permission to access those sources',
+      )
+    }
+
+    const entity = await this.userRepository.findOne(userId)
+
+    if (!entity) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
+    return await this.userRepository.save({
+      ...entity,
+      ...updateUserInput,
+    })
   }
 
   /**
