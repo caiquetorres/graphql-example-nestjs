@@ -135,6 +135,43 @@ export class UserService extends TypeOrmQueryService<User> {
   }
 
   /**
+   * Method that deletes some entity
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @param userId defines the entity id
+   * @returns an object that represents the deleted entity
+   */
+  public async deleteOneUser(currentUser: User, userId: string): Promise<User> {
+    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+      throw new ForbiddenException(
+        'You have not permission to access those sources',
+      )
+    }
+
+    const entity = await this.userRepository.findOne(userId)
+
+    if (!entity) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
+    await this.userRepository.delete(userId)
+    return entity
+  }
+
+  /**
+   * Method that finds an entity based on it id
+   *
+   * @param userId defines the entity id
+   * @returns an object that represents the found entity or undefined
+   */
+  public async findOneById(userId: string): Promise<User> {
+    return await this.userRepository.findOne(userId)
+  }
+
+  /**
    * Method that finds some user based on the entity email
    *
    * @param email defines the user email

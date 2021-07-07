@@ -79,6 +79,7 @@ input LoginInput {
 
 type Mutation {
   createOneUser(input: CreateUserInput!): User!
+  deleteOneUser(userId: String): User!
   login(input: LoginInput!): TokenModel!
   updateOneUser(input: UpdateUserInput!, userId: String): User!
 }

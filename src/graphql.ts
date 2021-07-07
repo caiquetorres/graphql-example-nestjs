@@ -126,6 +126,7 @@ export interface UserSort {
 
 export interface IMutation {
     createOneUser(input: CreateUserInput): User | Promise<User>;
+    deleteOneUser(userId?: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
     updateOneUser(input: UpdateUserInput, userId?: string): User | Promise<User>;
 }
