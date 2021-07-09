@@ -13,12 +13,12 @@ export class PermissionService {
    * Method that checks if some user has the permissions to execute some
    * action in the application
    *
-   * @param targetUserId defines which user this entity or route is related to
    * @param currentUser defines and object that represents the user that is trying
    * to access some route or doing something related with the "targetUserId"
+   * @param targetUserId defines which user this entity or route is related to
    * @returns true, if the user has the permissions, otherwise false
    */
-  public hasPermission(targetUserId: string, currentUser: User): boolean {
+  public hasPermission(currentUser: User, targetUserId: string): boolean {
     return this.isAdmin(currentUser) || targetUserId === currentUser.id
   }
 
