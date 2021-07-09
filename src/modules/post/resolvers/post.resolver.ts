@@ -155,7 +155,7 @@ export class PostResolver {
    * request user data
    * @returns an object that represents the disabled entity
    */
-  @ProtectTo(RolesEnum.Admin)
+  @ProtectTo(RolesEnum.Common, RolesEnum.Admin)
   @Mutation(() => Post, {
     name: 'disablePost',
   })
@@ -182,7 +182,7 @@ export class PostResolver {
    * request user data
    * @returns an object that represents the enabled entity
    */
-  @ProtectTo(RolesEnum.Admin)
+  @ProtectTo(RolesEnum.Common, RolesEnum.Admin)
   @Mutation(() => Post, {
     name: 'enablePost',
   })

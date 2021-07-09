@@ -115,6 +115,16 @@ export class UserService extends TypeOrmQueryService<User> {
   }
 
   /**
+   * Method that finds an entity based on it id
+   *
+   * @param userId defines the entity id
+   * @returns an object that represents the found entity or undefined
+   */
+  public async findOneById(userId: string): Promise<User> {
+    return await this.userRepository.findOne(userId)
+  }
+
+  /**
    * Method that updates some data of some entity
    *
    * @param userId defines the entity id

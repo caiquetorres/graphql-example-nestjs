@@ -20,7 +20,7 @@ export class CreatePostInput {
   @IsOptional()
   @IsString({ message: 'It is required to send a valid string' })
   @IsUrl({}, { message: 'It is required to send a valid url' })
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   public imageUrl?: string
 
   @IsDefined({ message: 'It is required to send the userId' })

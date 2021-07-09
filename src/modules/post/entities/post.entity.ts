@@ -75,7 +75,9 @@ export class Post {
     type: 'text',
     nullable: true,
   })
-  @Field()
+  @Field({
+    nullable: true,
+  })
   public imageUrl?: string
 
   @Column({

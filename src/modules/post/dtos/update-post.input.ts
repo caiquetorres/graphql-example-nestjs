@@ -9,17 +9,17 @@ import { IsOptional, IsString, IsUrl } from 'class-validator'
 export class UpdatePostInput {
   @IsOptional()
   @IsString({ message: 'It is required to send a valid string' })
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   public title?: string
 
   @IsOptional()
   @IsString({ message: 'It is required to send a valid string' })
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   public description?: string
 
   @IsOptional()
   @IsString({ message: 'It is required to send a valid string' })
   @IsUrl({}, { message: 'It is required to send a valid url' })
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   public imageUrl?: string
 }

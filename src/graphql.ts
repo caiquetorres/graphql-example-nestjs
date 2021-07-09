@@ -43,7 +43,7 @@ export interface BooleanFieldComparison {
 
 export interface CreatePostInput {
     description: string;
-    imageUrl: string;
+    imageUrl?: string;
     title: string;
     userId: string;
 }
@@ -139,9 +139,9 @@ export interface StringFieldComparison {
 }
 
 export interface UpdatePostInput {
-    description: string;
-    imageUrl: string;
-    title: string;
+    description?: string;
+    imageUrl?: string;
+    title?: string;
 }
 
 export interface UpdateUserInput {
@@ -191,7 +191,7 @@ export interface Post {
     createdAt?: DateTime;
     description?: string;
     id: string;
-    imageUrl: string;
+    imageUrl?: string;
     title?: string;
     updatedAt?: DateTime;
     userId?: string;

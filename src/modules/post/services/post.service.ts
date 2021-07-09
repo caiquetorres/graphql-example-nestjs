@@ -44,11 +44,11 @@ export class PostService extends TypeOrmQueryService<Post> {
     createPostInput: CreatePostInput,
     currentUser: User,
   ): Promise<Post> {
-    const user = await this.userService.findById(createPostInput.userId)
+    const user = await this.userService.findOneById(createPostInput.userId)
 
     if (!user || !user.active) {
       throw new NotFoundException(
-        `The entity identified by '${user.id}' of type '${User.name}' was not found`,
+        `The entity identified by '${createPostInput.userId}' of type '${User.name}' was not found`,
       )
     }
 
@@ -198,17 +198,17 @@ export class PostService extends TypeOrmQueryService<Post> {
    * @returns an object that represents the enabled entity
    */
   public async enableOne(postId: string, currentUser: User): Promise<Post> {
-    if (!this.permissionService.hasPermission(currentUser, postId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
-    }
-
     const post = await this.postRepository.findOne(postId)
 
     if (!post) {
       throw new NotFoundException(
         `The entity identified by '${postId}' of type '${Post.name}' was not found`,
+      )
+    }
+
+    if (!this.permissionService.hasPermission(currentUser, post.userId)) {
+      throw new ForbiddenException(
+        'You have not permission to access those sources',
       )
     }
 
