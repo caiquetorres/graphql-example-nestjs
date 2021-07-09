@@ -30,13 +30,13 @@ export class UserResolver {
   @Mutation(() => User, {
     name: 'createUser',
   })
-  public async createOne(
+  public async insertOne(
     @Args('input', {
       type: () => CreateUserInput,
     })
     createUserInput: CreateUserInput,
   ): Promise<User> {
-    return await this.userService.createOne(createUserInput)
+    return await this.userService.insertOne(createUserInput)
   }
 
   /**
@@ -72,8 +72,6 @@ export class UserResolver {
     name: 'user',
   })
   public async getOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -82,8 +80,10 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.getOne(currentUser, userId)
+    return await this.userService.getOne(userId, currentUser)
   }
 
   /**
@@ -99,8 +99,6 @@ export class UserResolver {
     name: 'updateUser',
   })
   public async changeOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -113,11 +111,13 @@ export class UserResolver {
       type: () => UpdateUserInput,
     })
     updateUserInput: UpdateUserInput,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
     return await this.userService.changeOne(
-      currentUser,
       userId,
       updateUserInput,
+      currentUser,
     )
   }
 
@@ -134,8 +134,6 @@ export class UserResolver {
     name: 'deleteUser',
   })
   public async removeOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -144,8 +142,10 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.removeOne(currentUser, userId)
+    return await this.userService.removeOne(userId, currentUser)
   }
 
   /**
@@ -161,8 +161,6 @@ export class UserResolver {
     name: 'disableUser',
   })
   public async disableOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -171,8 +169,10 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.disableOne(currentUser, userId)
+    return await this.userService.disableOne(userId, currentUser)
   }
 
   /**
@@ -188,8 +188,6 @@ export class UserResolver {
     name: 'enableUser',
   })
   public async enableOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -198,7 +196,9 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.enableOne(currentUser, userId)
+    return await this.userService.enableOne(userId, currentUser)
   }
 }

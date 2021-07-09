@@ -1,5 +1,4 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
-import { createCursorQueryArgsType } from '@nestjs-query/query-graphql/dist/src/types/query/query-args'
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
 import {
   ConflictException,
@@ -40,8 +39,10 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param createUserInput defines an object that has the entity data
    * @returns an object that represents the created entity
    */
-  public async createOne(createUserInput: CreateUserInput): Promise<User> {
-    const hasWithEmail = !!(await this.getOneByEmail(createUserInput.email))
+  public async insertOne(createUserInput: CreateUserInput): Promise<User> {
+    const hasWithEmail = await this.getOneByEmail(createUserInput.email).then(
+      (user) => !!user,
+    )
     if (hasWithEmail) {
       throw new ConflictException(
         'An user with that e-mail has already been registered',
@@ -52,19 +53,18 @@ export class UserService extends TypeOrmQueryService<User> {
       createUserInput.password,
     )
 
-    const entity = this.userRepository.create({
+    const user = this.userRepository.create({
       ...createUserInput,
       roles: RolesEnum.Common,
       password: encryptedPassword,
     })
 
-    return await this.userRepository.save(entity)
+    return await this.userRepository.save(user)
   }
 
   /**
    * Method that searches for entities based on the sent query
    *
-   * @param currentUser defines an object that represents the
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
@@ -72,35 +72,36 @@ export class UserService extends TypeOrmQueryService<User> {
   public async getMany(
     queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
-    return await createCursorQueryArgsType(
-      User,
-    ).ConnectionType.createFromPromise((query) => this.query(query), queryArgs)
+    return await UserQueryArgs.ConnectionType.createFromPromise(
+      (query) => this.query(query),
+      queryArgs,
+    )
   }
 
   /**
    * Method that searches one entity based on it id
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the found entity
    */
-  public async getOne(currentUser: User, userId: string): Promise<User> {
+  public async getOne(userId: string, currentUser: User): Promise<User> {
+    const user = await this.userRepository.findOne(userId)
+
+    if (!user || !user.active) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
     if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
     }
 
-    const entity = await this.userRepository.findOne(userId)
-
-    if (!entity || !entity.active) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
-    }
-
-    return entity
+    return user
   }
 
   /**
@@ -114,44 +115,34 @@ export class UserService extends TypeOrmQueryService<User> {
   }
 
   /**
-   * Method that finds an entity based on it id
-   *
-   * @param userId defines the entity id
-   * @returns an object that represents the found entity or undefined
-   */
-  public async findOneById(userId: string): Promise<User> {
-    return await this.userRepository.findOne(userId)
-  }
-
-  /**
    * Method that updates some data of some entity
    *
-   * @param currentUser defines an object that represents the
-   * request user data
    * @param userId defines the entity id
    * @param updateUserInput defines an object that has the new entity data
+   * @param currentUser defines an object that represents the
+   * request user data
    */
   public async changeOne(
-    currentUser: User,
     userId: string,
     updateUserInput: UpdateUserInput,
+    currentUser: User,
   ): Promise<User> {
+    const user = await this.userRepository.findOne(userId)
+
+    if (!user || !user.active) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
     if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
     }
 
-    const entity = await this.userRepository.findOne(userId)
-
-    if (!entity || !entity.active) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
-    }
-
     return await this.userRepository.save({
-      ...entity,
+      ...user,
       ...updateUserInput,
     })
   }
@@ -159,55 +150,55 @@ export class UserService extends TypeOrmQueryService<User> {
   /**
    * Method that deletes some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the deleted entity
    */
-  public async removeOne(currentUser: User, userId: string): Promise<User> {
+  public async removeOne(userId: string, currentUser: User): Promise<User> {
+    const user = await this.userRepository.findOne(userId)
+
+    if (!user || !user.active) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
     if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
     }
 
-    const entity = await this.userRepository.findOne(userId)
-
-    if (!entity || !entity.active) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
-    }
-
     await this.userRepository.delete(userId)
-    return entity
+    return user
   }
 
   /**
    * Method that disables some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the disabled entity
    */
-  public async disableOne(currentUser: User, userId: string): Promise<User> {
+  public async disableOne(userId: string, currentUser: User): Promise<User> {
+    const user = await this.userRepository.findOne(userId)
+
+    if (!user) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
     if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
     }
 
-    const entity = await this.userRepository.findOne(userId)
-
-    if (!entity) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
-    }
-
     return await this.userRepository.save({
-      ...entity,
+      ...user,
       active: false,
     })
   }
@@ -215,28 +206,28 @@ export class UserService extends TypeOrmQueryService<User> {
   /**
    * Method that enables some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the enabled entity
    */
-  public async enableOne(currentUser: User, userId: string): Promise<User> {
+  public async enableOne(userId: string, currentUser: User): Promise<User> {
+    const user = await this.userRepository.findOne(userId)
+
+    if (!user) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
     if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
     }
 
-    const entity = await this.userRepository.findOne(userId)
-
-    if (!entity) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
-    }
-
     return await this.userRepository.save({
-      ...entity,
+      ...user,
       active: true,
     })
   }
