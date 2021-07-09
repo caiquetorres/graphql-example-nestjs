@@ -1,3 +1,4 @@
+import { FilterableField, IDField } from '@nestjs-query/query-graphql'
 import { Field, ObjectType, ID } from '@nestjs/graphql'
 import {
   Column,
@@ -7,58 +8,59 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
+/**
+ * The class that represents the user entity
+ */
 @Entity()
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID, {
+  @IDField(() => ID, {
     nullable: false,
   })
-  public id: string
+  public id!: string
 
   @CreateDateColumn()
-  @Field({
+  @FilterableField({
     nullable: true,
   })
-  public createdAt: Date
+  public createdAt!: Date
 
   @UpdateDateColumn()
-  @Field({
+  @FilterableField({
     nullable: true,
   })
-  public updatedAt: Date
+  public updatedAt!: Date
 
   @Column({
     nullable: false,
     default: true,
   })
-  @Field({
+  @FilterableField({
     nullable: true,
   })
-  public active: boolean
+  public active!: boolean
 
   @Column({
     nullable: false,
     length: 50,
   })
-  @Field({
-    nullable: true,
-  })
-  public name: string
+  @FilterableField()
+  public name!: string
 
   @Column({
     nullable: false,
     length: 75,
   })
-  @Field({
+  @FilterableField({
     nullable: true,
   })
-  public email: string
+  public email!: string
 
   @Column({
     nullable: false,
   })
-  public password: string
+  public password!: string
 
   @Column({
     nullable: false,
@@ -68,5 +70,9 @@ export class User {
     nullable: true,
     name: 'permissions',
   })
-  public roles: string
+  public roles!: string
+
+  public constructor(partial: Partial<User>) {
+    Object.assign(this, partial)
+  }
 }

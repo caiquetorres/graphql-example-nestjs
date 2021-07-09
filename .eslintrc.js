@@ -31,7 +31,7 @@ module.exports = {
           '/.pipe/',
           '/.exception/',
           '/.entity/',
-          '/.dto|.enum/',
+          '/.dto|.enum|.model|.input|.args/',
           '/.service/',
           '/.controller/',
           '/utils/',
