@@ -50,7 +50,7 @@ export class PostResolver {
    *
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
-   * @returns all the found elements paginated
+   * @returns all the found entities paginated
    */
   @Query(() => PostQueryArgs.ConnectionType, {
     name: 'posts',

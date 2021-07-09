@@ -120,6 +120,7 @@ type Post {
   imageUrl: String
   title: String
   updatedAt: DateTime
+  user: User!
   userId: ID
 }
 
@@ -244,6 +245,16 @@ type User {
   id: ID!
   name: String
   permissions: String
+  posts(
+    """Specify to filter the records returned."""
+    filter: PostFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [PostSort!] = []
+  ): PostConnection!
   updatedAt: DateTime
 }
 

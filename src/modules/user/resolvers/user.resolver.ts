@@ -44,7 +44,7 @@ export class UserResolver {
    *
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
-   * @returns all the found elements paginated
+   * @returns all the found entities paginated
    */
   @ProtectTo(RolesEnum.Admin)
   @Query(() => UserQueryArgs.ConnectionType, {

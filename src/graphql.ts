@@ -194,6 +194,7 @@ export interface Post {
     imageUrl?: string;
     title?: string;
     updatedAt?: DateTime;
+    user: User;
     userId?: string;
 }
 
@@ -227,6 +228,7 @@ export interface User {
     id: string;
     name?: string;
     permissions?: string;
+    posts: PostConnection;
     updatedAt?: DateTime;
 }
 
