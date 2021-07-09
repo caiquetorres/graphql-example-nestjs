@@ -6,10 +6,11 @@ import { User } from './entities/user.entity'
 import { UserService } from './services/user.service'
 
 import { PasswordModule } from '../password/password.module'
+import { PermissionModule } from '../permission/permission.module'
 import { UserResolver } from './resolvers/user.resolver'
 
 @Module({
-  imports: [PasswordModule, TypeOrmModule.forFeature([User])],
+  imports: [PasswordModule, PermissionModule, TypeOrmModule.forFeature([User])],
   providers: [UserService, UserResolver],
   exports: [UserService],
 })

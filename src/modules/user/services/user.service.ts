@@ -18,6 +18,7 @@ import { UserQueryArgs } from '../dtos/user-query.args'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { PasswordService } from 'src/modules/password/services/password.service'
+import { PermissionService } from 'src/modules/permission/services/permission.service'
 
 /**
  * The class that represents the service that deals with the user
@@ -28,6 +29,7 @@ export class UserService extends TypeOrmQueryService<User> {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly passwordService: PasswordService,
+    private readonly permissionService: PermissionService,
   ) {
     super(userRepository)
   }
@@ -84,7 +86,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @returns an object that represents the found entity
    */
   public async getOne(currentUser: User, userId: string): Promise<User> {
-    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+    if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
@@ -134,7 +136,7 @@ export class UserService extends TypeOrmQueryService<User> {
     userId: string,
     updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+    if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
@@ -163,7 +165,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @returns an object that represents the deleted entity
    */
   public async removeOne(currentUser: User, userId: string): Promise<User> {
-    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+    if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
@@ -190,7 +192,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @returns an object that represents the disabled entity
    */
   public async disableOne(currentUser: User, userId: string): Promise<User> {
-    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+    if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
@@ -219,7 +221,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @returns an object that represents the enabled entity
    */
   public async enableOne(currentUser: User, userId: string): Promise<User> {
-    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+    if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
       )
