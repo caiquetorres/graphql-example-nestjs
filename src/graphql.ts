@@ -155,7 +155,7 @@ export interface User {
     createdAt?: DateTime;
     email?: string;
     id: string;
-    name: string;
+    name?: string;
     permissions?: string;
     updatedAt?: DateTime;
 }

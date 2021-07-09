@@ -157,7 +157,7 @@ type User {
   createdAt: DateTime
   email: String
   id: ID!
-  name: String!
+  name: String
   permissions: String
   updatedAt: DateTime
 }

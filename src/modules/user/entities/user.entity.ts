@@ -4,9 +4,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+
+import { Post } from 'src/modules/post/entities/post.entity'
+
+import { RolesEnum } from 'src/models/enums/roles.enum'
 
 /**
  * The class that represents the user entity
@@ -14,25 +19,32 @@ import {
 @Entity()
 @ObjectType()
 export class User {
+  //#region Columns
+
   @PrimaryGeneratedColumn('uuid')
   @IDField(() => ID, {
     nullable: false,
   })
   public id!: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   @FilterableField({
     nullable: true,
   })
   public createdAt!: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   @FilterableField({
     nullable: true,
   })
   public updatedAt!: Date
 
   @Column({
+    type: 'boolean',
     nullable: false,
     default: true,
   })
@@ -42,13 +54,17 @@ export class User {
   public active!: boolean
 
   @Column({
+    type: 'varchar',
     nullable: false,
     length: 50,
   })
-  @FilterableField()
+  @FilterableField({
+    nullable: true,
+  })
   public name!: string
 
   @Column({
+    type: 'varchar',
     nullable: false,
     length: 75,
   })
@@ -58,11 +74,13 @@ export class User {
   public email!: string
 
   @Column({
+    type: 'text',
     nullable: false,
   })
   public password!: string
 
   @Column({
+    enum: RolesEnum,
     nullable: false,
     length: 12,
   })
@@ -70,7 +88,16 @@ export class User {
     nullable: true,
     name: 'permissions',
   })
-  public roles!: string
+  public roles!: RolesEnum
+
+  //#region Relations
+
+  @OneToMany(() => Post, (post) => post.user)
+  public posts?: Post[]
+
+  // #endregion
+
+  //#endregion
 
   public constructor(partial: Partial<User>) {
     Object.assign(this, partial)
