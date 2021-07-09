@@ -7,6 +7,16 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum PostSortFields {
+    active = "active",
+    createdAt = "createdAt",
+    description = "description",
+    id = "id",
+    title = "title",
+    updatedAt = "updatedAt",
+    userId = "userId"
+}
+
 export enum SortDirection {
     ASC = "ASC",
     DESC = "DESC"
@@ -29,6 +39,13 @@ export enum UserSortFields {
 export interface BooleanFieldComparison {
     is?: boolean;
     isNot?: boolean;
+}
+
+export interface CreatePostInput {
+    description: string;
+    imageUrl?: string;
+    title: string;
+    userId: string;
 }
 
 export interface CreateUserInput {
@@ -86,6 +103,24 @@ export interface LoginInput {
     password: string;
 }
 
+export interface PostFilter {
+    active?: BooleanFieldComparison;
+    and?: PostFilter[];
+    createdAt?: DateFieldComparison;
+    description?: StringFieldComparison;
+    id?: IDFilterComparison;
+    or?: PostFilter[];
+    title?: StringFieldComparison;
+    updatedAt?: DateFieldComparison;
+    userId?: IDFilterComparison;
+}
+
+export interface PostSort {
+    direction: SortDirection;
+    field: PostSortFields;
+    nulls?: SortNulls;
+}
+
 export interface StringFieldComparison {
     eq?: string;
     gt?: string;
@@ -101,6 +136,12 @@ export interface StringFieldComparison {
     notILike?: string;
     notIn?: string[];
     notLike?: string;
+}
+
+export interface UpdatePostInput {
+    description?: string;
+    imageUrl?: string;
+    title?: string;
 }
 
 export interface UpdateUserInput {
@@ -125,11 +166,16 @@ export interface UserSort {
 }
 
 export interface IMutation {
+    createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
+    deletePost(postId?: string): Post | Promise<Post>;
     deleteUser(userId?: string): User | Promise<User>;
+    disablePost(postId?: string): Post | Promise<Post>;
     disableUser(userId?: string): User | Promise<User>;
+    enablePost(postId?: string): Post | Promise<Post>;
     enableUser(userId?: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
+    updatePost(input: UpdatePostInput, postId?: string): Post | Promise<Post>;
     updateUser(input: UpdateUserInput, userId?: string): User | Promise<User>;
 }
 
@@ -140,7 +186,31 @@ export interface PageInfo {
     startCursor?: ConnectionCursor;
 }
 
+export interface Post {
+    active?: boolean;
+    createdAt?: DateTime;
+    description?: string;
+    id: string;
+    imageUrl?: string;
+    title?: string;
+    updatedAt?: DateTime;
+    userId?: string;
+}
+
+export interface PostConnection {
+    edges: PostEdge[];
+    pageInfo: PageInfo;
+}
+
+export interface PostEdge {
+    cursor: ConnectionCursor;
+    node: Post;
+}
+
 export interface IQuery {
+    me(): User | Promise<User>;
+    post(postId?: string): Post | Promise<Post>;
+    posts(filter?: PostFilter, paging?: CursorPaging, sorting?: PostSort[]): PostConnection | Promise<PostConnection>;
     user(userId?: string): User | Promise<User>;
     users(filter?: UserFilter, paging?: CursorPaging, sorting?: UserSort[]): UserConnection | Promise<UserConnection>;
 }
@@ -155,7 +225,7 @@ export interface User {
     createdAt?: DateTime;
     email?: string;
     id: string;
-    name: string;
+    name?: string;
     permissions?: string;
     updatedAt?: DateTime;
 }

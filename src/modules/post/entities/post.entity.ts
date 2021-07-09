@@ -1,24 +1,22 @@
 import { FilterableField, IDField } from '@nestjs-query/query-graphql'
-import { Field, ObjectType, ID } from '@nestjs/graphql'
+import { Field, ID, ObjectType } from '@nestjs/graphql'
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 
-import { Post } from 'src/modules/post/entities/post.entity'
-
-import { RolesEnum } from 'src/models/enums/roles.enum'
+import { User } from 'src/modules/user/entities/user.entity'
 
 /**
- * The class that represents the user entity
+ * The class that represents the user post
  */
 @Entity()
 @ObjectType()
-export class User {
+export class Post {
   //#region Columns
 
   @PrimaryGeneratedColumn('uuid')
@@ -56,50 +54,55 @@ export class User {
   @Column({
     type: 'varchar',
     nullable: false,
-    length: 50,
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public name!: string
-
-  @Column({
-    type: 'varchar',
-    nullable: false,
     length: 75,
   })
   @FilterableField({
     nullable: true,
   })
-  public email!: string
+  public title!: string
 
   @Column({
     type: 'text',
     nullable: false,
   })
-  public password!: string
+  @FilterableField({
+    nullable: true,
+  })
+  public description!: string
 
   @Column({
-    enum: RolesEnum,
-    nullable: false,
-    length: 12,
+    name: 'image_url',
+    type: 'text',
+    nullable: true,
   })
   @Field({
     nullable: true,
-    name: 'permissions',
   })
-  public roles!: RolesEnum
+  public imageUrl?: string
+
+  @Column({
+    name: 'user_id',
+    nullable: false,
+    type: 'varchar',
+  })
+  @FilterableField(() => ID, {
+    nullable: true,
+  })
+  public userId!: string
 
   //#region Relations
 
-  @OneToMany(() => Post, (post) => post.user)
-  public posts?: Post[]
-
-  // #endregion
+  @ManyToOne(() => User, (user) => user.posts, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
+  public user!: User
 
   //#endregion
 
-  public constructor(partial: Partial<User>) {
+  //#endregion
+
+  public constructor(partial: Partial<Post>) {
     Object.assign(this, partial)
   }
 }

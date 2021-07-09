@@ -2,16 +2,17 @@ import { DynamicModule, Module } from '@nestjs/common'
 import { Logger } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
+import { EnvironmentVariables } from './models/environment-variables.model'
+
 import { EnvService } from './services/env.service'
 
 import { EnvModuleOptions } from './interfaces/env-module-options.interface'
-import { EnvironmentVariables } from './models/environment-variables.model'
 import { plainToClass } from 'class-transformer'
 import { validateSync } from 'class-validator'
 
 @Module({})
 export class EnvModule {
-  static forRoot(options?: EnvModuleOptions): DynamicModule {
+  public static forRoot(options?: EnvModuleOptions): DynamicModule {
     return {
       module: EnvModule,
       global: options.isGlobal ?? true,

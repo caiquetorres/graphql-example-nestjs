@@ -15,7 +15,7 @@ import { RolesEnum } from 'src/models/enums/roles.enum'
 import { UserService } from '../services/user.service'
 
 /**
- * The class that represents the resolver that deals with the user
+ * The class that represents the resolver that deals with the users
  */
 @Resolver(() => User)
 export class UserResolver {
@@ -30,20 +30,18 @@ export class UserResolver {
   @Mutation(() => User, {
     name: 'createUser',
   })
-  public async createOne(
+  public async insertOne(
     @Args('input', {
       type: () => CreateUserInput,
     })
     createUserInput: CreateUserInput,
   ): Promise<User> {
-    return await this.userService.createOne(createUserInput)
+    return await this.userService.insertOne(createUserInput)
   }
 
   /**
    * Method that searches for entities based on the sent query
    *
-   * @param currentUser defines an object that represents the
-   * request user data
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
@@ -62,9 +60,9 @@ export class UserResolver {
   /**
    * Method that searches one entity based on it id
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the found entity
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
@@ -72,8 +70,6 @@ export class UserResolver {
     name: 'user',
   })
   public async getOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -82,16 +78,36 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.getOne(currentUser, userId)
+    return await this.userService.getOne(userId, currentUser)
+  }
+
+  /**
+   * Method that searches one entity based on it id
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @returns an object that represents the found entity
+   */
+  @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
+  @Query(() => User, {
+    name: 'me',
+  })
+  public async getMe(
+    @CurrentUser()
+    currentUser: User,
+  ): Promise<User> {
+    return await this.userService.getOne(currentUser.id, currentUser)
   }
 
   /**
    * Method that updates some data of some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @param updateUserInput defines an object that has the new entity data
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
@@ -99,8 +115,6 @@ export class UserResolver {
     name: 'updateUser',
   })
   public async changeOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -113,20 +127,22 @@ export class UserResolver {
       type: () => UpdateUserInput,
     })
     updateUserInput: UpdateUserInput,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
     return await this.userService.changeOne(
-      currentUser,
       userId,
       updateUserInput,
+      currentUser,
     )
   }
 
   /**
    * Method that deletes some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the deleted entity
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
@@ -134,8 +150,6 @@ export class UserResolver {
     name: 'deleteUser',
   })
   public async removeOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -144,16 +158,18 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.removeOne(currentUser, userId)
+    return await this.userService.removeOne(userId, currentUser)
   }
 
   /**
    * Method that disables some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the disabled entity
    */
   @ProtectTo(RolesEnum.Admin)
@@ -161,8 +177,6 @@ export class UserResolver {
     name: 'disableUser',
   })
   public async disableOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -171,16 +185,18 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.disableOne(currentUser, userId)
+    return await this.userService.disableOne(userId, currentUser)
   }
 
   /**
    * Method that enables some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the enabled entity
    */
   @ProtectTo(RolesEnum.Admin)
@@ -188,8 +204,6 @@ export class UserResolver {
     name: 'enableUser',
   })
   public async enableOne(
-    @CurrentUser()
-    currentUser: User,
     @Args(
       'userId',
       {
@@ -198,7 +212,9 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
+    @CurrentUser()
+    currentUser: User,
   ): Promise<User> {
-    return await this.userService.enableOne(currentUser, userId)
+    return await this.userService.enableOne(userId, currentUser)
   }
 }
