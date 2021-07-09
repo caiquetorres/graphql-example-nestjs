@@ -71,7 +71,7 @@ export class PostService extends TypeOrmQueryService<Post> {
    *
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
-   * @returns all the found elements paginated
+   * @returns all the found entities paginated
    */
   public async getMany(
     queryArgs: PostQueryArgs,

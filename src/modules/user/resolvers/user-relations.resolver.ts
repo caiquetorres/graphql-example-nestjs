@@ -24,7 +24,7 @@ export class UserRelationsResolver {
    * (paging, filtering and sorting)
    * @param parent defines an object that represents the parent of the
    * current sent query
-   * @returns all the found elements paginated
+   * @returns all the found entities paginated
    */
   @ResolveField(() => PostQueryArgs.ConnectionType, {
     name: 'posts',
