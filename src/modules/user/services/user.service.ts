@@ -38,7 +38,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param createUserInput defines an object that has the entity data
    * @returns an object that represents the created entity
    */
-  public async createOneUser(createUserInput: CreateUserInput): Promise<User> {
+  public async createOne(createUserInput: CreateUserInput): Promise<User> {
     const hasWithEmail = !!(await this.getOneByEmail(createUserInput.email))
     if (hasWithEmail) {
       throw new ConflictException(
@@ -67,7 +67,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
    */
-  public async getManyUsers(
+  public async getMany(
     queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
     return await createCursorQueryArgsType(
@@ -83,7 +83,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param userId defines the entity id
    * @returns an object that represents the found entity
    */
-  public async getOneUser(currentUser: User, userId: string): Promise<User> {
+  public async getOne(currentUser: User, userId: string): Promise<User> {
     if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
       throw new ForbiddenException(
         'You have not permission to access those sources',
@@ -109,7 +109,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param userId defines the entity id
    * @param updateUserInput defines an object that has the new entity data
    */
-  public async updateOneUser(
+  public async changeOne(
     currentUser: User,
     userId: string,
     updateUserInput: UpdateUserInput,
@@ -142,7 +142,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param userId defines the entity id
    * @returns an object that represents the deleted entity
    */
-  public async deleteOneUser(currentUser: User, userId: string): Promise<User> {
+  public async removeOne(currentUser: User, userId: string): Promise<User> {
     if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
       throw new ForbiddenException(
         'You have not permission to access those sources',

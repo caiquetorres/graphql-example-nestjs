@@ -27,12 +27,16 @@ export class UserResolver {
    * @param createUserInput defines an object that has the entity data
    * @returns an object that represents the created entity
    */
-  @Mutation(() => User)
-  public async createOneUser(
-    @Args('input', { type: () => CreateUserInput })
+  @Mutation(() => User, {
+    name: 'createUser',
+  })
+  public async createOne(
+    @Args('input', {
+      type: () => CreateUserInput,
+    })
     createUserInput: CreateUserInput,
   ): Promise<User> {
-    return await this.userService.createOneUser(createUserInput)
+    return await this.userService.createOne(createUserInput)
   }
 
   /**
@@ -45,12 +49,14 @@ export class UserResolver {
    * @returns all the found elements paginated
    */
   @ProtectTo(RolesEnum.Admin)
-  @Query(() => UserQueryArgs.ConnectionType)
-  public async getManyUsers(
+  @Query(() => UserQueryArgs.ConnectionType, {
+    name: 'users',
+  })
+  public async getMany(
     @Args()
     queryArgs: UserQueryArgs,
   ): Promise<ConnectionType<User>> {
-    return await this.userService.getManyUsers(queryArgs)
+    return await this.userService.getMany(queryArgs)
   }
 
   /**
@@ -62,8 +68,10 @@ export class UserResolver {
    * @returns an object that represents the found entity
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
-  @Query(() => User)
-  public async getOneUser(
+  @Query(() => User, {
+    name: 'user',
+  })
+  public async getOne(
     @CurrentUser()
     currentUser: User,
     @Args(
@@ -75,7 +83,7 @@ export class UserResolver {
     )
     userId: string,
   ): Promise<User> {
-    return await this.userService.getOneUser(currentUser, userId)
+    return await this.userService.getOne(currentUser, userId)
   }
 
   /**
@@ -87,8 +95,10 @@ export class UserResolver {
    * @param updateUserInput defines an object that has the new entity data
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
-  @Mutation(() => User)
-  public async updateOneUser(
+  @Mutation(() => User, {
+    name: 'updateUser',
+  })
+  public async changeOne(
     @CurrentUser()
     currentUser: User,
     @Args(
@@ -99,10 +109,12 @@ export class UserResolver {
       ParseUUIDPipe,
     )
     userId: string,
-    @Args('input', { type: () => UpdateUserInput })
+    @Args('input', {
+      type: () => UpdateUserInput,
+    })
     updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    return await this.userService.updateOneUser(
+    return await this.userService.changeOne(
       currentUser,
       userId,
       updateUserInput,
@@ -118,8 +130,10 @@ export class UserResolver {
    * @returns an object that represents the deleted entity
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
-  @Mutation(() => User)
-  public async deleteOneUser(
+  @Mutation(() => User, {
+    name: 'deleteUser',
+  })
+  public async removeOne(
     @CurrentUser()
     currentUser: User,
     @Args(
@@ -131,6 +145,6 @@ export class UserResolver {
     )
     userId: string,
   ): Promise<User> {
-    return await this.userService.deleteOneUser(currentUser, userId)
+    return await this.userService.removeOne(currentUser, userId)
   }
 }

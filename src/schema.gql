@@ -99,7 +99,8 @@ type PageInfo {
 }
 
 type Query {
-  getManyUsers(
+  user(userId: String): User!
+  users(
     """Specify to filter the records returned."""
     filter: UserFilter = {}
 
@@ -109,7 +110,6 @@ type Query {
     """Specify to sort results."""
     sorting: [UserSort!] = []
   ): UserConnection!
-  getOneUser(userId: String): User!
 }
 
 """Sort Directions"""
