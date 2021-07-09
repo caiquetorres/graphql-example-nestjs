@@ -71,7 +71,7 @@ export class AuthService {
    * @returns the token data
    */
   public async refresh(requestUser: User): Promise<TokenModel> {
-    const entity = await this.userService.findOneById(requestUser.id)
+    const entity = await this.userService.findById(requestUser.id)
 
     if (!entity || !entity.active) {
       throw new UnauthorizedException('The informed token is no longer valid')
@@ -89,7 +89,7 @@ export class AuthService {
    * @returns the user himself if exists and he is not disabled
    */
   public async jwtAuthenticate(user: User): Promise<User> {
-    const entity = await this.userService.findOneById(user.id)
+    const entity = await this.userService.findById(user.id)
 
     if (!entity || !entity.active) {
       throw new UnauthorizedException('The informed token is no longer valid')

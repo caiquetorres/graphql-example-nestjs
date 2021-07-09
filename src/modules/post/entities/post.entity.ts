@@ -23,7 +23,7 @@ export class Post {
   @IDField(() => ID, {
     nullable: false,
   })
-  public id!: number
+  public id!: string
 
   @CreateDateColumn({
     name: 'created_at',

@@ -140,6 +140,22 @@ export interface PageInfo {
     startCursor?: ConnectionCursor;
 }
 
+export interface Post {
+    active?: boolean;
+    createdAt?: DateTime;
+    description?: string;
+    id: string;
+    imageUrl: string;
+    title?: string;
+    updatedAt?: DateTime;
+    userId?: string;
+}
+
+export interface PostEdge {
+    cursor: ConnectionCursor;
+    node: Post;
+}
+
 export interface IQuery {
     user(userId?: string): User | Promise<User>;
     users(filter?: UserFilter, paging?: CursorPaging, sorting?: UserSort[]): UserConnection | Promise<UserConnection>;

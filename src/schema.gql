@@ -100,6 +100,25 @@ type PageInfo {
   startCursor: ConnectionCursor
 }
 
+type Post {
+  active: Boolean
+  createdAt: DateTime
+  description: String
+  id: ID!
+  imageUrl: String!
+  title: String
+  updatedAt: DateTime
+  userId: ID
+}
+
+type PostEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the Post"""
+  node: Post!
+}
+
 type Query {
   user(userId: String): User!
   users(
