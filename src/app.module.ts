@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module'
 import { EnvModule } from './modules/env/env.module'
 import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
+import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
 
 @Module({
@@ -17,6 +18,7 @@ import { UserModule } from './modules/user/user.module'
     PermissionModule,
     AuthModule,
     UserModule,
+    PostModule,
     EnvModule.forRoot({
       envFilePath: ['.env'],
     }),
