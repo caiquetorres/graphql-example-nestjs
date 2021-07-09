@@ -85,6 +85,24 @@ export class UserResolver {
   }
 
   /**
+   * Method that searches one entity based on it id
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @returns an object that represents the found entity
+   */
+  @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
+  @Query(() => User, {
+    name: 'me',
+  })
+  public async getMe(
+    @CurrentUser()
+    currentUser: User,
+  ): Promise<User> {
+    return await this.userService.getOne(currentUser.id, currentUser)
+  }
+
+  /**
    * Method that updates some data of some entity
    *
    * @param userId defines the entity id

@@ -168,6 +168,7 @@ enum PostSortFields {
 }
 
 type Query {
+  me: User!
   post(postId: String): Post!
   posts(
     """Specify to filter the records returned."""

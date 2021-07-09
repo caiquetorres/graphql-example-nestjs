@@ -208,6 +208,7 @@ export interface PostEdge {
 }
 
 export interface IQuery {
+    me(): User | Promise<User>;
     post(postId?: string): Post | Promise<Post>;
     posts(filter?: PostFilter, paging?: CursorPaging, sorting?: PostSort[]): PostConnection | Promise<PostConnection>;
     user(userId?: string): User | Promise<User>;
