@@ -21,7 +21,7 @@ import { PasswordService } from 'src/modules/password/services/password.service'
 import { PermissionService } from 'src/modules/permission/services/permission.service'
 
 /**
- * The class that represents the service that deals with the user
+ * The class that represents the service that deals with the users
  */
 @Injectable()
 export class UserService extends TypeOrmQueryService<User> {

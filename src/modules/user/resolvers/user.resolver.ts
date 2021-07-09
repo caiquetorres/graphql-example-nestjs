@@ -15,7 +15,7 @@ import { RolesEnum } from 'src/models/enums/roles.enum'
 import { UserService } from '../services/user.service'
 
 /**
- * The class that represents the resolver that deals with the user
+ * The class that represents the resolver that deals with the users
  */
 @Resolver(() => User)
 export class UserResolver {
