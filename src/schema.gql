@@ -120,6 +120,7 @@ type Post {
   imageUrl: String
   title: String
   updatedAt: DateTime
+  user: User!
   userId: ID
 }
 

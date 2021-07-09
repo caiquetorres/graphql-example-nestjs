@@ -2,12 +2,11 @@ import { ConnectionType } from '@nestjs-query/query-graphql'
 import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 
 import { User } from '../entities/user.entity'
+import { Post } from 'src/modules/post/entities/post.entity'
 
 import { PostQueryArgs } from 'src/modules/post/dtos/post-query.args'
 
 import { UserRelationsService } from '../services/user-relations.service'
-
-import { Post } from 'src/graphql'
 
 /**
  * The class that represents the resolver that deals with the users
