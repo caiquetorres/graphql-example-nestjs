@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core'
 import { EnvService } from './modules/env/services/env.service'
 
 import { AppModule } from './app.module'
+import { SentryFilter } from './filters/sentry/sentry.filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -11,6 +12,7 @@ async function bootstrap() {
   const envService = app.get(EnvService)
 
   setupPipes(app)
+  setupFilters(app, envService)
 
   app.enableCors()
 
@@ -32,6 +34,16 @@ function setupPipes(app: INestApplication): void {
       whitelist: true,
     }),
   )
+}
+
+/**
+ * Function that set the filters to the application
+ *
+ * @param app stores the application instance
+ * @param envService stores the application settings
+ */
+function setupFilters(app: INestApplication, envService: EnvService): void {
+  app.useGlobalFilters(new SentryFilter(envService))
 }
 
 //#endregion
