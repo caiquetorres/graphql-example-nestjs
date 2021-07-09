@@ -147,4 +147,58 @@ export class UserResolver {
   ): Promise<User> {
     return await this.userService.removeOne(currentUser, userId)
   }
+
+  /**
+   * Method that disables some entity
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @param userId defines the entity id
+   * @returns an object that represents the disabled entity
+   */
+  @ProtectTo(RolesEnum.Admin)
+  @Mutation(() => User, {
+    name: 'disableUser',
+  })
+  public async disableOne(
+    @CurrentUser()
+    currentUser: User,
+    @Args(
+      'userId',
+      {
+        nullable: true,
+      },
+      ParseUUIDPipe,
+    )
+    userId: string,
+  ): Promise<User> {
+    return await this.userService.disableOne(currentUser, userId)
+  }
+
+  /**
+   * Method that enables some entity
+   *
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @param userId defines the entity id
+   * @returns an object that represents the enabled entity
+   */
+  @ProtectTo(RolesEnum.Admin)
+  @Mutation(() => User, {
+    name: 'enableUser',
+  })
+  public async enableOne(
+    @CurrentUser()
+    currentUser: User,
+    @Args(
+      'userId',
+      {
+        nullable: true,
+      },
+      ParseUUIDPipe,
+    )
+    userId: string,
+  ): Promise<User> {
+    return await this.userService.enableOne(currentUser, userId)
+  }
 }

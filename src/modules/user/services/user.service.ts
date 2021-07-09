@@ -92,13 +92,33 @@ export class UserService extends TypeOrmQueryService<User> {
 
     const entity = await this.userRepository.findOne(userId)
 
-    if (!entity) {
+    if (!entity || !entity.active) {
       throw new NotFoundException(
         `The entity identified by '${userId}' of type '${User.name}' was not found`,
       )
     }
 
     return entity
+  }
+
+  /**
+   * Method that finds some user based on the entity email
+   *
+   * @param email defines the user email
+   * @returns an object that represents the user data
+   */
+  public async getOneByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { email } })
+  }
+
+  /**
+   * Method that finds an entity based on it id
+   *
+   * @param userId defines the entity id
+   * @returns an object that represents the found entity or undefined
+   */
+  public async findOneById(userId: string): Promise<User> {
+    return await this.userRepository.findOne(userId)
   }
 
   /**
@@ -122,7 +142,7 @@ export class UserService extends TypeOrmQueryService<User> {
 
     const entity = await this.userRepository.findOne(userId)
 
-    if (!entity) {
+    if (!entity || !entity.active) {
       throw new NotFoundException(
         `The entity identified by '${userId}' of type '${User.name}' was not found`,
       )
@@ -151,7 +171,7 @@ export class UserService extends TypeOrmQueryService<User> {
 
     const entity = await this.userRepository.findOne(userId)
 
-    if (!entity) {
+    if (!entity || !entity.active) {
       throw new NotFoundException(
         `The entity identified by '${userId}' of type '${User.name}' was not found`,
       )
@@ -162,22 +182,60 @@ export class UserService extends TypeOrmQueryService<User> {
   }
 
   /**
-   * Method that finds an entity based on it id
+   * Method that disables some entity
    *
+   * @param currentUser defines an object that represents the
+   * request user data
    * @param userId defines the entity id
-   * @returns an object that represents the found entity or undefined
+   * @returns an object that represents the disabled entity
    */
-  public async findOneById(userId: string): Promise<User> {
-    return await this.userRepository.findOne(userId)
+  public async disableOne(currentUser: User, userId: string): Promise<User> {
+    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+      throw new ForbiddenException(
+        'You have not permission to access those sources',
+      )
+    }
+
+    const entity = await this.userRepository.findOne(userId)
+
+    if (!entity) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
+    return await this.userRepository.save({
+      ...entity,
+      active: false,
+    })
   }
 
   /**
-   * Method that finds some user based on the entity email
+   * Method that enables some entity
    *
-   * @param email defines the user email
-   * @returns an object that represents the user data
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @param userId defines the entity id
+   * @returns an object that represents the enabled entity
    */
-  public async getOneByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { email } })
+  public async enableOne(currentUser: User, userId: string): Promise<User> {
+    if (currentUser.id !== userId && !currentUser.roles.includes('admin')) {
+      throw new ForbiddenException(
+        'You have not permission to access those sources',
+      )
+    }
+
+    const entity = await this.userRepository.findOne(userId)
+
+    if (!entity) {
+      throw new NotFoundException(
+        `The entity identified by '${userId}' of type '${User.name}' was not found`,
+      )
+    }
+
+    return await this.userRepository.save({
+      ...entity,
+      active: true,
+    })
   }
 }

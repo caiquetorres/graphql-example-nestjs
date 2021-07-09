@@ -78,10 +78,12 @@ input LoginInput {
 }
 
 type Mutation {
-  createOneUser(input: CreateUserInput!): User!
-  deleteOneUser(userId: String): User!
+  createUser(input: CreateUserInput!): User!
+  deleteUser(userId: String): User!
+  disableUser(userId: String): User!
+  enableUser(userId: String): User!
   login(input: LoginInput!): TokenModel!
-  updateOneUser(input: UpdateUserInput!, userId: String): User!
+  updateUser(input: UpdateUserInput!, userId: String): User!
 }
 
 type PageInfo {
