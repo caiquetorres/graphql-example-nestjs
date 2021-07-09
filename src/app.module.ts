@@ -8,11 +8,13 @@ import { TypeOrmService } from './modules/typeorm/typeorm.service'
 import { AuthModule } from './modules/auth/auth.module'
 import { EnvModule } from './modules/env/env.module'
 import { PasswordModule } from './modules/password/password.module'
+import { PermissionModule } from './modules/permission/permission.module'
 import { UserModule } from './modules/user/user.module'
 
 @Module({
   imports: [
     PasswordModule,
+    PermissionModule,
     AuthModule,
     UserModule,
     EnvModule.forRoot({
