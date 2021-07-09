@@ -42,8 +42,6 @@ export class UserResolver {
   /**
    * Method that searches for entities based on the sent query
    *
-   * @param currentUser defines an object that represents the
-   * request user data
    * @param queryArgs defines the how the data will be returned
    * (paging, filtering and sorting)
    * @returns all the found elements paginated
@@ -62,9 +60,9 @@ export class UserResolver {
   /**
    * Method that searches one entity based on it id
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the found entity
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
@@ -89,9 +87,9 @@ export class UserResolver {
   /**
    * Method that updates some data of some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @param updateUserInput defines an object that has the new entity data
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
@@ -124,9 +122,9 @@ export class UserResolver {
   /**
    * Method that deletes some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the deleted entity
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
@@ -151,9 +149,9 @@ export class UserResolver {
   /**
    * Method that disables some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the disabled entity
    */
   @ProtectTo(RolesEnum.Admin)
@@ -178,9 +176,9 @@ export class UserResolver {
   /**
    * Method that enables some entity
    *
+   * @param userId defines the entity id
    * @param currentUser defines an object that represents the
    * request user data
-   * @param userId defines the entity id
    * @returns an object that represents the enabled entity
    */
   @ProtectTo(RolesEnum.Admin)

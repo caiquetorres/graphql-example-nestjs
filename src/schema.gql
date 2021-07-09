@@ -10,6 +10,13 @@ input BooleanFieldComparison {
 """Cursor for paging through collections"""
 scalar ConnectionCursor
 
+input CreatePostInput {
+  description: String!
+  imageUrl: String!
+  title: String!
+  userId: String!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
@@ -78,11 +85,16 @@ input LoginInput {
 }
 
 type Mutation {
+  createPost(input: CreatePostInput!): Post!
   createUser(input: CreateUserInput!): User!
+  deletePost(postId: String): Post!
   deleteUser(userId: String): User!
+  disablePost(postId: String): Post!
   disableUser(userId: String): User!
+  enablePost(postId: String): Post!
   enableUser(userId: String): User!
   login(input: LoginInput!): TokenModel!
+  updatePost(input: UpdatePostInput!, postId: String): Post!
   updateUser(input: UpdateUserInput!, userId: String): User!
 }
 
@@ -111,6 +123,14 @@ type Post {
   userId: ID
 }
 
+type PostConnection {
+  """Array of edges."""
+  edges: [PostEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
 type PostEdge {
   """Cursor for this node."""
   cursor: ConnectionCursor!
@@ -119,7 +139,46 @@ type PostEdge {
   node: Post!
 }
 
+input PostFilter {
+  active: BooleanFieldComparison
+  and: [PostFilter!]
+  createdAt: DateFieldComparison
+  description: StringFieldComparison
+  id: IDFilterComparison
+  or: [PostFilter!]
+  title: StringFieldComparison
+  updatedAt: DateFieldComparison
+  userId: IDFilterComparison
+}
+
+input PostSort {
+  direction: SortDirection!
+  field: PostSortFields!
+  nulls: SortNulls
+}
+
+enum PostSortFields {
+  active
+  createdAt
+  description
+  id
+  title
+  updatedAt
+  userId
+}
+
 type Query {
+  post(postId: String): Post!
+  posts(
+    """Specify to filter the records returned."""
+    filter: PostFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [PostSort!] = []
+  ): PostConnection!
   user(userId: String): User!
   users(
     """Specify to filter the records returned."""
@@ -165,6 +224,12 @@ input StringFieldComparison {
 type TokenModel {
   expiresIn: String!
   token: String!
+}
+
+input UpdatePostInput {
+  description: String!
+  imageUrl: String!
+  title: String!
 }
 
 input UpdateUserInput {
