@@ -6,6 +6,7 @@ import { GraphQLService } from './modules/graphql/graphql.service'
 import { TypeOrmService } from './modules/typeorm/typeorm.service'
 
 import { AuthModule } from './modules/auth/auth.module'
+import { CategoryModule } from './modules/category/category.module'
 import { EnvModule } from './modules/env/env.module'
 import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
@@ -19,6 +20,7 @@ import { UserModule } from './modules/user/user.module'
     AuthModule,
     UserModule,
     PostModule,
+    CategoryModule,
     EnvModule.forRoot({
       envFilePath: ['.env'],
     }),
@@ -29,6 +31,5 @@ import { UserModule } from './modules/user/user.module'
       useClass: TypeOrmService,
     }),
   ],
-  controllers: [],
 })
 export class AppModule {}

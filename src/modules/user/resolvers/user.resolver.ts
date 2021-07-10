@@ -8,8 +8,8 @@ import { ProtectTo } from 'src/decorators/protect-to/protect-to.decorator'
 import { User } from '../entities/user.entity'
 
 import { CreateUserInput } from '../dtos/create-user.input'
+import { QueryUsersArgs } from '../dtos/query-users.args'
 import { UpdateUserInput } from '../dtos/update-user.input'
-import { UserQueryArgs } from '../dtos/user-query.args'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { UserService } from '../services/user.service'
@@ -47,12 +47,12 @@ export class UserResolver {
    * @returns all the found entities paginated
    */
   @ProtectTo(RolesEnum.Admin)
-  @Query(() => UserQueryArgs.ConnectionType, {
+  @Query(() => QueryUsersArgs.ConnectionType, {
     name: 'users',
   })
   public async getMany(
     @Args()
-    queryArgs: UserQueryArgs,
+    queryArgs: QueryUsersArgs,
   ): Promise<ConnectionType<User>> {
     return await this.userService.getMany(queryArgs)
   }
@@ -73,7 +73,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -118,7 +118,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -153,7 +153,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -180,7 +180,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -207,7 +207,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )

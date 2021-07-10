@@ -1,14 +1,8 @@
-import { FilterableField, IDField } from '@nestjs-query/query-graphql'
-import { Field, ObjectType, ID } from '@nestjs/graphql'
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
+import { FilterableField } from '@nestjs-query/query-graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
+import { Column, Entity, OneToMany } from 'typeorm'
 
+import { Base } from 'src/common/base.entity'
 import { Post } from 'src/modules/post/entities/post.entity'
 
 import { RolesEnum } from 'src/models/enums/roles.enum'
@@ -17,41 +11,11 @@ import { RolesEnum } from 'src/models/enums/roles.enum'
  * The class that represents the user entity
  */
 @Entity()
-@ObjectType()
-export class User {
+@ObjectType({
+  implements: () => [Base],
+})
+export class User extends Base {
   //#region Columns
-
-  @PrimaryGeneratedColumn('uuid')
-  @IDField(() => ID, {
-    nullable: false,
-  })
-  public id!: string
-
-  @CreateDateColumn({
-    name: 'created_at',
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public createdAt!: Date
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public updatedAt!: Date
-
-  @Column({
-    type: 'boolean',
-    nullable: false,
-    default: true,
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public active!: boolean
 
   @Column({
     type: 'varchar',
@@ -100,6 +64,7 @@ export class User {
   //#endregion
 
   public constructor(partial: Partial<User>) {
+    super()
     Object.assign(this, partial)
   }
 }

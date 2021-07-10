@@ -9,7 +9,7 @@ import { Post } from '../entities/post.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 import { CreatePostInput } from '../dtos/create-post.input'
-import { PostQueryArgs } from '../dtos/post-query.args'
+import { QueryPostsArgs } from '../dtos/query-posts.args'
 import { UpdatePostInput } from '../dtos/update-post.input'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
@@ -52,12 +52,12 @@ export class PostResolver {
    * (paging, filtering and sorting)
    * @returns all the found entities paginated
    */
-  @Query(() => PostQueryArgs.ConnectionType, {
+  @Query(() => QueryPostsArgs.ConnectionType, {
     name: 'posts',
   })
   public async getMany(
     @Args()
-    queryArgs: PostQueryArgs,
+    queryArgs: QueryPostsArgs,
   ): Promise<ConnectionType<Post>> {
     return await this.postService.getMany(queryArgs)
   }
@@ -75,7 +75,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -100,7 +100,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -135,7 +135,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -162,7 +162,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -189,7 +189,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )

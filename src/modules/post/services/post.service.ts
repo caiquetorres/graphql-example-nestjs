@@ -12,7 +12,7 @@ import { Post } from '../entities/post.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 import { CreatePostInput } from '../dtos/create-post.input'
-import { PostQueryArgs } from '../dtos/post-query.args'
+import { QueryPostsArgs } from '../dtos/query-posts.args'
 import { UpdatePostInput } from '../dtos/update-post.input'
 
 import { PermissionService } from 'src/modules/permission/services/permission.service'
@@ -74,9 +74,9 @@ export class PostService extends TypeOrmQueryService<Post> {
    * @returns all the found entities paginated
    */
   public async getMany(
-    queryArgs: PostQueryArgs,
+    queryArgs: QueryPostsArgs,
   ): Promise<ConnectionType<Post>> {
-    return await PostQueryArgs.ConnectionType.createFromPromise(
+    return await QueryPostsArgs.ConnectionType.createFromPromise(
       (query) => this.query(query),
       queryArgs,
     )
