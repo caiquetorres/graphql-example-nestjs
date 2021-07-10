@@ -70,6 +70,16 @@ export class CategoryService extends TypeOrmQueryService<Category> {
   }
 
   /**
+   * Method that finds an entity based on it id
+   *
+   * @param categoryId defines the entity id
+   * @returns an object that represents the found entity or undefined
+   */
+  public async findOneById(categoryId: string): Promise<Category> {
+    return await this.categoryRepository.findOne(categoryId)
+  }
+
+  /**
    * Method that updates some data of some entity
    *
    * @param categoryId defines the entity id
