@@ -7,6 +7,14 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum CategorySortFields {
+    active = "active",
+    createdAt = "createdAt",
+    id = "id",
+    name = "name",
+    updatedAt = "updatedAt"
+}
+
 export enum PostSortFields {
     active = "active",
     createdAt = "createdAt",
@@ -39,6 +47,26 @@ export enum UserSortFields {
 export interface BooleanFieldComparison {
     is?: boolean;
     isNot?: boolean;
+}
+
+export interface CategoryFilter {
+    active?: BooleanFieldComparison;
+    and?: CategoryFilter[];
+    createdAt?: DateFieldComparison;
+    id?: IDFilterComparison;
+    name?: StringFieldComparison;
+    or?: CategoryFilter[];
+    updatedAt?: DateFieldComparison;
+}
+
+export interface CategorySort {
+    direction: SortDirection;
+    field: CategorySortFields;
+    nulls?: SortNulls;
+}
+
+export interface CreateCategoryInput {
+    name: string;
 }
 
 export interface CreatePostInput {
@@ -138,6 +166,10 @@ export interface StringFieldComparison {
     notLike?: string;
 }
 
+export interface UpdateCategoryInput {
+    name?: string;
+}
+
 export interface UpdatePostInput {
     description?: string;
     imageUrl?: string;
@@ -180,12 +212,18 @@ export interface Category extends Base {
     updatedAt?: DateTime;
 }
 
+export interface CategoryConnection {
+    edges: CategoryEdge[];
+    pageInfo: PageInfo;
+}
+
 export interface CategoryEdge {
     cursor: ConnectionCursor;
     node: Category;
 }
 
 export interface IMutation {
+    createCategory(input: CreateCategoryInput): Category | Promise<Category>;
     createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
     deletePost(postId?: string): Post | Promise<Post>;
@@ -195,6 +233,7 @@ export interface IMutation {
     enablePost(postId?: string): Post | Promise<Post>;
     enableUser(userId?: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
+    updateCategory(categoryId?: string, input: UpdateCategoryInput): Category | Promise<Category>;
     updatePost(input: UpdatePostInput, postId?: string): Post | Promise<Post>;
     updateUser(input: UpdateUserInput, userId?: string): User | Promise<User>;
 }
@@ -229,6 +268,8 @@ export interface PostEdge {
 }
 
 export interface IQuery {
+    categories(filter?: CategoryFilter, paging?: CursorPaging, sorting?: CategorySort[]): CategoryConnection | Promise<CategoryConnection>;
+    category(categoryId?: string): Category | Promise<Category>;
     me(): User | Promise<User>;
     post(postId?: string): Post | Promise<Post>;
     posts(filter?: PostFilter, paging?: CursorPaging, sorting?: PostSort[]): PostConnection | Promise<PostConnection>;

@@ -22,6 +22,14 @@ type Category implements Base {
   updatedAt: DateTime
 }
 
+type CategoryConnection {
+  """Array of edges."""
+  edges: [CategoryEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
 type CategoryEdge {
   """Cursor for this node."""
   cursor: ConnectionCursor!
@@ -30,8 +38,36 @@ type CategoryEdge {
   node: Category!
 }
 
+input CategoryFilter {
+  active: BooleanFieldComparison
+  and: [CategoryFilter!]
+  createdAt: DateFieldComparison
+  id: IDFilterComparison
+  name: StringFieldComparison
+  or: [CategoryFilter!]
+  updatedAt: DateFieldComparison
+}
+
+input CategorySort {
+  direction: SortDirection!
+  field: CategorySortFields!
+  nulls: SortNulls
+}
+
+enum CategorySortFields {
+  active
+  createdAt
+  id
+  name
+  updatedAt
+}
+
 """Cursor for paging through collections"""
 scalar ConnectionCursor
+
+input CreateCategoryInput {
+  name: String!
+}
 
 input CreatePostInput {
   description: String!
@@ -108,6 +144,7 @@ input LoginInput {
 }
 
 type Mutation {
+  createCategory(input: CreateCategoryInput!): Category!
   createPost(input: CreatePostInput!): Post!
   createUser(input: CreateUserInput!): User!
   deletePost(postId: String): Post!
@@ -117,6 +154,7 @@ type Mutation {
   enablePost(postId: String): Post!
   enableUser(userId: String): User!
   login(input: LoginInput!): TokenModel!
+  updateCategory(categoryId: String, input: UpdateCategoryInput!): Category!
   updatePost(input: UpdatePostInput!, postId: String): Post!
   updateUser(input: UpdateUserInput!, userId: String): User!
 }
@@ -192,6 +230,17 @@ enum PostSortFields {
 }
 
 type Query {
+  categories(
+    """Specify to filter the records returned."""
+    filter: CategoryFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [CategorySort!] = []
+  ): CategoryConnection!
+  category(categoryId: String): Category!
   me: User!
   post(postId: String): Post!
   posts(
@@ -249,6 +298,10 @@ input StringFieldComparison {
 type TokenModel {
   expiresIn: String!
   token: String!
+}
+
+input UpdateCategoryInput {
+  name: String
 }
 
 input UpdatePostInput {
