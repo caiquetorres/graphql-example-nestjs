@@ -4,7 +4,7 @@ import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 import { User } from '../entities/user.entity'
 import { Post } from 'src/modules/post/entities/post.entity'
 
-import { PostQueryArgs } from 'src/modules/post/dtos/post-query.args'
+import { QueryPostsArgs } from 'src/modules/post/dtos/query-posts.args'
 
 import { UserRelationsService } from '../services/user-relations.service'
 
@@ -26,12 +26,12 @@ export class UserRelationsResolver {
    * current sent query
    * @returns all the found entities paginated
    */
-  @ResolveField(() => PostQueryArgs.ConnectionType, {
+  @ResolveField(() => QueryPostsArgs.ConnectionType, {
     name: 'posts',
   })
   public async getManyPosts(
     @Args()
-    queryArgs: PostQueryArgs,
+    queryArgs: QueryPostsArgs,
     @Parent()
     parent: User,
   ): Promise<ConnectionType<Post>> {

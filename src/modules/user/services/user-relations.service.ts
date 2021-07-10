@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Post } from 'src/modules/post/entities/post.entity'
 
-import { PostQueryArgs } from 'src/modules/post/dtos/post-query.args'
+import { QueryPostsArgs } from 'src/modules/post/dtos/query-posts.args'
 
 import { PostService } from 'src/modules/post/services/post.service'
 
@@ -24,7 +24,7 @@ export class UserRelationsService {
    */
   public async getManyByUserId(
     userId: string,
-    queryArgs: PostQueryArgs,
+    queryArgs: QueryPostsArgs,
   ): Promise<ConnectionType<Post>> {
     queryArgs = {
       ...queryArgs,
@@ -37,7 +37,7 @@ export class UserRelationsService {
       },
     }
 
-    return await PostQueryArgs.ConnectionType.createFromPromise(
+    return await QueryPostsArgs.ConnectionType.createFromPromise(
       (query) => this.postService.query(query),
       queryArgs,
     )

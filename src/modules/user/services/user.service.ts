@@ -12,8 +12,8 @@ import { Repository } from 'typeorm'
 import { User } from '../entities/user.entity'
 
 import { CreateUserInput } from '../dtos/create-user.input'
+import { QueryUsersArgs } from '../dtos/query-users.args'
 import { UpdateUserInput } from '../dtos/update-user.input'
-import { UserQueryArgs } from '../dtos/user-query.args'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { PasswordService } from 'src/modules/password/services/password.service'
@@ -70,9 +70,9 @@ export class UserService extends TypeOrmQueryService<User> {
    * @returns all the found entities paginated
    */
   public async getMany(
-    queryArgs: UserQueryArgs,
+    queryArgs: QueryUsersArgs,
   ): Promise<ConnectionType<User>> {
-    return await UserQueryArgs.ConnectionType.createFromPromise(
+    return await QueryUsersArgs.ConnectionType.createFromPromise(
       (query) => this.query(query),
       queryArgs,
     )
