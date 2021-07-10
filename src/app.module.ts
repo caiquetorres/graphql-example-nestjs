@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { GraphQLService } from './modules/graphql/graphql.service'
-import { I18nConfigService } from './modules/i18n-config/i18n-config.service'
-import { TypeOrmService } from './modules/typeorm/typeorm.service'
+import { GraphQLConfigService } from './config/graphql-config/graphql-config.service'
+import { TypeOrmConfigService } from './config/typeorm-config/typeorm-config.service'
+import { EnvService } from './modules/env/services/env.service'
 
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
@@ -14,6 +14,7 @@ import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
+import * as path from 'path'
 
 @Module({
   imports: [
@@ -27,14 +28,21 @@ import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
       envFilePath: ['.env'],
     }),
     GraphQLModule.forRootAsync({
-      useClass: GraphQLService,
+      useClass: GraphQLConfigService,
     }),
     TypeOrmModule.forRootAsync({
-      useClass: TypeOrmService,
+      useClass: TypeOrmConfigService,
     }),
     I18nModule.forRootAsync({
+      inject: [EnvService], // FIXME: "useClass" is not working
       parser: I18nJsonParser,
-      useClass: I18nConfigService,
+      useFactory: (envService: EnvService) => ({
+        fallbackLanguage: envService.get('I18N_FALLBACK_LANGUAGE'),
+        parserOptions: {
+          path: path.join(__dirname, envService.get('I18N_PATH')),
+          watch: true,
+        },
+      }),
     }),
   ],
 })
