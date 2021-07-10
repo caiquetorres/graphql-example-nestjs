@@ -1,6 +1,6 @@
 import { FilterableField } from '@nestjs-query/query-graphql'
 import { ObjectType } from '@nestjs/graphql'
-import { Column, Entity, ManyToMany } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 
 import { Base } from 'src/common/base.entity'
 import { Post } from 'src/modules/post/entities/post.entity'
@@ -25,6 +25,7 @@ export class Category extends Base {
   //#region Relations
 
   @ManyToMany(() => Post, (post) => post.categories)
+  @JoinTable({ name: 'category_post' })
   public posts: Post[]
 
   //#endregion
