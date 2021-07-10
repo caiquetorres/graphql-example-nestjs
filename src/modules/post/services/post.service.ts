@@ -4,6 +4,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
 import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
 import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
 
@@ -170,6 +172,10 @@ export class PostService extends TypeOrmQueryService<Post> {
       throw new EntityNotFoundException(postId, Post)
     }
 
+    if (!post.active) {
+      throw new EntityAlreadyDisabledException(postId, Post)
+    }
+
     if (!this.permissionService.hasPermission(currentUser, post.userId)) {
       throw new ForbiddenException()
     }
@@ -193,6 +199,10 @@ export class PostService extends TypeOrmQueryService<Post> {
 
     if (!post) {
       throw new EntityNotFoundException(postId, Post)
+    }
+
+    if (post.active) {
+      throw new EntityAlreadyEnabledException(postId, Post)
     }
 
     if (!this.permissionService.hasPermission(currentUser, post.userId)) {

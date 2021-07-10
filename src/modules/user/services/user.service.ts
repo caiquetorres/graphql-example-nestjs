@@ -4,6 +4,8 @@ import { ConflictException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
 import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
 import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
 
@@ -185,6 +187,10 @@ export class UserService extends TypeOrmQueryService<User> {
       throw new EntityNotFoundException(userId, User)
     }
 
+    if (!user.active) {
+      throw new EntityAlreadyDisabledException(userId, User)
+    }
+
     if (!this.permissionService.hasPermission(currentUser, userId)) {
       throw new ForbiddenException()
     }
@@ -208,6 +214,10 @@ export class UserService extends TypeOrmQueryService<User> {
 
     if (!user) {
       throw new EntityNotFoundException(userId, User)
+    }
+
+    if (user.active) {
+      throw new EntityAlreadyEnabledException(userId, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, userId)) {
