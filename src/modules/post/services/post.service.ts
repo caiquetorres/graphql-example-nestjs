@@ -101,6 +101,16 @@ export class PostService extends TypeOrmQueryService<Post> {
   }
 
   /**
+   * Method that finds an entity based on it idks
+   *
+   * @param postId defines the entity id
+   * @returns an object that represents the found entity or undefined
+   */
+  public async findOneById(postId: string): Promise<Post> {
+    return await this.postRepository.findOne(postId)
+  }
+
+  /**
    * Method that updates some data of some entity
    *
    * @param postId defines the entity id

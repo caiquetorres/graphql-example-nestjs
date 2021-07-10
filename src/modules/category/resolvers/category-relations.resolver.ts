@@ -36,7 +36,7 @@ export class CategoryRelationsResolver {
     @Parent()
     parent: Category,
   ): Promise<ConnectionType<Post>> {
-    return await this.categoryRelationsService.getPostsByCategoryId(
+    return await this.categoryRelationsService.getManyPostsByCategoryId(
       parent.id,
       queryArgs,
     )
