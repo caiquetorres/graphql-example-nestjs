@@ -14,8 +14,8 @@ export class I18nFilter implements GqlExceptionFilter {
   /**
    * Method that deals with the thrown exceptions
    *
-   * @param exception stores the thrown exception
-   * @param host stores the host arguments
+   * @param exception defines and object that represents the thrown exception
+   * @param host defines and object that represents the host arguments
    */
   public async catch(
     exception: HttpException,
