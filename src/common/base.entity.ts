@@ -15,7 +15,7 @@ import {
 export abstract class Base {
   @PrimaryGeneratedColumn('uuid')
   @IDField(() => ID, {
-    nullable: false,
+    nullable: true,
   })
   public id!: string
 

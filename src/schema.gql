@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+interface Base {
+  active: Boolean
+  createdAt: DateTime
+  id: ID
+  updatedAt: DateTime
+}
+
 input BooleanFieldComparison {
   is: Boolean
   isNot: Boolean
@@ -112,11 +119,11 @@ type PageInfo {
   startCursor: ConnectionCursor
 }
 
-type Post {
+type Post implements Base {
   active: Boolean
   createdAt: DateTime
   description: String
-  id: ID!
+  id: ID
   imageUrl: String
   title: String
   updatedAt: DateTime
@@ -238,11 +245,11 @@ input UpdateUserInput {
   name: String
 }
 
-type User {
+type User implements Base {
   active: Boolean
   createdAt: DateTime
   email: String
-  id: ID!
+  id: ID
   name: String
   permissions: String
   posts(

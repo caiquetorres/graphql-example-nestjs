@@ -165,6 +165,13 @@ export interface UserSort {
     nulls?: SortNulls;
 }
 
+export interface Base {
+    active?: boolean;
+    createdAt?: DateTime;
+    id?: string;
+    updatedAt?: DateTime;
+}
+
 export interface IMutation {
     createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
@@ -186,11 +193,11 @@ export interface PageInfo {
     startCursor?: ConnectionCursor;
 }
 
-export interface Post {
+export interface Post extends Base {
     active?: boolean;
     createdAt?: DateTime;
     description?: string;
-    id: string;
+    id?: string;
     imageUrl?: string;
     title?: string;
     updatedAt?: DateTime;
@@ -221,11 +228,11 @@ export interface TokenModel {
     token: string;
 }
 
-export interface User {
+export interface User extends Base {
     active?: boolean;
     createdAt?: DateTime;
     email?: string;
-    id: string;
+    id?: string;
     name?: string;
     permissions?: string;
     posts: PostConnection;
