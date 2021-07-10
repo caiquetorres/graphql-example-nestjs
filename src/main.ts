@@ -4,15 +4,18 @@ import { NestFactory } from '@nestjs/core'
 import { EnvService } from './modules/env/services/env.service'
 
 import { AppModule } from './app.module'
+import { I18nFilter } from './filters/i18n/i18n.filter'
 import { SentryFilter } from './filters/sentry/sentry.filter'
+import { I18nService } from 'nestjs-i18n'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
   const envService = app.get(EnvService)
+  const i18nService = app.get(I18nService)
 
   setupPipes(app)
-  setupFilters(app, envService)
+  setupFilters(app, envService, i18nService)
 
   app.enableCors()
 
@@ -42,8 +45,15 @@ function setupPipes(app: INestApplication): void {
  * @param app stores the application instance
  * @param envService stores the application settings
  */
-function setupFilters(app: INestApplication, envService: EnvService): void {
-  app.useGlobalFilters(new SentryFilter(envService))
+function setupFilters(
+  app: INestApplication,
+  envService: EnvService,
+  i18nService: I18nService,
+): void {
+  app.useGlobalFilters(
+    new SentryFilter(envService),
+    new I18nFilter(i18nService),
+  )
 }
 
 //#endregion

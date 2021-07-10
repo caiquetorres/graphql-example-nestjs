@@ -13,11 +13,27 @@ import { HttpException, HttpStatus, Type } from '@nestjs/common'
  */
 export class EntityAlreadyEnabledException extends HttpException {
   public constructor(identifier: number | string, type?: Type<unknown>) {
-    super(
-      `The entity identified by "${identifier}"${
-        type ? ` of type "${type.name}"` : ''
-      } is already enabled`,
-      HttpStatus.CONFLICT,
-    )
+    if (type) {
+      super(
+        {
+          key: 'exceptions.ENTITY_ALREADY_ENABLED_WITH_TYPE',
+          args: {
+            identifier,
+            type: type.name,
+          },
+        },
+        HttpStatus.CONFLICT,
+      )
+    } else {
+      super(
+        {
+          key: 'exceptions.ENTITY_ALREADY_ENABLED',
+          args: {
+            identifier,
+          },
+        },
+        HttpStatus.CONFLICT,
+      )
+    }
   }
 }

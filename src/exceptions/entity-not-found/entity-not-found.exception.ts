@@ -13,11 +13,27 @@ import { HttpException, HttpStatus, Type } from '@nestjs/common'
  */
 export class EntityNotFoundException extends HttpException {
   public constructor(identifier: number | string, type?: Type<unknown>) {
-    super(
-      `The entity identified by "${identifier}"${
-        type ? ` of type "${type.name}"` : ''
-      } does not exist or is disabled`,
-      HttpStatus.NOT_FOUND,
-    )
+    if (type) {
+      super(
+        {
+          key: 'exceptions.ENTITY_NOT_FOUND_WITH_TYPE',
+          args: {
+            identifier,
+            type: type.name,
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      )
+    } else {
+      super(
+        {
+          key: 'exceptions.ENTITY_NOT_FOUND',
+          args: {
+            identifier,
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      )
+    }
   }
 }

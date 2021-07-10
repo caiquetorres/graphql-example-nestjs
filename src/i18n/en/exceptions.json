@@ -1,0 +1,11 @@
+{
+  "ENTITY_NOT_FOUND": "The entity identified by '{identifier}' does not exists or is disabled",
+  "ENTITY_NOT_FOUND_WITH_TYPE": "The entity identified by '{identifier}' of type '{type}' does not exists or is disabled",
+  "FORBIDDEN": "You do not have permission to access these sources",
+  "ENTITY_ALREADY_DISABLED": "The entity identified by '{identifier}' is already disabled",
+  "ENTITY_ALREADY_DISABLED_WITH_TYPE": "The entity identified by '{identifier}' of type '{type}' is already disabled",
+  "ENTITY_ALREADY_ENABLED": "The entity identified by '{identifier}' is already enabled",
+  "ENTITY_ALREADY_ENABLED_WITH_TYPE": "The entity identified by '{identifier}' of type '{type}' is already enabled",
+  "EMAIL_OR_PASSWORD_WRONG": "The email or password are wrong",
+  "NO_LONGER_VALID_TOKEN": "The informed token is no longer valid"
+}
