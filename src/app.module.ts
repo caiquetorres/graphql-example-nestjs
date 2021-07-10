@@ -38,8 +38,13 @@ import * as path from 'path'
       parser: I18nJsonParser,
       useFactory: (envService: EnvService) => ({
         fallbackLanguage: envService.get('I18N_FALLBACK_LANGUAGE'),
+        fallbacks: {
+          'en-*': 'en',
+          'pt-*': 'pt-BR',
+          pt: 'pt-BR',
+        },
         parserOptions: {
-          path: path.join(__dirname, envService.get('I18N_PATH')),
+          path: path.join(__dirname, '/i18n/'),
           watch: true,
         },
       }),
