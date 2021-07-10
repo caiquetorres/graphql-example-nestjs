@@ -14,6 +14,22 @@ input BooleanFieldComparison {
   isNot: Boolean
 }
 
+type Category implements Base {
+  active: Boolean
+  createdAt: DateTime
+  id: ID
+  name: String!
+  updatedAt: DateTime
+}
+
+type CategoryEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the Category"""
+  node: Category!
+}
+
 """Cursor for paging through collections"""
 scalar ConnectionCursor
 

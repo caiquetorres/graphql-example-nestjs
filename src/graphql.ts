@@ -172,6 +172,19 @@ export interface Base {
     updatedAt?: DateTime;
 }
 
+export interface Category extends Base {
+    active?: boolean;
+    createdAt?: DateTime;
+    id?: string;
+    name: string;
+    updatedAt?: DateTime;
+}
+
+export interface CategoryEdge {
+    cursor: ConnectionCursor;
+    node: Category;
+}
+
 export interface IMutation {
     createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
