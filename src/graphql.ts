@@ -226,16 +226,19 @@ export interface IMutation {
     createCategory(input: CreateCategoryInput): Category | Promise<Category>;
     createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
-    deletePost(postId?: string): Post | Promise<Post>;
-    deleteUser(userId?: string): User | Promise<User>;
-    disablePost(postId?: string): Post | Promise<Post>;
-    disableUser(userId?: string): User | Promise<User>;
-    enablePost(postId?: string): Post | Promise<Post>;
-    enableUser(userId?: string): User | Promise<User>;
+    deleteCategory(categoryId: string): Category | Promise<Category>;
+    deletePost(postId: string): Post | Promise<Post>;
+    deleteUser(userId: string): User | Promise<User>;
+    disableCategory(categoryId: string): Category | Promise<Category>;
+    disablePost(postId: string): Post | Promise<Post>;
+    disableUser(userId: string): User | Promise<User>;
+    enableCategory(categoryId: string): Category | Promise<Category>;
+    enablePost(postId: string): Post | Promise<Post>;
+    enableUser(userId: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
-    updateCategory(categoryId?: string, input: UpdateCategoryInput): Category | Promise<Category>;
-    updatePost(input: UpdatePostInput, postId?: string): Post | Promise<Post>;
-    updateUser(input: UpdateUserInput, userId?: string): User | Promise<User>;
+    updateCategory(categoryId: string, input: UpdateCategoryInput): Category | Promise<Category>;
+    updatePost(input: UpdatePostInput, postId: string): Post | Promise<Post>;
+    updateUser(input: UpdateUserInput, userId: string): User | Promise<User>;
 }
 
 export interface PageInfo {
@@ -269,11 +272,11 @@ export interface PostEdge {
 
 export interface IQuery {
     categories(filter?: CategoryFilter, paging?: CursorPaging, sorting?: CategorySort[]): CategoryConnection | Promise<CategoryConnection>;
-    category(categoryId?: string): Category | Promise<Category>;
+    category(categoryId: string): Category | Promise<Category>;
     me(): User | Promise<User>;
-    post(postId?: string): Post | Promise<Post>;
+    post(postId: string): Post | Promise<Post>;
     posts(filter?: PostFilter, paging?: CursorPaging, sorting?: PostSort[]): PostConnection | Promise<PostConnection>;
-    user(userId?: string): User | Promise<User>;
+    user(userId: string): User | Promise<User>;
     users(filter?: UserFilter, paging?: CursorPaging, sorting?: UserSort[]): UserConnection | Promise<UserConnection>;
 }
 

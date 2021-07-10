@@ -69,7 +69,7 @@ export class CategoryResolver {
     @Args(
       'categoryId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -92,7 +92,7 @@ export class CategoryResolver {
     @Args(
       'categoryId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -119,7 +119,7 @@ export class CategoryResolver {
     @Args(
       'categoryId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -142,7 +142,7 @@ export class CategoryResolver {
     @Args(
       'categoryId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -165,7 +165,7 @@ export class CategoryResolver {
     @Args(
       'categoryId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )

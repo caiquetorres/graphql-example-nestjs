@@ -75,7 +75,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -100,7 +100,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -135,7 +135,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -162,7 +162,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -189,7 +189,7 @@ export class PostResolver {
     @Args(
       'postId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )

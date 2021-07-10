@@ -73,7 +73,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -118,7 +118,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -153,7 +153,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -180,7 +180,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
@@ -207,7 +207,7 @@ export class UserResolver {
     @Args(
       'userId',
       {
-        nullable: true,
+        nullable: false,
       },
       ParseUUIDPipe,
     )
