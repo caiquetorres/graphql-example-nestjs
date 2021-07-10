@@ -5,9 +5,8 @@ import * as Sentry from '@sentry/node'
 import { EnvService } from 'src/modules/env/services/env.service'
 
 /**
- * The app's main sentry filter class
- *
- * Class that capture some exception and send it to sentry.io
+ * Class that represents the filter that capture some exception and send
+ * it to sentry.io
  */
 @Catch()
 export class SentryFilter implements GqlExceptionFilter {
@@ -25,7 +24,7 @@ export class SentryFilter implements GqlExceptionFilter {
    * @param exception stores the thrown exception
    * @param host stores the host arguments
    */
-  public async catch(exception: HttpException): Promise<unknown> {
+  public async catch(exception: HttpException): Promise<HttpException> {
     const status =
       exception instanceof HttpException
         ? exception.getStatus()

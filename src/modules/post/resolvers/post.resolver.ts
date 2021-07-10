@@ -68,7 +68,6 @@ export class PostResolver {
    * @param postId defines the entity id
    * @returns an object that represents the found entity
    */
-  @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
   @Query(() => Post, {
     name: 'post',
   })
