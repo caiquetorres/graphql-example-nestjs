@@ -1,55 +1,19 @@
-import { FilterableField, IDField } from '@nestjs-query/query-graphql'
+import { FilterableField } from '@nestjs-query/query-graphql'
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
+import { Column, Entity, ManyToOne } from 'typeorm'
 
+import { Base } from 'src/common/base.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 /**
  * The class that represents the user post
  */
 @Entity()
-@ObjectType()
-export class Post {
+@ObjectType({
+  implements: () => [Base],
+})
+export class Post extends Base {
   //#region Columns
-
-  @PrimaryGeneratedColumn('uuid')
-  @IDField(() => ID, {
-    nullable: false,
-  })
-  public id!: string
-
-  @CreateDateColumn({
-    name: 'created_at',
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public createdAt!: Date
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public updatedAt!: Date
-
-  @Column({
-    type: 'boolean',
-    nullable: false,
-    default: true,
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public active!: boolean
 
   @Column({
     type: 'varchar',
@@ -103,6 +67,7 @@ export class Post {
   //#endregion
 
   public constructor(partial: Partial<Post>) {
+    super()
     Object.assign(this, partial)
   }
 }
