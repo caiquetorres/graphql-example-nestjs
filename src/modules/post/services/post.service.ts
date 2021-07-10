@@ -1,12 +1,13 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
+import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
+import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
 
 import { Post } from '../entities/post.entity'
 import { User } from 'src/modules/user/entities/user.entity'
@@ -47,15 +48,11 @@ export class PostService extends TypeOrmQueryService<Post> {
     const user = await this.userService.findOneById(createPostInput.userId)
 
     if (!user || !user.active) {
-      throw new NotFoundException(
-        `The entity identified by '${createPostInput.userId}' of type '${User.name}' was not found`,
-      )
+      throw new EntityNotFoundException(user.id, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, user.id)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     const post = this.postRepository.create({
@@ -92,9 +89,7 @@ export class PostService extends TypeOrmQueryService<Post> {
     const post = await this.postRepository.findOne(postId)
 
     if (!post || !post.active) {
-      throw new NotFoundException(
-        `The entity identified by '${postId}' of type '${Post.name}' was not found`,
-      )
+      throw new EntityNotFoundException(postId, Post)
     }
 
     return post
@@ -126,15 +121,11 @@ export class PostService extends TypeOrmQueryService<Post> {
     const post = await this.postRepository.findOne(postId)
 
     if (!post || !post.active) {
-      throw new NotFoundException(
-        `The entity identified by '${postId}' of type '${Post.name}' was not found`,
-      )
+      throw new EntityNotFoundException(postId, Post)
     }
 
     if (!this.permissionService.hasPermission(currentUser, post.userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return await this.postRepository.save({
@@ -155,15 +146,11 @@ export class PostService extends TypeOrmQueryService<Post> {
     const post = await this.postRepository.findOne(postId)
 
     if (!post || !post.active) {
-      throw new NotFoundException(
-        `The entity identified by '${postId}' of type '${Post.name}' was not found`,
-      )
+      throw new EntityNotFoundException(postId, Post)
     }
 
     if (!this.permissionService.hasPermission(currentUser, post.userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     await this.postRepository.delete(postId)
@@ -182,15 +169,15 @@ export class PostService extends TypeOrmQueryService<Post> {
     const post = await this.postRepository.findOne(postId)
 
     if (!post) {
-      throw new NotFoundException(
-        `The entity identified by '${postId}' of type '${Post.name}' was not found`,
-      )
+      throw new EntityNotFoundException(postId, Post)
+    }
+
+    if (!post.active) {
+      throw new EntityAlreadyDisabledException(postId, Post)
     }
 
     if (!this.permissionService.hasPermission(currentUser, post.userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return await this.postRepository.save({
@@ -211,15 +198,15 @@ export class PostService extends TypeOrmQueryService<Post> {
     const post = await this.postRepository.findOne(postId)
 
     if (!post) {
-      throw new NotFoundException(
-        `The entity identified by '${postId}' of type '${Post.name}' was not found`,
-      )
+      throw new EntityNotFoundException(postId, Post)
+    }
+
+    if (post.active) {
+      throw new EntityAlreadyEnabledException(postId, Post)
     }
 
     if (!this.permissionService.hasPermission(currentUser, post.userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return await this.postRepository.save({

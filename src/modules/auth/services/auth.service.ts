@@ -37,9 +37,9 @@ export class AuthService {
     const entity = await this.userService.getOneByEmail(email)
 
     if (!entity) {
-      throw new UnauthorizedException(
-        'The email or password are wrong, or you have no permission to access those sources',
-      )
+      throw new UnauthorizedException({
+        key: 'exceptions.EMAIL_OR_PASSWORD_WRONG',
+      })
     }
 
     const passwordMatches = await this.passwordService.comparePassword(
@@ -48,9 +48,9 @@ export class AuthService {
     )
 
     if (!passwordMatches)
-      throw new UnauthorizedException(
-        'The email or password are wrong, or you have no permission to access those sources',
-      )
+      throw new UnauthorizedException({
+        key: 'exceptions.EMAIL_OR_PASSWORD_WRONG',
+      })
 
     const { id, name, roles } = entity
     const expiresIn = this.envService.get('JWT_EXPIRES_IN')
@@ -74,7 +74,9 @@ export class AuthService {
     const entity = await this.userService.findOneById(requestUser.id)
 
     if (!entity || !entity.active) {
-      throw new UnauthorizedException('The informed token is no longer valid')
+      throw new UnauthorizedException({
+        key: 'exceptions.NO_LONGER_VALID_TOKEN',
+      })
     }
 
     return await this.login(entity)
@@ -92,7 +94,9 @@ export class AuthService {
     const entity = await this.userService.findOneById(user.id)
 
     if (!entity || !entity.active) {
-      throw new UnauthorizedException('The informed token is no longer valid')
+      throw new UnauthorizedException({
+        key: 'exceptions.NO_LONGER_VALID_TOKEN',
+      })
     }
 
     return entity

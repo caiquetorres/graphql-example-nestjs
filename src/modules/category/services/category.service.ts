@@ -1,8 +1,12 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
+import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
 
 import { Category } from '../entities/category.entity'
 
@@ -61,9 +65,7 @@ export class CategoryService extends TypeOrmQueryService<Category> {
     const category = await this.categoryRepository.findOne(categoryId)
 
     if (!category || !category.active) {
-      throw new NotFoundException(
-        `The entity identified by '${categoryId}' of type '${Category.name}' was not found`,
-      )
+      throw new EntityNotFoundException(categoryId, Category)
     }
 
     return category
@@ -92,9 +94,7 @@ export class CategoryService extends TypeOrmQueryService<Category> {
     const category = await this.categoryRepository.findOne(categoryId)
 
     if (!category || !category.active) {
-      throw new NotFoundException(
-        `The entity identified by '${categoryId}' of type '${Category.name}' was not found`,
-      )
+      throw new EntityNotFoundException(categoryId, Category)
     }
 
     return await this.categoryRepository.save({
@@ -113,9 +113,7 @@ export class CategoryService extends TypeOrmQueryService<Category> {
     const category = await this.categoryRepository.findOne(categoryId)
 
     if (!category || !category.active) {
-      throw new NotFoundException(
-        `The entity identified by '${categoryId}' of type '${Category.name}' was not found`,
-      )
+      throw new EntityNotFoundException(categoryId, Category)
     }
 
     await this.categoryRepository.delete(categoryId)
@@ -132,9 +130,11 @@ export class CategoryService extends TypeOrmQueryService<Category> {
     const category = await this.categoryRepository.findOne(categoryId)
 
     if (!category) {
-      throw new NotFoundException(
-        `The entity identified by '${categoryId}' of type '${Category.name}' was not found`,
-      )
+      throw new EntityNotFoundException(categoryId, Category)
+    }
+
+    if (!category.active) {
+      throw new EntityAlreadyDisabledException(categoryId, Category)
     }
 
     return await this.categoryRepository.save({
@@ -153,9 +153,11 @@ export class CategoryService extends TypeOrmQueryService<Category> {
     const category = await this.categoryRepository.findOne(categoryId)
 
     if (!category) {
-      throw new NotFoundException(
-        `The entity identified by '${categoryId}' of type '${Category.name}' was not found`,
-      )
+      throw new EntityNotFoundException(categoryId, Category)
+    }
+
+    if (category.active) {
+      throw new EntityAlreadyEnabledException(categoryId, Category)
     }
 
     return await this.categoryRepository.save({

@@ -1,13 +1,13 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
-import {
-  ConflictException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common'
+import { ConflictException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
+import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
+import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
 
 import { User } from '../entities/user.entity'
 
@@ -90,15 +90,11 @@ export class UserService extends TypeOrmQueryService<User> {
     const user = await this.userRepository.findOne(userId)
 
     if (!user || !user.active) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
+      throw new EntityNotFoundException(userId, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return user
@@ -140,15 +136,11 @@ export class UserService extends TypeOrmQueryService<User> {
     const user = await this.userRepository.findOne(userId)
 
     if (!user || !user.active) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
+      throw new EntityNotFoundException(userId, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return await this.userRepository.save({
@@ -169,15 +161,11 @@ export class UserService extends TypeOrmQueryService<User> {
     const user = await this.userRepository.findOne(userId)
 
     if (!user || !user.active) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
+      throw new EntityNotFoundException(userId, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     await this.userRepository.delete(userId)
@@ -196,15 +184,15 @@ export class UserService extends TypeOrmQueryService<User> {
     const user = await this.userRepository.findOne(userId)
 
     if (!user) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
+      throw new EntityNotFoundException(userId, User)
+    }
+
+    if (!user.active) {
+      throw new EntityAlreadyDisabledException(userId, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return await this.userRepository.save({
@@ -225,15 +213,15 @@ export class UserService extends TypeOrmQueryService<User> {
     const user = await this.userRepository.findOne(userId)
 
     if (!user) {
-      throw new NotFoundException(
-        `The entity identified by '${userId}' of type '${User.name}' was not found`,
-      )
+      throw new EntityNotFoundException(userId, User)
+    }
+
+    if (user.active) {
+      throw new EntityAlreadyEnabledException(userId, User)
     }
 
     if (!this.permissionService.hasPermission(currentUser, userId)) {
-      throw new ForbiddenException(
-        'You have not permission to access those sources',
-      )
+      throw new ForbiddenException()
     }
 
     return await this.userRepository.save({

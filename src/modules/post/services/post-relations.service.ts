@@ -1,5 +1,7 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+
+import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
 
 import { Post } from '../entities/post.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
@@ -45,9 +47,7 @@ export class PostRelationsService {
     const post = await this.postService.findOneById(postId)
 
     if (!post || !post.active) {
-      throw new NotFoundException(
-        `The entity identified by '${postId}' of type '${Post.name}' was not found`,
-      )
+      throw new EntityNotFoundException(postId, Post)
     }
 
     return await QueryCategoryArgs.ConnectionType.createFromPromise(

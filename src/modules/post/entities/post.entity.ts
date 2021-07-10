@@ -63,7 +63,9 @@ export class Post extends Base {
   })
   public user!: User
 
-  @ManyToMany(() => Category, (category) => category.posts)
+  @ManyToMany(() => Category, (category) => category.posts, {
+    onDelete: 'CASCADE',
+  })
   public categories: Category[]
 
   //#endregion

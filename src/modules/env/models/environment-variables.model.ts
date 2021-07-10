@@ -116,6 +116,14 @@ export class EnvironmentVariables {
 
   //#endregion
 
+  //#region i18n
+
+  @IsDefined({ message: 'It is required to set the "I18N_FALLBACK_LANGUAGE"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public I18N_FALLBACK_LANGUAGE: string
+
+  //#endregion
+
   //#region Sentry
 
   @IsDefined({ message: 'It is required to set the "SENTRY_DSN"' })
