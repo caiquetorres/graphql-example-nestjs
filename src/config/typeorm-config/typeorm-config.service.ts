@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm'
 
-import { EnvService } from '../env/services/env.service'
+import { EnvService } from '../../modules/env/services/env.service'
 
 import * as path from 'path'
 
@@ -10,7 +10,7 @@ import * as path from 'path'
  * configuration
  */
 @Injectable()
-export class TypeOrmService implements TypeOrmOptionsFactory {
+export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   public constructor(private readonly envService: EnvService) {}
 
   /**
