@@ -224,6 +224,7 @@ export interface CategoryEdge {
 }
 
 export interface IMutation {
+    addCategories(categoryIds: string[], postId: string): Post | Promise<Post>;
     createCategory(input: CreateCategoryInput): Category | Promise<Category>;
     createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
@@ -237,6 +238,7 @@ export interface IMutation {
     enablePost(postId: string): Post | Promise<Post>;
     enableUser(userId: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
+    removeCategories(categoryIds: string[], postId: string): Post | Promise<Post>;
     updateCategory(categoryId: string, input: UpdateCategoryInput): Category | Promise<Category>;
     updatePost(input: UpdatePostInput, postId: string): Post | Promise<Post>;
     updateUser(input: UpdateUserInput, userId: string): User | Promise<User>;

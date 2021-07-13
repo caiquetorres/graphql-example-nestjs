@@ -154,6 +154,7 @@ input LoginInput {
 }
 
 type Mutation {
+  addCategories(categoryIds: [String!]!, postId: String!): Post!
   createCategory(input: CreateCategoryInput!): Category!
   createPost(input: CreatePostInput!): Post!
   createUser(input: CreateUserInput!): User!
@@ -167,6 +168,7 @@ type Mutation {
   enablePost(postId: String!): Post!
   enableUser(userId: String!): User!
   login(input: LoginInput!): TokenModel!
+  removeCategories(categoryIds: [String!]!, postId: String!): Post!
   updateCategory(categoryId: String!, input: UpdateCategoryInput!): Category!
   updatePost(input: UpdatePostInput!, postId: String!): Post!
   updateUser(input: UpdateUserInput!, userId: String!): User!

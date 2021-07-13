@@ -51,7 +51,7 @@ $ nest start --prod
 
 The application uses Docker for running some examples of databases.
 
-> Obs: Using the ".env.{database}.example" files you can copy the configurataion found in those and put it in the ".env" file.
+> Obs: Using the ".env.{database}.example" files you can copy the configuration found in those and put it in the ".env" file.
 
 For using Postgres
 
