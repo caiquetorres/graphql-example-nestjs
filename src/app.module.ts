@@ -11,6 +11,7 @@ import { CategoryModule } from './modules/category/category.module'
 import { EnvModule } from './modules/env/env.module'
 import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
+import { PostCategoryModule } from './modules/post-category/post-category.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
@@ -24,6 +25,7 @@ import * as path from 'path'
     UserModule,
     PostModule,
     CategoryModule,
+    PostCategoryModule,
     EnvModule.forRoot({
       envFilePath: ['.env'],
     }),
