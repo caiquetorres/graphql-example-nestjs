@@ -1,9 +1,9 @@
 import { FilterableField } from '@nestjs-query/query-graphql'
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm'
+import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm'
 
 import { Base } from 'src/common/base.entity'
-import { Category } from 'src/modules/category/entities/category.entity'
+import { PostCategory } from 'src/modules/post-category/entities/post-category.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 /**
@@ -45,15 +45,13 @@ export class Post extends Base {
   })
   public imageUrl?: string
 
-  @Column({
-    name: 'user_id',
-    nullable: false,
-    type: 'varchar',
-  })
+  @RelationId((post: Post) => post.user)
   @FilterableField(() => ID, {
     nullable: true,
   })
   public userId!: string
+
+  //#endregion
 
   //#region Relations
 
@@ -63,12 +61,8 @@ export class Post extends Base {
   })
   public user!: User
 
-  @ManyToMany(() => Category, (category) => category.posts, {
-    onDelete: 'CASCADE',
-  })
-  public categories: Category[]
-
-  //#endregion
+  @OneToMany(() => PostCategory, (postCategory) => postCategory.post)
+  public postCategories: PostCategory
 
   //#endregion
 

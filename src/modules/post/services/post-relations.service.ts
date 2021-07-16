@@ -64,7 +64,7 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
       throw new EntityNotFoundException(postId, Post)
     }
 
-    post.categories.push(...categories)
+    // post.categories.push(...categories)
 
     return await this.postRepository.save(post)
   }
@@ -94,9 +94,9 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
       throw new EntityNotFoundException(postId, Post)
     }
 
-    post.categories = post.categories.filter((category) =>
-      categories.every((c) => c.id !== category.id),
-    )
+    // post.categories = post.categories.filter((category) =>
+    //   categories.every((c) => c.id !== category.id),
+    // )
 
     return await this.postRepository.save(post)
   }
