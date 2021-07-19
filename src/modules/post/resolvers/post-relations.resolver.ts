@@ -1,6 +1,5 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
-import { ParseUUIDPipe } from '@nestjs/common'
-import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 
 import { Post } from '../entities/post.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
@@ -34,72 +33,6 @@ export class PostRelationsResolver {
     parent: Post,
   ): Promise<User> {
     return await this.postRelationsService.getOneUserByUserId(parent.userId)
-  }
-
-  /**
-   * Method that creates some relations
-   *
-   * @param postId defines the entity id
-   * @param categoryIds defines an array of strings that represents several
-   * entity ids
-   * @returns an object that represents the entity that had their relations
-   * modified
-   */
-  @Mutation(() => Post, {
-    name: 'addCategories',
-  })
-  public async addCategories(
-    @Args(
-      'postId',
-      {
-        nullable: false,
-      },
-      ParseUUIDPipe,
-    )
-    postId: string,
-    @Args('categoryIds', {
-      nullable: false,
-      type: () => [String],
-    })
-    categoryIds: string[],
-  ): Promise<Post> {
-    return await this.postRelationsService.addCategoriesByCategoryIds(
-      postId,
-      categoryIds,
-    )
-  }
-
-  /**
-   * Method that removes some relations
-   *
-   * @param postId defines the entity id
-   * @param categoryIds defines an array of strings that represents several
-   * entity ids
-   * @returns an object that represents the entity that had their relations
-   * modified
-   */
-  @Mutation(() => Post, {
-    name: 'removeCategories',
-  })
-  public async removeCategories(
-    @Args(
-      'postId',
-      {
-        nullable: false,
-      },
-      ParseUUIDPipe,
-    )
-    postId: string,
-    @Args('categoryIds', {
-      nullable: false,
-      type: () => [String],
-    })
-    categoryIds: string[],
-  ): Promise<Post> {
-    return await this.postRelationsService.removeCategoriesByCategoryIds(
-      postId,
-      categoryIds,
-    )
   }
 
   /**

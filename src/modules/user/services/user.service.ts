@@ -127,6 +127,7 @@ export class UserService extends TypeOrmQueryService<User> {
    * @param updateUserInput defines an object that has the new entity data
    * @param currentUser defines an object that represents the
    * request user data
+   * @returns an object that represents the updated entity
    */
   public async changeOne(
     userId: string,

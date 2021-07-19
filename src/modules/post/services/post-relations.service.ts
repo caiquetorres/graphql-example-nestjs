@@ -40,68 +40,6 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
   }
 
   /**
-   * Method that creates some relations
-   *
-   * @param postId defines the entity id
-   * @param categoryIds defines an array of strings that represents several
-   * entity ids
-   * @returns an object that represents the entity that had their relations
-   * modified
-   */
-  public async addCategoriesByCategoryIds(
-    postId: string,
-    categoryIds: string[],
-  ): Promise<Post> {
-    // TODO: This method needs to be optmized
-
-    const categories = await this.categoryService.findByIds(categoryIds)
-
-    const post = await this.postRepository.findOne(postId, {
-      relations: ['categories'],
-    })
-
-    if (!post || !post.active) {
-      throw new EntityNotFoundException(postId, Post)
-    }
-
-    // post.categories.push(...categories)
-
-    return await this.postRepository.save(post)
-  }
-
-  /**
-   * Method that removes some relations
-   *
-   * @param postId defines the entity id
-   * @param categoryIds defines an array of strings that represents several
-   * entity ids
-   * @returns an object that represents the entity that had their relations
-   * modified
-   */
-  public async removeCategoriesByCategoryIds(
-    postId: string,
-    categoryIds: string[],
-  ): Promise<Post> {
-    // TODO: This method needs to be optmized
-
-    const categories = await this.categoryService.findByIds(categoryIds)
-
-    const post = await this.postRepository.findOne(postId, {
-      relations: ['categories'],
-    })
-
-    if (!post || !post.active) {
-      throw new EntityNotFoundException(postId, Post)
-    }
-
-    // post.categories = post.categories.filter((category) =>
-    //   categories.every((c) => c.id !== category.id),
-    // )
-
-    return await this.postRepository.save(post)
-  }
-
-  /**
    * Method that searches for entities based on the sent query
    *
    * @param postId defines the entity id
