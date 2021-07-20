@@ -14,6 +14,9 @@ import { CreatePostCategoryInput } from '../dtos/create-post-category.input'
 import { QueryPostsCategoryArgs } from '../dtos/query-post-category.args'
 import { UpdatePostCategoryInput } from '../dtos/update-post-category.input'
 
+/**
+ * The class that represents the service that deals with the post-categories
+ */
 @Injectable()
 export class PostCategoryService extends TypeOrmQueryService<PostCategory> {
   public constructor(
