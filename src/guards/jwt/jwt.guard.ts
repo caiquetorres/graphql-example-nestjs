@@ -1,4 +1,8 @@
-import { ExecutionContext, Injectable } from '@nestjs/common'
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { AuthGuard } from '@nestjs/passport'
 
@@ -19,5 +23,20 @@ export class JwtGuard extends AuthGuard('jwt') {
   public getRequest(context: ExecutionContext): Request {
     const gqlContext = GqlExecutionContext.create(context)
     return gqlContext.getContext<{ req: Request }>().req
+  }
+
+  /**
+   * Method that handles the request and deals with the user and error data
+   *
+   * @param error defines an object that represents the error
+   * @param user defines an object that represents the logged user
+   * @returns an object that represents the logged user
+   */
+  public handleRequest<User>(error: Error, user: User): User {
+    if (error || !user) {
+      throw new UnauthorizedException({ key: 'exceptions.UNAUTHORIZED' })
+    }
+
+    return user
   }
 }
