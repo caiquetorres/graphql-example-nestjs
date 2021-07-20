@@ -12,7 +12,6 @@ import { User } from 'src/modules/user/entities/user.entity'
 
 import { QueryCategoryArgs } from 'src/modules/category/dtos/query-category.args'
 
-import { CategoryService } from 'src/modules/category/services/category.service'
 import { UserService } from 'src/modules/user/services/user.service'
 
 /**
@@ -24,7 +23,6 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
     private readonly userService: UserService,
-    private readonly categoryService: CategoryService,
   ) {
     super(postRepository)
   }

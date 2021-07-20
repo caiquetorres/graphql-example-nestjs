@@ -79,6 +79,11 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreatePostCategoryInput {
+  categoryId: String!
+  postId: String!
+}
+
 input CreatePostInput {
   description: String!
   imageUrl: String
@@ -154,23 +159,25 @@ input LoginInput {
 }
 
 type Mutation {
-  addCategories(categoryIds: [String!]!, postId: String!): Post!
   createCategory(input: CreateCategoryInput!): Category!
   createPost(input: CreatePostInput!): Post!
+  createPostCategory(input: [CreatePostCategoryInput!]!): PostCategory!
   createUser(input: CreateUserInput!): User!
   deleteCategory(categoryId: String!): Category!
   deletePost(postId: String!): Post!
+  deletePostCategory(postCategoryId: String!): PostCategory!
   deleteUser(userId: String!): User!
   disableCategory(categoryId: String!): Category!
   disablePost(postId: String!): Post!
+  disablePostCategoryId(disablePostCategoryId: String!): PostCategory!
   disableUser(userId: String!): User!
   enableCategory(categoryId: String!): Category!
   enablePost(postId: String!): Post!
-  enableUser(userId: String!): User!
+  enableUser(postCategoryId: String!): PostCategory!
   login(input: LoginInput!): TokenModel!
-  removeCategories(categoryIds: [String!]!, postId: String!): Post!
   updateCategory(categoryId: String!, input: UpdateCategoryInput!): Category!
   updatePost(input: UpdatePostInput!, postId: String!): Post!
+  updatePostCategory(input: UpdatePostCategoryInput!, postCategoryId: String!): PostCategory!
   updateUser(input: UpdateUserInput!, userId: String!): User!
 }
 
@@ -208,6 +215,51 @@ type Post implements Base {
   updatedAt: DateTime
   user: User!
   userId: ID
+}
+
+type PostCategory implements Base {
+  active: Boolean
+  createdAt: DateTime
+  id: ID
+  updatedAt: DateTime
+}
+
+type PostCategoryConnection {
+  """Array of edges."""
+  edges: [PostCategoryEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
+type PostCategoryEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the PostCategory"""
+  node: PostCategory!
+}
+
+input PostCategoryFilter {
+  active: BooleanFieldComparison
+  and: [PostCategoryFilter!]
+  createdAt: DateFieldComparison
+  id: IDFilterComparison
+  or: [PostCategoryFilter!]
+  updatedAt: DateFieldComparison
+}
+
+input PostCategorySort {
+  direction: SortDirection!
+  field: PostCategorySortFields!
+  nulls: SortNulls
+}
+
+enum PostCategorySortFields {
+  active
+  createdAt
+  id
+  updatedAt
 }
 
 type PostConnection {
@@ -268,6 +320,17 @@ type Query {
   category(categoryId: String!): Category!
   me: User!
   post(postId: String!): Post!
+  postCategories(
+    """Specify to filter the records returned."""
+    filter: PostCategoryFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [PostCategorySort!] = []
+  ): PostCategoryConnection!
+  postCategory(postCategoryId: String!): PostCategory!
   posts(
     """Specify to filter the records returned."""
     filter: PostFilter = {}
@@ -327,6 +390,11 @@ type TokenModel {
 
 input UpdateCategoryInput {
   name: String
+}
+
+input UpdatePostCategoryInput {
+  categoryId: String!
+  postId: String!
 }
 
 input UpdatePostInput {

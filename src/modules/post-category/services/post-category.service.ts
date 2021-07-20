@@ -9,10 +9,15 @@ import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-ena
 import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
 
 import { PostCategory } from '../entities/post-category.entity'
+import { Category } from 'src/modules/category/entities/category.entity'
+import { Post } from 'src/modules/post/entities/post.entity'
 
 import { CreatePostCategoryInput } from '../dtos/create-post-category.input'
 import { QueryPostsCategoryArgs } from '../dtos/query-post-category.args'
 import { UpdatePostCategoryInput } from '../dtos/update-post-category.input'
+
+import { CategoryService } from 'src/modules/category/services/category.service'
+import { PostService } from 'src/modules/post/services/post.service'
 
 /**
  * The class that represents the service that deals with the post-categories
@@ -22,6 +27,8 @@ export class PostCategoryService extends TypeOrmQueryService<PostCategory> {
   public constructor(
     @InjectRepository(PostCategory)
     private readonly postCategoryRepository: Repository<PostCategory>,
+    private readonly categoryService: CategoryService,
+    private readonly postService: PostService,
   ) {
     super(postCategoryRepository)
   }
@@ -35,6 +42,18 @@ export class PostCategoryService extends TypeOrmQueryService<PostCategory> {
   public async insertOne(
     createPostCategoryInput: CreatePostCategoryInput,
   ): Promise<PostCategory> {
+    const { categoryId, postId } = createPostCategoryInput
+
+    const category = await this.categoryService.findOneById(categoryId)
+    if (!category || !category.active) {
+      throw new EntityNotFoundException(categoryId, Category)
+    }
+
+    const post = await this.postService.findOneById(postId)
+    if (!post || !post.active) {
+      throw new EntityNotFoundException(postId, Post)
+    }
+
     const entity = this.postCategoryRepository.create(createPostCategoryInput)
 
     return await this.postCategoryRepository.save(entity)

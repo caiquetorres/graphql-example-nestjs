@@ -5,10 +5,16 @@ import { PostCategory } from './entities/post-category.entity'
 
 import { PostCategoryService } from './services/post-category.service'
 
+import { CategoryModule } from '../category/category.module'
+import { PostModule } from '../post/post.module'
 import { PostCategoryResolver } from './resolvers/post-category.resolver'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PostCategory])],
+  imports: [
+    CategoryModule,
+    PostModule,
+    TypeOrmModule.forFeature([PostCategory]),
+  ],
   providers: [PostCategoryResolver, PostCategoryService],
   exports: [PostCategoryService],
 })

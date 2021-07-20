@@ -15,6 +15,13 @@ export enum CategorySortFields {
     updatedAt = "updatedAt"
 }
 
+export enum PostCategorySortFields {
+    active = "active",
+    createdAt = "createdAt",
+    id = "id",
+    updatedAt = "updatedAt"
+}
+
 export enum PostSortFields {
     active = "active",
     createdAt = "createdAt",
@@ -67,6 +74,11 @@ export interface CategorySort {
 
 export interface CreateCategoryInput {
     name: string;
+}
+
+export interface CreatePostCategoryInput {
+    categoryId: string;
+    postId: string;
 }
 
 export interface CreatePostInput {
@@ -131,6 +143,21 @@ export interface LoginInput {
     password: string;
 }
 
+export interface PostCategoryFilter {
+    active?: BooleanFieldComparison;
+    and?: PostCategoryFilter[];
+    createdAt?: DateFieldComparison;
+    id?: IDFilterComparison;
+    or?: PostCategoryFilter[];
+    updatedAt?: DateFieldComparison;
+}
+
+export interface PostCategorySort {
+    direction: SortDirection;
+    field: PostCategorySortFields;
+    nulls?: SortNulls;
+}
+
 export interface PostFilter {
     active?: BooleanFieldComparison;
     and?: PostFilter[];
@@ -168,6 +195,11 @@ export interface StringFieldComparison {
 
 export interface UpdateCategoryInput {
     name?: string;
+}
+
+export interface UpdatePostCategoryInput {
+    categoryId: string;
+    postId: string;
 }
 
 export interface UpdatePostInput {
@@ -224,23 +256,25 @@ export interface CategoryEdge {
 }
 
 export interface IMutation {
-    addCategories(categoryIds: string[], postId: string): Post | Promise<Post>;
     createCategory(input: CreateCategoryInput): Category | Promise<Category>;
     createPost(input: CreatePostInput): Post | Promise<Post>;
+    createPostCategory(input: CreatePostCategoryInput[]): PostCategory | Promise<PostCategory>;
     createUser(input: CreateUserInput): User | Promise<User>;
     deleteCategory(categoryId: string): Category | Promise<Category>;
     deletePost(postId: string): Post | Promise<Post>;
+    deletePostCategory(postCategoryId: string): PostCategory | Promise<PostCategory>;
     deleteUser(userId: string): User | Promise<User>;
     disableCategory(categoryId: string): Category | Promise<Category>;
     disablePost(postId: string): Post | Promise<Post>;
+    disablePostCategoryId(disablePostCategoryId: string): PostCategory | Promise<PostCategory>;
     disableUser(userId: string): User | Promise<User>;
     enableCategory(categoryId: string): Category | Promise<Category>;
     enablePost(postId: string): Post | Promise<Post>;
-    enableUser(userId: string): User | Promise<User>;
+    enableUser(postCategoryId: string): PostCategory | Promise<PostCategory>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
-    removeCategories(categoryIds: string[], postId: string): Post | Promise<Post>;
     updateCategory(categoryId: string, input: UpdateCategoryInput): Category | Promise<Category>;
     updatePost(input: UpdatePostInput, postId: string): Post | Promise<Post>;
+    updatePostCategory(input: UpdatePostCategoryInput, postCategoryId: string): PostCategory | Promise<PostCategory>;
     updateUser(input: UpdateUserInput, userId: string): User | Promise<User>;
 }
 
@@ -264,6 +298,23 @@ export interface Post extends Base {
     userId?: string;
 }
 
+export interface PostCategory extends Base {
+    active?: boolean;
+    createdAt?: DateTime;
+    id?: string;
+    updatedAt?: DateTime;
+}
+
+export interface PostCategoryConnection {
+    edges: PostCategoryEdge[];
+    pageInfo: PageInfo;
+}
+
+export interface PostCategoryEdge {
+    cursor: ConnectionCursor;
+    node: PostCategory;
+}
+
 export interface PostConnection {
     edges: PostEdge[];
     pageInfo: PageInfo;
@@ -279,6 +330,8 @@ export interface IQuery {
     category(categoryId: string): Category | Promise<Category>;
     me(): User | Promise<User>;
     post(postId: string): Post | Promise<Post>;
+    postCategories(filter?: PostCategoryFilter, paging?: CursorPaging, sorting?: PostCategorySort[]): PostCategoryConnection | Promise<PostCategoryConnection>;
+    postCategory(postCategoryId: string): PostCategory | Promise<PostCategory>;
     posts(filter?: PostFilter, paging?: CursorPaging, sorting?: PostSort[]): PostConnection | Promise<PostConnection>;
     user(userId: string): User | Promise<User>;
     users(filter?: UserFilter, paging?: CursorPaging, sorting?: UserSort[]): UserConnection | Promise<UserConnection>;
