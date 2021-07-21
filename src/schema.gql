@@ -169,11 +169,12 @@ type Mutation {
   deleteUser(userId: String!): User!
   disableCategory(categoryId: String!): Category!
   disablePost(postId: String!): Post!
-  disablePostCategoryId(disablePostCategoryId: String!): PostCategory!
+  disablePostCategoryId(postCategoryId: String!): PostCategory!
   disableUser(userId: String!): User!
   enableCategory(categoryId: String!): Category!
   enablePost(postId: String!): Post!
-  enableUser(postCategoryId: String!): PostCategory!
+  enablePostCategory(postCategoryId: String!): PostCategory!
+  enableUser(userId: String!): User!
   login(input: LoginInput!): TokenModel!
   updateCategory(categoryId: String!, input: UpdateCategoryInput!): Category!
   updatePost(input: UpdatePostInput!, postId: String!): Post!

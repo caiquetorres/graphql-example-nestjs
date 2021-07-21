@@ -165,7 +165,7 @@ export class PostCategoryResolver {
   })
   public async disableOne(
     @Args(
-      'disablePostCategoryId',
+      'postCategoryId',
       {
         nullable: false,
       },
@@ -184,7 +184,7 @@ export class PostCategoryResolver {
    */
   @ProtectTo(RolesEnum.Admin)
   @Mutation(() => PostCategory, {
-    name: 'enableUser',
+    name: 'enablePostCategory',
   })
   public async enableOne(
     @Args(

@@ -266,11 +266,12 @@ export interface IMutation {
     deleteUser(userId: string): User | Promise<User>;
     disableCategory(categoryId: string): Category | Promise<Category>;
     disablePost(postId: string): Post | Promise<Post>;
-    disablePostCategoryId(disablePostCategoryId: string): PostCategory | Promise<PostCategory>;
+    disablePostCategoryId(postCategoryId: string): PostCategory | Promise<PostCategory>;
     disableUser(userId: string): User | Promise<User>;
     enableCategory(categoryId: string): Category | Promise<Category>;
     enablePost(postId: string): Post | Promise<Post>;
-    enableUser(postCategoryId: string): PostCategory | Promise<PostCategory>;
+    enablePostCategory(postCategoryId: string): PostCategory | Promise<PostCategory>;
+    enableUser(userId: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
     updateCategory(categoryId: string, input: UpdateCategoryInput): Category | Promise<Category>;
     updatePost(input: UpdatePostInput, postId: string): Post | Promise<Post>;
