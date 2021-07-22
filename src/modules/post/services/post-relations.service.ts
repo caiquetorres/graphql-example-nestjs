@@ -12,6 +12,7 @@ import { User } from 'src/modules/user/entities/user.entity'
 
 import { QueryCategoryArgs } from 'src/modules/category/dtos/query-category.args'
 
+import { CategoryService } from 'src/modules/category/services/category.service'
 import { UserService } from 'src/modules/user/services/user.service'
 
 /**
@@ -23,6 +24,7 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
     private readonly userService: UserService,
+    private readonly categoryService: CategoryService,
   ) {
     super(postRepository)
   }
@@ -59,5 +61,61 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
       (query) => this.queryRelations(Category, 'categories', post, query),
       queryArgs,
     )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param categoryIds defines an array with entity ids
+   * @returns all the found entities paginated
+   */
+  public async addCategoryByCategoryIdAndPostId(
+    postId: string,
+    categoryIds: string[],
+  ): Promise<Category[]> {
+    const post = await this.postRepository.findOne(postId, {
+      relations: ['categories'],
+    })
+
+    if (!post || !post.active) {
+      throw new EntityNotFoundException(postId, Post)
+    }
+
+    const categories = await this.categoryService.findManyByIds(categoryIds)
+
+    post.categories.push(...categories)
+    await this.postRepository.save(post)
+
+    return categories
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param categoryIds defines an array with entity ids
+   * @returns all the found entities paginated
+   */
+  public async removeCategoryByCategoryIdAndPostId(
+    postId: string,
+    categoryIds: string[],
+  ): Promise<Category[]> {
+    const post = await this.postRepository.findOne(postId, {
+      relations: ['categories'],
+    })
+
+    if (!post || !post.active) {
+      throw new EntityNotFoundException(postId, Post)
+    }
+
+    const categories = await this.categoryService.findManyByIds(categoryIds)
+
+    post.categories = post.categories.filter(
+      (category) => !categories.some((c) => c.id === category.id),
+    )
+    await this.postRepository.save(post)
+
+    return categories
   }
 }

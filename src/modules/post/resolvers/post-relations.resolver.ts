@@ -1,5 +1,6 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
-import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql'
+import { ParseUUIDPipe } from '@nestjs/common'
+import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 
 import { Post } from '../entities/post.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
@@ -56,6 +57,68 @@ export class PostRelationsResolver {
     return await this.postRelationsService.getManyCategoriesByPostId(
       parent.id,
       queryArgs,
+    )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param categoryIds defines an array with entity ids
+   * @returns all the found entities paginated
+   */
+  @Mutation(() => [Category], {
+    name: 'addCategories',
+  })
+  public async addCategories(
+    @Args(
+      'postId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    postId: string,
+    @Args('categoryIds', {
+      type: () => [String],
+      nullable: false,
+    })
+    categoryIds: string[],
+  ): Promise<Category[]> {
+    return await this.postRelationsService.addCategoryByCategoryIdAndPostId(
+      postId,
+      categoryIds,
+    )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param categoryIds defines an array with entity ids
+   * @returns all the found entities paginated
+   */
+  @Mutation(() => [Category], {
+    name: 'removeCategories',
+  })
+  public async removeCategories(
+    @Args(
+      'postId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    postId: string,
+    @Args('categoryIds', {
+      type: () => [String],
+      nullable: false,
+    })
+    categoryIds: string[],
+  ): Promise<Category[]> {
+    return await this.postRelationsService.removeCategoryByCategoryIdAndPostId(
+      postId,
+      categoryIds,
     )
   }
 }

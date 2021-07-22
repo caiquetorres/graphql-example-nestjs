@@ -81,7 +81,13 @@ export class CategoryService extends TypeOrmQueryService<Category> {
     return await this.categoryRepository.findOne(categoryId)
   }
 
-  public async findByIds(categoryIds: string[]): Promise<Category[]> {
+  /**
+   * Method that finds several entities based on the ids
+   *
+   * @param categoryIds defines an array with entity ids
+   * @returns an array with objects that represents the found entities
+   */
+  public async findManyByIds(categoryIds: string[]): Promise<Category[]> {
     return await this.categoryRepository.findByIds(categoryIds)
   }
 
