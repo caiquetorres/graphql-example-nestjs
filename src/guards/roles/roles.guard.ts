@@ -1,10 +1,8 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  ForbiddenException,
-} from '@nestjs/common'
+import { CanActivate, ExecutionContext } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
+
+import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
 
 import { User } from 'src/modules/user/entities/user.entity'
 

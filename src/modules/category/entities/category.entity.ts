@@ -22,15 +22,17 @@ export class Category extends Base {
   })
   public name!: string
 
+  //#endregion
+
   //#region Relations
 
   @ManyToMany(() => Post, (post) => post.categories, {
     onDelete: 'CASCADE',
   })
-  @JoinTable({ name: 'category_post' })
+  @JoinTable({
+    name: 'post_category',
+  })
   public posts: Post[]
-
-  //#endregion
 
   //#endregion
 }

@@ -11,7 +11,9 @@ import {
  * Class the represents a base entity that must be inherited for all of
  * the entities used in the application
  */
-@InterfaceType()
+@InterfaceType({
+  isAbstract: true,
+})
 export abstract class Base {
   @PrimaryGeneratedColumn('uuid')
   @IDField(() => ID, {

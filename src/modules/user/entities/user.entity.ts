@@ -54,14 +54,14 @@ export class User extends Base {
   })
   public roles!: RolesEnum
 
+  //#endregion
+
   //#region Relations
 
   @OneToMany(() => Post, (post) => post.user)
   public posts?: Post[]
 
   // #endregion
-
-  //#endregion
 
   public constructor(partial: Partial<User>) {
     super()

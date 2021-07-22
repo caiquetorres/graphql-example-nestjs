@@ -22,12 +22,11 @@ export class GraphQLConfigService implements GqlOptionsFactory {
     return {
       debug: this.envService.get('GQL_DEBUG'),
       playground: this.envService.get('GQL_PLAYGROUND'),
+      sortSchema: this.envService.get('GQL_SORT_SCHEMA'),
       autoSchemaFile: join(
         process.cwd(),
         this.envService.get('GQL_AUTO_SCHEMA_FILE'),
       ),
-      sortSchema: this.envService.get('GQL_SORT_SCHEMA'),
-      typePaths: this.envService.get('GQL_TYPE_PATHS'),
       definitions: {
         path: join(process.cwd(), this.envService.get('GQL_DEFINITIONS_PATH')),
         outputAs: this.envService.get('GQL_DEFINITIONS_OUTPUT_AS'),

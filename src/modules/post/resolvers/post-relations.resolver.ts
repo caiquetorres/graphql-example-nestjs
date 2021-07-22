@@ -37,72 +37,6 @@ export class PostRelationsResolver {
   }
 
   /**
-   * Method that creates some relations
-   *
-   * @param postId defines the entity id
-   * @param categoryIds defines an array of strings that represents several
-   * entity ids
-   * @returns an object that represents the entity that had their relations
-   * modified
-   */
-  @Mutation(() => Post, {
-    name: 'addCategories',
-  })
-  public async addCategories(
-    @Args(
-      'postId',
-      {
-        nullable: false,
-      },
-      ParseUUIDPipe,
-    )
-    postId: string,
-    @Args('categoryIds', {
-      nullable: false,
-      type: () => [String],
-    })
-    categoryIds: string[],
-  ): Promise<Post> {
-    return await this.postRelationsService.addCategoriesByCategoryIds(
-      postId,
-      categoryIds,
-    )
-  }
-
-  /**
-   * Method that removes some relations
-   *
-   * @param postId defines the entity id
-   * @param categoryIds defines an array of strings that represents several
-   * entity ids
-   * @returns an object that represents the entity that had their relations
-   * modified
-   */
-  @Mutation(() => Post, {
-    name: 'removeCategories',
-  })
-  public async removeCategories(
-    @Args(
-      'postId',
-      {
-        nullable: false,
-      },
-      ParseUUIDPipe,
-    )
-    postId: string,
-    @Args('categoryIds', {
-      nullable: false,
-      type: () => [String],
-    })
-    categoryIds: string[],
-  ): Promise<Post> {
-    return await this.postRelationsService.removeCategoriesByCategoryIds(
-      postId,
-      categoryIds,
-    )
-  }
-
-  /**
    * Method that searches for entities based on the sent query
    *
    * @param queryArgs defines the how the data will be returned
@@ -123,6 +57,68 @@ export class PostRelationsResolver {
     return await this.postRelationsService.getManyCategoriesByPostId(
       parent.id,
       queryArgs,
+    )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param categoryIds defines an array with entity ids
+   * @returns all the found entities paginated
+   */
+  @Mutation(() => [Category], {
+    name: 'addCategories',
+  })
+  public async addCategories(
+    @Args(
+      'postId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    postId: string,
+    @Args('categoryIds', {
+      type: () => [String],
+      nullable: false,
+    })
+    categoryIds: string[],
+  ): Promise<Category[]> {
+    return await this.postRelationsService.addCategoryByCategoryIdAndPostId(
+      postId,
+      categoryIds,
+    )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param categoryIds defines an array with entity ids
+   * @returns all the found entities paginated
+   */
+  @Mutation(() => [Category], {
+    name: 'removeCategories',
+  })
+  public async removeCategories(
+    @Args(
+      'postId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    postId: string,
+    @Args('categoryIds', {
+      type: () => [String],
+      nullable: false,
+    })
+    categoryIds: string[],
+  ): Promise<Category[]> {
+    return await this.postRelationsService.removeCategoryByCategoryIdAndPostId(
+      postId,
+      categoryIds,
     )
   }
 }
