@@ -10,6 +10,7 @@ import { User } from 'src/modules/user/entities/user.entity'
 
 import { CreateCommentInput } from '../dtos/create-comment.input'
 import { QueryCommentsArgs } from '../dtos/query-comments.args'
+import { UpdateCommentInput } from '../dtos/update-comment.input'
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { CommentService } from '../services/comment.service'
@@ -19,7 +20,7 @@ import { CommentService } from '../services/comment.service'
  */
 @Resolver(() => Comment)
 export class CommentResolver {
-  public constructor(private readonly reviewService: CommentService) {}
+  public constructor(private readonly commentService: CommentService) {}
 
   /**
    * Method that creates a new entity based on the sent payload
@@ -41,7 +42,7 @@ export class CommentResolver {
     @CurrentUser()
     currentUser: User,
   ): Promise<Comment> {
-    return await this.reviewService.insertOne(createCommentInput, currentUser)
+    return await this.commentService.insertOne(createCommentInput, currentUser)
   }
 
   /**
@@ -58,7 +59,7 @@ export class CommentResolver {
     @Args()
     queryArgs: QueryCommentsArgs,
   ): Promise<ConnectionType<Comment>> {
-    return await this.reviewService.getMany(queryArgs)
+    return await this.commentService.getMany(queryArgs)
   }
 
   /**
@@ -80,6 +81,122 @@ export class CommentResolver {
     )
     commentId: string,
   ): Promise<Comment> {
-    return await this.reviewService.getOne(commentId)
+    return await this.commentService.getOne(commentId)
+  }
+
+  /**
+   * Method that updates some data of some entity
+   *
+   * @param commentId defines the entity id
+   * @param updateCommentInput defines an object that has the new entity data
+   * @param currentUser defines an object that represents the
+   * request user data
+   */
+  @ProtectTo(RolesEnum.Common, RolesEnum.Admin)
+  @Mutation(() => Comment, {
+    name: 'updatedComment',
+  })
+  public async changeOne(
+    @Args(
+      'commentId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    commentId: string,
+    @Args('input', {
+      type: () => UpdateCommentInput,
+    })
+    updateCommentInput: UpdateCommentInput,
+    @CurrentUser()
+    currentUser: User,
+  ): Promise<Comment> {
+    return await this.commentService.changeOne(
+      commentId,
+      updateCommentInput,
+      currentUser,
+    )
+  }
+
+  /**
+   * Method that deletes some entity
+   *
+   * @param commentId defines the entity id
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @returns an object that represents the deleted entity
+   */
+  @ProtectTo(RolesEnum.Common, RolesEnum.Admin)
+  @Mutation(() => Comment, {
+    name: 'deleteComment',
+  })
+  public async removeOne(
+    @Args(
+      'commentId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    commentId: string,
+    @CurrentUser()
+    currentUser: User,
+  ): Promise<Comment> {
+    return await this.commentService.removeOne(commentId, currentUser)
+  }
+
+  /**
+   * Method that disables some entity
+   *
+   * @param commentId defines the entity id
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @returns an object that represents the disabled entity
+   */
+  @ProtectTo(RolesEnum.Admin)
+  @Mutation(() => Comment, {
+    name: 'disableComment',
+  })
+  public async disableOne(
+    @Args(
+      'commentId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    commentId: string,
+    @CurrentUser()
+    currentUser: User,
+  ): Promise<Comment> {
+    return await this.commentService.disableOne(commentId, currentUser)
+  }
+
+  /**
+   * Method that enables some entity
+   *
+   * @param commentId defines the entity id
+   * @param currentUser defines an object that represents the
+   * request user data
+   * @returns an object that represents the enabled entity
+   */
+  @ProtectTo(RolesEnum.Admin)
+  @Mutation(() => Comment, {
+    name: 'enableComment',
+  })
+  public async enableOne(
+    @Args(
+      'commentId',
+      {
+        nullable: false,
+      },
+      ParseUUIDPipe,
+    )
+    commentId: string,
+    @CurrentUser()
+    currentUser: User,
+  ): Promise<Comment> {
+    return await this.commentService.enableOne(commentId, currentUser)
   }
 }
