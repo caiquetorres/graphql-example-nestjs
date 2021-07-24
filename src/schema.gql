@@ -76,9 +76,11 @@ type Comment implements Base {
   active: Boolean
   createdAt: DateTime
   id: ID
+  post: Post!
   postId: String
   text: String
   updatedAt: DateTime
+  user: User!
   userId: String
 }
 

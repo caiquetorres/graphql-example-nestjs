@@ -265,9 +265,11 @@ export interface Comment extends Base {
     active?: boolean;
     createdAt?: DateTime;
     id?: string;
+    post: Post;
     postId?: string;
     text?: string;
     updatedAt?: DateTime;
+    user: User;
     userId?: string;
 }
 
