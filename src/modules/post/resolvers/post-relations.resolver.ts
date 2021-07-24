@@ -4,9 +4,11 @@ import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 
 import { Post } from '../entities/post.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
+import { Comment } from 'src/modules/comment/entities/comment.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 import { QueryCategoryArgs } from 'src/modules/category/dtos/query-category.args'
+import { QueryCommentsArgs } from 'src/modules/comment/dtos/query-comments.args'
 
 import { PostRelationsService } from '../services/post-relations.service'
 
@@ -33,28 +35,52 @@ export class PostRelationsResolver {
     @Parent()
     parent: Post,
   ): Promise<User> {
-    return await this.postRelationsService.getOneUserByUserId(parent.userId)
+    return await this.postRelationsService.getOneUserByPostId(parent.id)
   }
 
   /**
    * Method that searches for entities based on the sent query
    *
-   * @param queryArgs defines the how the data will be returned
-   * (paging, filtering and sorting)
    * @param parent defines an object that represents the parent of the
    * current sent query
+   * @param queryArgs defines the how the data will be returned
+   * (paging, filtering and sorting)
    * @returns all the found entities paginated
    */
   @ResolveField(() => QueryCategoryArgs.ConnectionType, {
     name: 'categories',
   })
   public async getManyCategories(
-    @Args()
-    queryArgs: QueryCategoryArgs,
     @Parent()
     parent: Post,
+    @Args()
+    queryArgs: QueryCategoryArgs,
   ): Promise<ConnectionType<Category>> {
     return await this.postRelationsService.getManyCategoriesByPostId(
+      parent.id,
+      queryArgs,
+    )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param parent defines an object that represents the parent of the
+   * current sent query
+   * @param queryArgs defines the how the data will be returned
+   * (paging, filtering and sorting)
+   * @returns all the found entities paginated
+   */
+  @ResolveField(() => QueryCommentsArgs.ConnectionType, {
+    name: 'comments',
+  })
+  public async getManyComments(
+    @Parent()
+    parent: Post,
+    @Args()
+    queryArgs: QueryCommentsArgs,
+  ): Promise<ConnectionType<Comment>> {
+    return await this.postRelationsService.getManyCommentsByPostId(
       parent.id,
       queryArgs,
     )

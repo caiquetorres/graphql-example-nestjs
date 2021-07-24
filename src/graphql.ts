@@ -15,6 +15,16 @@ export enum CategorySortFields {
     updatedAt = "updatedAt"
 }
 
+export enum CommentSortFields {
+    active = "active",
+    createdAt = "createdAt",
+    id = "id",
+    postId = "postId",
+    text = "text",
+    updatedAt = "updatedAt",
+    userId = "userId"
+}
+
 export enum PostSortFields {
     active = "active",
     createdAt = "createdAt",
@@ -65,8 +75,32 @@ export interface CategorySort {
     nulls?: SortNulls;
 }
 
+export interface CommentFilter {
+    active?: BooleanFieldComparison;
+    and?: CommentFilter[];
+    createdAt?: DateFieldComparison;
+    id?: IDFilterComparison;
+    or?: CommentFilter[];
+    postId?: StringFieldComparison;
+    text?: StringFieldComparison;
+    updatedAt?: DateFieldComparison;
+    userId?: StringFieldComparison;
+}
+
+export interface CommentSort {
+    direction: SortDirection;
+    field: CommentSortFields;
+    nulls?: SortNulls;
+}
+
 export interface CreateCategoryInput {
     name: string;
+}
+
+export interface CreateCommentInput {
+    postId: string;
+    text?: string;
+    userId: string;
 }
 
 export interface CreatePostInput {
@@ -170,6 +204,10 @@ export interface UpdateCategoryInput {
     name?: string;
 }
 
+export interface UpdateCommentInput {
+    text?: string;
+}
+
 export interface UpdatePostInput {
     description?: string;
     imageUrl?: string;
@@ -223,18 +261,44 @@ export interface CategoryEdge {
     node: Category;
 }
 
+export interface Comment extends Base {
+    active?: boolean;
+    createdAt?: DateTime;
+    id?: string;
+    post: Post;
+    postId?: string;
+    text?: string;
+    updatedAt?: DateTime;
+    user: User;
+    userId?: string;
+}
+
+export interface CommentConnection {
+    edges: CommentEdge[];
+    pageInfo: PageInfo;
+}
+
+export interface CommentEdge {
+    cursor: ConnectionCursor;
+    node: Comment;
+}
+
 export interface IMutation {
     addCategories(categoryIds: string[], postId: string): Category[] | Promise<Category[]>;
     createCategory(input: CreateCategoryInput): Category | Promise<Category>;
+    createComment(input: CreateCommentInput): Comment | Promise<Comment>;
     createPost(input: CreatePostInput): Post | Promise<Post>;
     createUser(input: CreateUserInput): User | Promise<User>;
     deleteCategory(categoryId: string): Category | Promise<Category>;
+    deleteComment(commentId: string): Comment | Promise<Comment>;
     deletePost(postId: string): Post | Promise<Post>;
     deleteUser(userId: string): User | Promise<User>;
     disableCategory(categoryId: string): Category | Promise<Category>;
+    disableComment(commentId: string): Comment | Promise<Comment>;
     disablePost(postId: string): Post | Promise<Post>;
     disableUser(userId: string): User | Promise<User>;
     enableCategory(categoryId: string): Category | Promise<Category>;
+    enableComment(commentId: string): Comment | Promise<Comment>;
     enablePost(postId: string): Post | Promise<Post>;
     enableUser(userId: string): User | Promise<User>;
     login(input: LoginInput): TokenModel | Promise<TokenModel>;
@@ -242,6 +306,7 @@ export interface IMutation {
     updateCategory(categoryId: string, input: UpdateCategoryInput): Category | Promise<Category>;
     updatePost(input: UpdatePostInput, postId: string): Post | Promise<Post>;
     updateUser(input: UpdateUserInput, userId: string): User | Promise<User>;
+    updatedComment(commentId: string, input: UpdateCommentInput): Comment | Promise<Comment>;
 }
 
 export interface PageInfo {
@@ -254,6 +319,7 @@ export interface PageInfo {
 export interface Post extends Base {
     active?: boolean;
     categories: CategoryConnection;
+    comments: CommentConnection;
     createdAt?: DateTime;
     description?: string;
     id?: string;
@@ -277,6 +343,8 @@ export interface PostEdge {
 export interface IQuery {
     categories(filter?: CategoryFilter, paging?: CursorPaging, sorting?: CategorySort[]): CategoryConnection | Promise<CategoryConnection>;
     category(categoryId: string): Category | Promise<Category>;
+    comment(commentId: string): Comment | Promise<Comment>;
+    comments(filter?: CommentFilter, paging?: CursorPaging, sorting?: CommentSort[]): CommentConnection | Promise<CommentConnection>;
     me(): User | Promise<User>;
     post(postId: string): Post | Promise<Post>;
     posts(filter?: PostFilter, paging?: CursorPaging, sorting?: PostSort[]): PostConnection | Promise<PostConnection>;
@@ -291,6 +359,7 @@ export interface TokenModel {
 
 export interface User extends Base {
     active?: boolean;
+    comments: CommentConnection;
     createdAt?: DateTime;
     email?: string;
     id?: string;

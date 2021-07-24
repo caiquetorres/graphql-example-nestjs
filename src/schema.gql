@@ -72,11 +72,73 @@ enum CategorySortFields {
   updatedAt
 }
 
+type Comment implements Base {
+  active: Boolean
+  createdAt: DateTime
+  id: ID
+  post: Post!
+  postId: String
+  text: String
+  updatedAt: DateTime
+  user: User!
+  userId: String
+}
+
+type CommentConnection {
+  """Array of edges."""
+  edges: [CommentEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
+type CommentEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the Comment"""
+  node: Comment!
+}
+
+input CommentFilter {
+  active: BooleanFieldComparison
+  and: [CommentFilter!]
+  createdAt: DateFieldComparison
+  id: IDFilterComparison
+  or: [CommentFilter!]
+  postId: StringFieldComparison
+  text: StringFieldComparison
+  updatedAt: DateFieldComparison
+  userId: StringFieldComparison
+}
+
+input CommentSort {
+  direction: SortDirection!
+  field: CommentSortFields!
+  nulls: SortNulls
+}
+
+enum CommentSortFields {
+  active
+  createdAt
+  id
+  postId
+  text
+  updatedAt
+  userId
+}
+
 """Cursor for paging through collections"""
 scalar ConnectionCursor
 
 input CreateCategoryInput {
   name: String!
+}
+
+input CreateCommentInput {
+  postId: String!
+  text: String
+  userId: String!
 }
 
 input CreatePostInput {
@@ -156,15 +218,19 @@ input LoginInput {
 type Mutation {
   addCategories(categoryIds: [String!]!, postId: String!): [Category!]!
   createCategory(input: CreateCategoryInput!): Category!
+  createComment(input: CreateCommentInput!): Comment!
   createPost(input: CreatePostInput!): Post!
   createUser(input: CreateUserInput!): User!
   deleteCategory(categoryId: String!): Category!
+  deleteComment(commentId: String!): Comment!
   deletePost(postId: String!): Post!
   deleteUser(userId: String!): User!
   disableCategory(categoryId: String!): Category!
+  disableComment(commentId: String!): Comment!
   disablePost(postId: String!): Post!
   disableUser(userId: String!): User!
   enableCategory(categoryId: String!): Category!
+  enableComment(commentId: String!): Comment!
   enablePost(postId: String!): Post!
   enableUser(userId: String!): User!
   login(input: LoginInput!): TokenModel!
@@ -172,6 +238,7 @@ type Mutation {
   updateCategory(categoryId: String!, input: UpdateCategoryInput!): Category!
   updatePost(input: UpdatePostInput!, postId: String!): Post!
   updateUser(input: UpdateUserInput!, userId: String!): User!
+  updatedComment(commentId: String!, input: UpdateCommentInput!): Comment!
 }
 
 type PageInfo {
@@ -200,6 +267,16 @@ type Post implements Base {
     """Specify to sort results."""
     sorting: [CategorySort!] = []
   ): CategoryConnection!
+  comments(
+    """Specify to filter the records returned."""
+    filter: CommentFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [CommentSort!] = []
+  ): CommentConnection!
   createdAt: DateTime
   description: String
   id: ID
@@ -266,6 +343,17 @@ type Query {
     sorting: [CategorySort!] = []
   ): CategoryConnection!
   category(categoryId: String!): Category!
+  comment(commentId: String!): Comment!
+  comments(
+    """Specify to filter the records returned."""
+    filter: CommentFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [CommentSort!] = []
+  ): CommentConnection!
   me: User!
   post(postId: String!): Post!
   posts(
@@ -329,6 +417,10 @@ input UpdateCategoryInput {
   name: String
 }
 
+input UpdateCommentInput {
+  text: String
+}
+
 input UpdatePostInput {
   description: String
   imageUrl: String
@@ -341,6 +433,16 @@ input UpdateUserInput {
 
 type User implements Base {
   active: Boolean
+  comments(
+    """Specify to filter the records returned."""
+    filter: CommentFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [CommentSort!] = []
+  ): CommentConnection!
   createdAt: DateTime
   email: String
   id: ID

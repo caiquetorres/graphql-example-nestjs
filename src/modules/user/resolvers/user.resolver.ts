@@ -106,9 +106,9 @@ export class UserResolver {
    * Method that updates some data of some entity
    *
    * @param userId defines the entity id
+   * @param updateUserInput defines an object that has the new entity data
    * @param currentUser defines an object that represents the
    * request user data
-   * @param updateUserInput defines an object that has the new entity data
    */
   @ProtectTo(RolesEnum.Admin, RolesEnum.Common)
   @Mutation(() => User, {

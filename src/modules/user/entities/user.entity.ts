@@ -3,6 +3,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 import { Column, Entity, OneToMany } from 'typeorm'
 
 import { Base } from 'src/common/base.entity'
+import { Comment } from 'src/modules/comment/entities/comment.entity'
 import { Post } from 'src/modules/post/entities/post.entity'
 
 import { RolesEnum } from 'src/models/enums/roles.enum'
@@ -60,6 +61,9 @@ export class User extends Base {
 
   @OneToMany(() => Post, (post) => post.user)
   public posts?: Post[]
+
+  @OneToMany(() => Comment, (review) => review.user)
+  public comments: Comment[]
 
   // #endregion
 
