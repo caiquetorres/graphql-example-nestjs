@@ -442,7 +442,7 @@ type User implements Base {
 
     """Specify to sort results."""
     sorting: [CommentSort!] = []
-  ): PostConnection!
+  ): CommentConnection!
   createdAt: DateTime
   email: String
   id: ID

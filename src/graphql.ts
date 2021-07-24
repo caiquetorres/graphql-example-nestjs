@@ -359,7 +359,7 @@ export interface TokenModel {
 
 export interface User extends Base {
     active?: boolean;
-    comments: PostConnection;
+    comments: CommentConnection;
     createdAt?: DateTime;
     email?: string;
     id?: string;

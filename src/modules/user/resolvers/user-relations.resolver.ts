@@ -52,7 +52,7 @@ export class UserRelationsResolver {
    * (paging, filtering and sorting)
    * @returns all the found entities paginated
    */
-  @ResolveField(() => QueryPostsArgs.ConnectionType, {
+  @ResolveField(() => QueryCommentsArgs.ConnectionType, {
     name: 'comments',
   })
   public async getManyComments(
