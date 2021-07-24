@@ -11,7 +11,7 @@ import {
 
 import { Base } from 'src/common/base.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
-import { Review } from 'src/modules/review/entities/review.entity'
+import { Comment } from 'src/modules/comment/entities/comment.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 /**
@@ -69,8 +69,8 @@ export class Post extends Base {
   })
   public user!: User
 
-  @OneToMany(() => Review, (review) => review.post)
-  public reviews: Review[]
+  @OneToMany(() => Comment, (review) => review.post)
+  public reviews: Comment[]
 
   @ManyToMany(() => Category, (category) => category.posts, {
     onDelete: 'CASCADE',

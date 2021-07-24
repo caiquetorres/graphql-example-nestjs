@@ -2,12 +2,12 @@ import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { Review } from '../entities/review.entity'
+import { Comment } from '../entities/comment.entity'
 
-export class ReviewRelationsService extends TypeOrmQueryService<Review> {
+export class CommentRelationsService extends TypeOrmQueryService<Comment> {
   public constructor(
-    @InjectRepository(Review)
-    public readonly reviewRepository: Repository<Review>,
+    @InjectRepository(Comment)
+    public readonly reviewRepository: Repository<Comment>,
   ) {
     super(reviewRepository)
   }

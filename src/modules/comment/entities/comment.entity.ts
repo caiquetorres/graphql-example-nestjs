@@ -10,18 +10,8 @@ import { User } from 'src/modules/user/entities/user.entity'
 @ObjectType({
   implements: [Base],
 })
-export class Review extends Base {
+export class Comment extends Base {
   //#region Columns
-
-  @Column({
-    type: 'int',
-    default: 1,
-    nullable: false,
-  })
-  @FilterableField({
-    nullable: true,
-  })
-  public stars: number
 
   @Column({
     type: 'text',
@@ -32,13 +22,13 @@ export class Review extends Base {
   })
   public text: string
 
-  @RelationId((review: Review) => review.user)
+  @RelationId((review: Comment) => review.user)
   @FilterableField({
     nullable: true,
   })
   public userId: string
 
-  @RelationId((review: Review) => review.post)
+  @RelationId((review: Comment) => review.post)
   @FilterableField({
     nullable: true,
   })
@@ -60,7 +50,7 @@ export class Review extends Base {
 
   //#endregion
 
-  public constructor(partial: Partial<Review>) {
+  public constructor(partial: Partial<Comment>) {
     super()
     Object.assign(this, partial)
   }
