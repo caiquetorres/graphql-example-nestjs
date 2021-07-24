@@ -1,9 +1,17 @@
 import { FilterableField } from '@nestjs-query/query-graphql'
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-import { Column, Entity, ManyToMany, ManyToOne, RelationId } from 'typeorm'
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  RelationId,
+} from 'typeorm'
 
 import { Base } from 'src/common/base.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
+import { Review } from 'src/modules/review/entities/review.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 /**
@@ -60,6 +68,9 @@ export class Post extends Base {
     nullable: false,
   })
   public user!: User
+
+  @OneToMany(() => Review, (review) => review.post)
+  public reviews: Review[]
 
   @ManyToMany(() => Category, (category) => category.posts, {
     onDelete: 'CASCADE',

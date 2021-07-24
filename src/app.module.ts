@@ -12,6 +12,7 @@ import { EnvModule } from './modules/env/env.module'
 import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
+import { ReviewModule } from './modules/review/review.module'
 import { UserModule } from './modules/user/user.module'
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
 import * as path from 'path'
@@ -24,6 +25,7 @@ import * as path from 'path'
     UserModule,
     PostModule,
     CategoryModule,
+    ReviewModule,
     EnvModule.forRoot({
       envFilePath: ['.env'],
     }),

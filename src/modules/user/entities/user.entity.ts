@@ -4,6 +4,7 @@ import { Column, Entity, OneToMany } from 'typeorm'
 
 import { Base } from 'src/common/base.entity'
 import { Post } from 'src/modules/post/entities/post.entity'
+import { Review } from 'src/modules/review/entities/review.entity'
 
 import { RolesEnum } from 'src/models/enums/roles.enum'
 
@@ -60,6 +61,9 @@ export class User extends Base {
 
   @OneToMany(() => Post, (post) => post.user)
   public posts?: Post[]
+
+  @OneToMany(() => Review, (review) => review.user)
+  public reviews: Review[]
 
   // #endregion
 

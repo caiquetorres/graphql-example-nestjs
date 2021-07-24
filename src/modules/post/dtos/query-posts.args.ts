@@ -1,11 +1,11 @@
 import { QueryArgsType } from '@nestjs-query/query-graphql'
 import { ArgsType } from '@nestjs/graphql'
 
-import { Post } from '../entities/post.entity'
+import { Review } from 'src/modules/review/entities/review.entity'
 
 /**
  * The class that represents the arguments sent to the api for
- * fetching posts
+ * fetching reviews
  */
 @ArgsType()
-export class QueryPostsArgs extends QueryArgsType(Post) {}
+export class QueryReviewArgs extends QueryArgsType(Review) {}
