@@ -25,7 +25,6 @@ export class Review extends Base {
 
   @Column({
     type: 'text',
-    length: 500,
     nullable: true,
   })
   @FilterableField({
