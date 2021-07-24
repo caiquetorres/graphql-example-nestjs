@@ -101,7 +101,7 @@ export class CommentService extends TypeOrmQueryService<Comment> {
     const comment = await this.commentRepository.findOne(commentId)
 
     if (!comment || !comment.active) {
-      throw new EntityNotFoundException(commentId, User)
+      throw new EntityNotFoundException(commentId, Comment)
     }
 
     return comment
@@ -124,7 +124,7 @@ export class CommentService extends TypeOrmQueryService<Comment> {
     const comment = await this.commentRepository.findOne(commentId)
 
     if (!comment || !comment.active) {
-      throw new EntityNotFoundException(commentId, User)
+      throw new EntityNotFoundException(commentId, Comment)
     }
 
     if (!this.permissionService.hasPermission(currentUser, commentId)) {
@@ -152,7 +152,7 @@ export class CommentService extends TypeOrmQueryService<Comment> {
     const commment = await this.commentRepository.findOne(commentId)
 
     if (!commment || !commment.active) {
-      throw new EntityNotFoundException(commentId, User)
+      throw new EntityNotFoundException(commentId, Comment)
     }
 
     if (!this.permissionService.hasPermission(currentUser, commentId)) {
@@ -179,11 +179,11 @@ export class CommentService extends TypeOrmQueryService<Comment> {
     const comment = await this.commentRepository.findOne(commentId)
 
     if (!comment) {
-      throw new EntityNotFoundException(commentId, User)
+      throw new EntityNotFoundException(commentId, Comment)
     }
 
     if (!comment.active) {
-      throw new EntityAlreadyDisabledException(commentId, User)
+      throw new EntityAlreadyDisabledException(commentId, Comment)
     }
 
     if (!this.permissionService.hasPermission(currentUser, commentId)) {
@@ -208,14 +208,14 @@ export class CommentService extends TypeOrmQueryService<Comment> {
     commentId: string,
     currentUser: User,
   ): Promise<Comment> {
-    const user = await this.commentRepository.findOne(commentId)
+    const comment = await this.commentRepository.findOne(commentId)
 
-    if (!user) {
-      throw new EntityNotFoundException(commentId, User)
+    if (!comment) {
+      throw new EntityNotFoundException(commentId, Comment)
     }
 
-    if (user.active) {
-      throw new EntityAlreadyEnabledException(commentId, User)
+    if (comment.active) {
+      throw new EntityAlreadyEnabledException(commentId, Comment)
     }
 
     if (!this.permissionService.hasPermission(currentUser, commentId)) {
@@ -223,7 +223,7 @@ export class CommentService extends TypeOrmQueryService<Comment> {
     }
 
     return await this.commentRepository.save({
-      ...user,
+      ...comment,
       active: true,
     })
   }
