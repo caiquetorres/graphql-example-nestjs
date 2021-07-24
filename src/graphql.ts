@@ -319,6 +319,7 @@ export interface PageInfo {
 export interface Post extends Base {
     active?: boolean;
     categories: CategoryConnection;
+    comments: CommentConnection;
     createdAt?: DateTime;
     description?: string;
     id?: string;

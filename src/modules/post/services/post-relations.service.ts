@@ -8,9 +8,11 @@ import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-
 
 import { Post } from '../entities/post.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
+import { Comment } from 'src/modules/comment/entities/comment.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 
 import { QueryCategoryArgs } from 'src/modules/category/dtos/query-category.args'
+import { QueryCommentsArgs } from 'src/modules/comment/dtos/query-comments.args'
 
 import { CategoryService } from 'src/modules/category/services/category.service'
 
@@ -57,6 +59,26 @@ export class PostRelationsService extends TypeOrmQueryService<Post> {
 
     return await QueryCategoryArgs.ConnectionType.createFromPromise(
       (query) => this.queryRelations(Category, 'categories', post, query),
+      queryArgs,
+    )
+  }
+
+  /**
+   * Method that searches for entities based on the sent query
+   *
+   * @param postId defines the entity id
+   * @param queryArgs defines the how the data will be returned
+   * (paging, filtering and sorting)
+   * @returns all the found entities paginated
+   */
+  public async getManyCommentsByPostId(
+    postId: string,
+    queryArgs: QueryCommentsArgs,
+  ): Promise<ConnectionType<Comment>> {
+    const post = await this.postRepository.findOne(postId)
+
+    return await QueryCommentsArgs.ConnectionType.createFromPromise(
+      (query) => this.queryRelations(Comment, 'comments', post, query),
       queryArgs,
     )
   }

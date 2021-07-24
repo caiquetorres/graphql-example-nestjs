@@ -267,6 +267,16 @@ type Post implements Base {
     """Specify to sort results."""
     sorting: [CategorySort!] = []
   ): CategoryConnection!
+  comments(
+    """Specify to filter the records returned."""
+    filter: CommentFilter = {}
+
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [CommentSort!] = []
+  ): CommentConnection!
   createdAt: DateTime
   description: String
   id: ID
