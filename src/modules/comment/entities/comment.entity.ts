@@ -38,12 +38,12 @@ export class Comment extends Base {
 
   //#region Relations
 
-  @ManyToOne(() => User, (user) => user.reviews, {
+  @ManyToOne(() => User, (user) => user.comments, {
     onDelete: 'CASCADE',
   })
   public user: User
 
-  @ManyToOne(() => Post, (post) => post.reviews, {
+  @ManyToOne(() => Post, (post) => post.comments, {
     onDelete: 'CASCADE',
   })
   public post: Post

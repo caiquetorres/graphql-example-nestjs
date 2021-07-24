@@ -70,7 +70,7 @@ export class Post extends Base {
   public user!: User
 
   @OneToMany(() => Comment, (review) => review.post)
-  public reviews: Comment[]
+  public comments: Comment[]
 
   @ManyToMany(() => Category, (category) => category.posts, {
     onDelete: 'CASCADE',

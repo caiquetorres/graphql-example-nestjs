@@ -63,7 +63,7 @@ export class User extends Base {
   public posts?: Post[]
 
   @OneToMany(() => Comment, (review) => review.user)
-  public reviews: Comment[]
+  public comments: Comment[]
 
   // #endregion
 
