@@ -24,7 +24,7 @@ export class CommentRelationsService extends TypeOrmQueryService<Comment> {
    * @param commentId defines the entity id
    * @returns an object that represents the found entity
    */
-  public async getUserByCommentId(commentId: string): Promise<User> {
+  public async getOneUserByCommentId(commentId: string): Promise<User> {
     return await this.commentRepository
       .findOne(commentId, {
         relations: ['user'],
@@ -38,7 +38,7 @@ export class CommentRelationsService extends TypeOrmQueryService<Comment> {
    * @param commentId defines the entity id
    * @returns an object that represents the found entity
    */
-  public async getPostByCommentId(commentId: string): Promise<Post> {
+  public async getOnePostByCommentId(commentId: string): Promise<Post> {
     return await this.commentRepository
       .findOne(commentId, {
         relations: ['post'],

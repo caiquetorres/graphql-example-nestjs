@@ -33,7 +33,7 @@ export class PostRelationsResolver {
     @Parent()
     parent: Post,
   ): Promise<User> {
-    return await this.postRelationsService.getOneUserByUserId(parent.userId)
+    return await this.postRelationsService.getOneUserByPostId(parent.id)
   }
 
   /**

@@ -29,7 +29,7 @@ export class CommentRelationsResolver {
     @Parent()
     parent: Comment,
   ): Promise<User> {
-    return await this.commentRelationsService.getUserByCommentId(parent.id)
+    return await this.commentRelationsService.getOneUserByCommentId(parent.id)
   }
 
   /**
@@ -46,6 +46,6 @@ export class CommentRelationsResolver {
     @Parent()
     parent: Comment,
   ): Promise<Post> {
-    return await this.commentRelationsService.getPostByCommentId(parent.id)
+    return await this.commentRelationsService.getOnePostByCommentId(parent.id)
   }
 }
