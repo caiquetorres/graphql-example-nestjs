@@ -46,7 +46,7 @@ import * as path from 'path'
           pt: 'pt-BR',
         },
         parserOptions: {
-          path: path.join(__dirname, '/i18n/'),
+          path: path.join(__dirname, '../i18n/'),
           watch: true,
         },
       }),
