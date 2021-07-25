@@ -23,7 +23,10 @@ export class AuthResolver {
    */
   @Mutation(() => TokenModel)
   public async login(
-    @Args('input', { type: () => LoginInput }) loginInput: LoginInput,
+    @Args('input', {
+      type: () => LoginInput,
+    })
+    loginInput: LoginInput,
   ): Promise<TokenModel> {
     return await this.authService.login(loginInput)
   }
