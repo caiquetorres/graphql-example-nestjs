@@ -12,8 +12,8 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@graphql-example/google-sign-in": ["libs/google-sign-in/src"],
-      "@graphql-example/google-sign-in/*": ["libs/google-sign-in/src/*"]
+      "@graphql-example/google-auth": ["libs/google-auth/src"],
+      "@graphql-example/google-auth/*": ["libs/google-auth/src/*"]
     }
   },
   "include": ["src/**/*", "libs/**/*"],

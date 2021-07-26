@@ -103,8 +103,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "@graphql-example/google-sign-in/(.*)": "<rootDir>/libs/google-sign-in/src/$1",
-      "@graphql-example/google-sign-in": "<rootDir>/libs/google-sign-in/src"
+      "@graphql-example/google-auth/(.*)": "<rootDir>/libs/google-auth/src/$1",
+      "@graphql-example/google-auth": "<rootDir>/libs/google-auth/src"
     }
   }
 }

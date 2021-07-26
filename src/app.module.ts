@@ -14,7 +14,7 @@ import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
-import { GoogleSignInModule } from '@graphql-example/google-sign-in'
+import { GoogleAuthModule } from 'libs/google-auth/src'
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
 import * as path from 'path'
 
@@ -52,7 +52,7 @@ import * as path from 'path'
         },
       }),
     }),
-    GoogleSignInModule.forRootAsync({
+    GoogleAuthModule.forRootAsync({
       inject: [EnvService],
       useFactory: (envService: EnvService) => ({
         clientId: envService.get('GOOGLE_CLIENT_ID'),

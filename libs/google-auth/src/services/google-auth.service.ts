@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
 
 import { ModuleConstant } from '../constants/module.constant'
-import { GoogleSignInModuleOptions } from '../interfaces/google-sign-in-module-options.interface'
-import { GoogleUser } from '../interfaces/google-user.interface'
+import { GoogleAuthModuleOptions } from '../interfaces/google-auth-module-options.interface'
+import { User } from '../interfaces/google-user.interface'
 import { OAuth2Client } from 'google-auth-library'
 
 /**
@@ -10,7 +10,7 @@ import { OAuth2Client } from 'google-auth-library'
  * data
  */
 @Injectable()
-export class GoogleSignInService {
+export class GoogleAuthService {
   /**
    * Property that represents the google client
    */
@@ -18,11 +18,11 @@ export class GoogleSignInService {
 
   public constructor(
     @Inject(ModuleConstant.GOOGLE_SIGN_IN_MODULE_OPTIONS)
-    private readonly googleSignInModuleOptions: GoogleSignInModuleOptions,
+    private readonly googleAuthModuleOptions: GoogleAuthModuleOptions,
   ) {
     this.oath2Client = new OAuth2Client({
-      clientId: googleSignInModuleOptions.clientId,
-      clientSecret: googleSignInModuleOptions.clientSecret,
+      clientId: googleAuthModuleOptions.clientId,
+      clientSecret: googleAuthModuleOptions.clientSecret,
     })
   }
 
@@ -32,7 +32,7 @@ export class GoogleSignInService {
    * @param token defines the google token
    * @returns an object that represents the user got from google
    */
-  public async getProfileByToken(token: string): Promise<GoogleUser> {
+  public async getProfileByToken(token: string): Promise<User> {
     if (token.includes('Bearer')) {
       token = token.split(' ')[1]
     }
@@ -40,7 +40,7 @@ export class GoogleSignInService {
     const payload = await this.oath2Client
       .verifyIdToken({
         idToken: token,
-        audience: [this.googleSignInModuleOptions.clientId],
+        audience: [this.googleAuthModuleOptions.clientId],
       })
       .then((ticket) => ticket.getPayload())
 

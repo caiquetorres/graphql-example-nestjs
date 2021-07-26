@@ -1,9 +1,5 @@
 {
-  "moduleFileExtensions": [
-    "js",
-    "json",
-    "ts"
-  ],
+  "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
@@ -11,7 +7,7 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "@graphql-example/google-sign-in/(.*)": "<rootDir>/../libs/google-sign-in/src/$1",
-    "@graphql-example/google-sign-in": "<rootDir>/../libs/google-sign-in/src"
+    "@graphql-example/google-auth/(.*)": "<rootDir>/../libs/google-auth/src/$1",
+    "@graphql-example/google-auth": "<rootDir>/../libs/google-auth/src"
   }
 }

@@ -5,13 +5,13 @@
     "assets": ["/i18n/**/*"]
   },
   "projects": {
-    "google-sign-in": {
+    "google-auth": {
       "type": "library",
-      "root": "libs/google-sign-in",
+      "root": "libs/google-auth",
       "entryFile": "index",
-      "sourceRoot": "libs/google-sign-in/src",
+      "sourceRoot": "libs/google-auth/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/google-sign-in/tsconfig.lib.json"
+        "tsConfigPath": "libs/google-auth/tsconfig.lib.json"
       }
     }
   }

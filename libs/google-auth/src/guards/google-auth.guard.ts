@@ -7,17 +7,15 @@ import {
 
 import { Request } from 'express'
 
-import { GoogleSignInService } from '..'
+import { GoogleAuthService } from '..'
 
 /**
  * The class that represents the guard that gets the user from the google
  * token incoming in the request
  */
 @Injectable()
-export class GoogleSignInGuard implements CanActivate {
-  public constructor(
-    private readonly googleSignInService: GoogleSignInService,
-  ) {}
+export class GoogleAuthGuard implements CanActivate {
+  public constructor(private readonly googleAuthService: GoogleAuthService) {}
 
   /**
    * Method that returns from the current context the incoming request
@@ -39,7 +37,7 @@ export class GoogleSignInGuard implements CanActivate {
     const request = this.getRequest(context)
 
     try {
-      const user = await this.googleSignInService.getProfileByToken(
+      const user = await this.googleAuthService.getProfileByToken(
         request.headers.authorization,
       )
       request.user = user

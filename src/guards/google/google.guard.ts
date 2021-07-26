@@ -1,16 +1,15 @@
 import { ExecutionContext, Injectable } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
-import { GoogleSignInGuard } from '@graphql-example/google-sign-in/guards/google-sign-in.guard'
-
 import { Request } from 'express'
+import { GoogleAuthGuard } from 'libs/google-auth/src'
 
 /**
  * The class that represents the guard that gets the user from the google
  * token incoming in the request
  */
 @Injectable()
-export class GoogleGuard extends GoogleSignInGuard {
+export class GoogleGuard extends GoogleAuthGuard {
   /**
    * Method that returns from the current context the incoming request
    *
