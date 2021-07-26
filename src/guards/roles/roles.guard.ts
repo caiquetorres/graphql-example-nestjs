@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext } from '@nestjs/common'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
@@ -12,6 +12,7 @@ import { Request } from 'express'
  * The class that represents the guard that protects some route comparing
  * the roles saved in the metadata
  */
+@Injectable()
 export class RolesGuard implements CanActivate {
   /**
    * Method that is called before the route be accessed
@@ -26,9 +27,9 @@ export class RolesGuard implements CanActivate {
       return true
     }
 
-    const user = GqlExecutionContext.create(context).getContext<{
+    const { user } = GqlExecutionContext.create(context).getContext<{
       req: Request & { user: User }
-    }>().req.user
+    }>().req
 
     if (!user) {
       throw new ForbiddenException()

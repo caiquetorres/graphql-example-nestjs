@@ -14,6 +14,7 @@ import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
+import { GoogleSignInModule } from '@graphql-example/google-sign-in'
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
 import * as path from 'path'
 
@@ -49,6 +50,13 @@ import * as path from 'path'
           path: path.join(__dirname, '../i18n/'),
           watch: true,
         },
+      }),
+    }),
+    GoogleSignInModule.forRootAsync({
+      inject: [EnvService],
+      useFactory: (envService: EnvService) => ({
+        clientId: envService.get('GOOGLE_CLIENT_ID'),
+        clientSecret: envService.get('GOOGLE_CLIENT_SECRET'),
       }),
     }),
   ],
