@@ -132,4 +132,16 @@ export class EnvironmentVariables {
   public SENTRY_DSN: string
 
   //#endregion
+
+  //#region Google Sign In
+
+  @IsDefined({ message: 'It is required to set the "GOOGLE_CLIENT_ID"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public GOOGLE_CLIENT_ID: string
+
+  @IsDefined({ message: 'It is required to set the "GOOGLE_CLIENT_SECRET"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public GOOGLE_CLIENT_SECRET: string
+
+  //#endregion
 }

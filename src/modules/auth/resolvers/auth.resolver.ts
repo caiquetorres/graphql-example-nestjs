@@ -1,4 +1,7 @@
+import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
+
+import { GoogleGuard } from 'src/guards/google/google.guard'
 
 import { LoginInput } from '../dtos/login.input'
 import { TokenModel } from '../dtos/token.model'
@@ -21,9 +24,13 @@ export class AuthResolver {
    * @note The login is being performed this way due to the discussion
    * found in this issue https://github.com/nestjs/graphql/issues/48
    */
+  @UseGuards(GoogleGuard)
   @Mutation(() => TokenModel)
   public async login(
-    @Args('input', { type: () => LoginInput }) loginInput: LoginInput,
+    @Args('input', {
+      type: () => LoginInput,
+    })
+    loginInput: LoginInput,
   ): Promise<TokenModel> {
     return await this.authService.login(loginInput)
   }

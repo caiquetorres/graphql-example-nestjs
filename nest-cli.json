@@ -3,5 +3,16 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": ["/i18n/**/*"]
+  },
+  "projects": {
+    "google-sign-in": {
+      "type": "library",
+      "root": "libs/google-sign-in",
+      "entryFile": "index",
+      "sourceRoot": "libs/google-sign-in/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/google-sign-in/tsconfig.lib.json"
+      }
+    }
   }
 }

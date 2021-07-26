@@ -33,7 +33,7 @@ export class EnvModule {
    * @param config defines the variables and it values
    * @returns an object that represents the variables and it values
    */
-  public static validate(
+  private static validate(
     config: Record<string, unknown>,
   ): EnvironmentVariables {
     const validatedConfig = plainToClass(EnvironmentVariables, config, {

@@ -10,8 +10,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@graphql-example/google-sign-in": ["libs/google-sign-in/src"],
+      "@graphql-example/google-sign-in/*": ["libs/google-sign-in/src/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "libs/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
