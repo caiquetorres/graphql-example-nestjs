@@ -5,8 +5,15 @@ import { GoogleSignInModuleOptions } from '../interfaces/google-sign-in-module-o
 import { GoogleUser } from '../interfaces/google-user.interface'
 import { OAuth2Client } from 'google-auth-library'
 
+/**
+ * The class that represents the service that deals with the google sign in
+ * data
+ */
 @Injectable()
 export class GoogleSignInService {
+  /**
+   * Property that represents the google client
+   */
   private readonly oath2Client: OAuth2Client
 
   public constructor(
@@ -19,6 +26,12 @@ export class GoogleSignInService {
     })
   }
 
+  /**
+   * Method that returns the user data from the google token
+   *
+   * @param token defines the google token
+   * @returns an object that represents the user got from google
+   */
   public async getProfileByToken(token: string): Promise<GoogleUser> {
     if (token.includes('Bearer')) {
       token = token.split(' ')[1]
