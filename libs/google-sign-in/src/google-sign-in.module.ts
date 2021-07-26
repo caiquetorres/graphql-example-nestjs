@@ -11,6 +11,7 @@ import { GoogleSignInOptionsFactory } from './interfaces/google-sign-in-options-
 export class GoogleSignInModule {
   public static forRoot(options: GoogleSignInModuleOptions): DynamicModule {
     return {
+      global: true,
       module: GoogleSignInModule,
       providers: [
         GoogleSignInService,
@@ -22,6 +23,7 @@ export class GoogleSignInModule {
 
   public static forRootAsync(options: GoogleSignInAsyncOptions): DynamicModule {
     return {
+      global: true,
       module: GoogleSignInModule,
       providers: [
         GoogleSignInService,
@@ -50,11 +52,12 @@ export class GoogleSignInModule {
         {
           provide: ModuleConstant.GOOGLE_SIGN_IN_MODULE_OPTIONS,
           useFactory: options.useFactory,
-          inject: options.inject || [],
+          inject: options.inject,
         },
       ]
     } else {
-      const providers: Provider[] = [
+      const useClass = options.useClass
+      return [
         {
           provide: ModuleConstant.GOOGLE_SIGN_IN_MODULE_OPTIONS,
           useFactory: async (
@@ -63,14 +66,11 @@ export class GoogleSignInModule {
             optionsFactory.createGoogleSignInOptions(),
           inject: [options.useExisting || options.useClass],
         },
+        useClass && {
+          provide: useClass,
+          useClass: useClass,
+        },
       ]
-      if (options.useClass) {
-        providers.push({
-          provide: options.useClass,
-          useClass: options.useClass,
-        })
-      }
-      return providers
     }
   }
 }
