@@ -1,8 +1,11 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  BadRequestException,
+} from '@nestjs/common'
 
 import { Request } from 'express'
-
-import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
 
 import { GoogleSignInService } from '..'
 
@@ -42,7 +45,7 @@ export class GoogleSignInGuard implements CanActivate {
       request.user = user
       return true
     } catch {
-      throw new ForbiddenException()
+      throw new BadRequestException('Token invalid')
     }
   }
 }
