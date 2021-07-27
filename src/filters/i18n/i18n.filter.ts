@@ -1,5 +1,5 @@
-import { Catch, HttpException } from '@nestjs/common'
-import { GqlExceptionFilter } from '@nestjs/graphql'
+import { ArgumentsHost, Catch, HttpException } from '@nestjs/common'
+import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql'
 
 import { I18nService } from 'nestjs-i18n'
 
@@ -17,9 +17,10 @@ export class I18nFilter implements GqlExceptionFilter {
    * @param exception defines and object that represents the thrown exception
    * @param host defines and object that represents the host arguments
    */
-  public async catch(exception: HttpException): Promise<HttpException> {
-    // TODO: extract from host the specified lang
-
+  public async catch(
+    exception: HttpException,
+    host: ArgumentsHost,
+  ): Promise<HttpException> {
     const message = exception.getResponse() as {
       key: string
       args: Record<string, unknown>
@@ -31,6 +32,7 @@ export class I18nFilter implements GqlExceptionFilter {
 
     exception.message = await this.i18nService.translate(message.key, {
       args: message.args,
+      lang: GqlArgumentsHost.create(host).getContext().i18nLang,
     })
 
     return exception

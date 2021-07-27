@@ -15,7 +15,7 @@ import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
 import { GoogleAuthModule } from '@graphql-example/google-auth'
-import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
+import { HeaderResolver, I18nJsonParser, I18nModule } from 'nestjs-i18n'
 import * as path from 'path'
 
 @Module({
@@ -39,6 +39,7 @@ import * as path from 'path'
     I18nModule.forRootAsync({
       inject: [EnvService], // FIXME: "useClass" is not working
       parser: I18nJsonParser,
+      resolvers: [new HeaderResolver(['x-custom-lang'])],
       useFactory: (envService: EnvService) => ({
         fallbackLanguage: envService.get('I18N_FALLBACK_LANGUAGE'),
         fallbacks: {

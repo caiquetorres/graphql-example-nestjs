@@ -4,6 +4,10 @@ import { AuthGuard } from '@nestjs/passport'
 
 import { Request } from 'express'
 
+/**
+ * The class that represents the guard that protects some route
+ * using the "google" strategy
+ */
 @Injectable()
 export class GoogleGuard extends AuthGuard('google') {
   /**
