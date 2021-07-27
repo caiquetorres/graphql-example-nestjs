@@ -1,6 +1,6 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common'
 
-import { GoogleAuthService } from './services/google-auth.service'
+import { GoogleAuthStrategyService } from './services/google-auth.strategy.service'
 
 import { ModuleConstant } from './constants/module.constant'
 import { GoogleAuthAsyncOptions } from './interfaces/google-auth-async-options.interface'
@@ -14,10 +14,10 @@ export class GoogleAuthModule {
       global: true,
       module: GoogleAuthModule,
       providers: [
-        GoogleAuthService,
+        GoogleAuthStrategyService,
         ...GoogleAuthModule.createGoogleAuthOptionsProvider(options),
       ],
-      exports: [GoogleAuthService],
+      exports: [GoogleAuthStrategyService],
     }
   }
 
@@ -26,10 +26,10 @@ export class GoogleAuthModule {
       global: true,
       module: GoogleAuthModule,
       providers: [
-        GoogleAuthService,
+        GoogleAuthStrategyService,
         ...GoogleAuthModule.createGoogleAuthAsyncOptionsProvider(options),
       ],
-      exports: [GoogleAuthService],
+      exports: [GoogleAuthStrategyService],
     }
   }
 
