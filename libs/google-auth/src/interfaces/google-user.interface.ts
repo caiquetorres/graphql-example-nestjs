@@ -1,9 +1,13 @@
 /**
  * Interface that represents the user result got after the sign in completed
  */
-export interface User {
+export interface GoogleUser {
   id: number | string
   email: string
-  firstName: string
-  lastName: string
+  verified_email: boolean
+  name: string
+  given_name: string
+  family_name: string
+  picture: string
+  locale: string
 }

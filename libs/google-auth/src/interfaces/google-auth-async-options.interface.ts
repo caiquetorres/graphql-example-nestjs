@@ -1,5 +1,6 @@
 import { ModuleMetadata, Type } from '@nestjs/common'
 
+import { GoogleAuthModuleOptions } from './google-auth-module-options.interface'
 import { GoogleAuthOptionsFactory } from './google-auth-options-factory.interface'
 
 /**
@@ -9,8 +10,6 @@ export interface GoogleAuthAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   useExisting?: Type<GoogleAuthOptionsFactory>
   useClass?: Type<GoogleAuthOptionsFactory>
-  useFactory?(
-    ...args: unknown[]
-  ): ReturnType<GoogleAuthOptionsFactory['createGoogleAuthOptions']>
+  useFactory?(...args: unknown[]): GoogleAuthModuleOptions
   inject?: Type<unknown>[]
 }

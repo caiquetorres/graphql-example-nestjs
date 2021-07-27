@@ -14,7 +14,7 @@ import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
-import { GoogleAuthModule } from 'libs/google-auth/src'
+import { GoogleAuthModule } from '@graphql-example/google-auth'
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n'
 import * as path from 'path'
 
@@ -55,7 +55,7 @@ import * as path from 'path'
     GoogleAuthModule.forRootAsync({
       inject: [EnvService],
       useFactory: (envService: EnvService) => ({
-        clientId: envService.get('GOOGLE_CLIENT_ID'),
+        clientID: envService.get('GOOGLE_CLIENT_ID'),
         clientSecret: envService.get('GOOGLE_CLIENT_SECRET'),
       }),
     }),

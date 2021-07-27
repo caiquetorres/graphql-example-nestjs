@@ -1,24 +1,19 @@
 import { ExecutionContext, Injectable } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
+import { AuthGuard } from '@nestjs/passport'
 
 import { Request } from 'express'
-import { GoogleAuthGuard } from 'libs/google-auth/src'
 
-/**
- * The class that represents the guard that gets the user from the google
- * token incoming in the request
- */
 @Injectable()
-export class GoogleGuard extends GoogleAuthGuard {
+export class GoogleGuard extends AuthGuard('google') {
   /**
-   * Method that returns from the current context the incoming request
+   * Method that returns the request from the context
    *
-   * @param context defines an object that represents the current context
-   * @returns the incoming request from the current context
+   * @param context defines which context the application is running into
+   * @returns an object that represents the request
    */
   public getRequest(context: ExecutionContext): Request {
-    return GqlExecutionContext.create(context).getContext<{
-      req: Request
-    }>().req
+    const gqlContext = GqlExecutionContext.create(context)
+    return gqlContext.getContext<{ req: Request }>().req
   }
 }
