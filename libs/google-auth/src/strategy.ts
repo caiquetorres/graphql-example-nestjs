@@ -7,19 +7,32 @@ import {
   InternalOAuthError,
 } from 'passport-oauth2'
 
+const authorizationURL = 'https://accounts.google.com/o/oauth2/auth'
+const tokenURL = 'https://accounts.google.com/o/oauth2/token'
+const userUrl = 'https://www.googleapis.com/oauth2/v1/userinfo'
+
+/**
+ * The class that represents the strategy that deals with the google authorization
+ */
 export class GoogleStrategy extends Strategy {
   public constructor(options: StrategyOptions, verify: VerifyFunction) {
     options = options || ({} as StrategyOptions)
 
-    options.authorizationURL ??= 'https://accounts.google.com/o/oauth2/auth'
-    options.tokenURL ??= 'https://accounts.google.com/o/oauth2/token'
+    options.authorizationURL ??= authorizationURL
+    options.tokenURL ??= tokenURL
 
     super(options, verify)
 
     this.name = 'google'
   }
 
-  public authenticate(request: Request): unknown {
+  /**
+   * Method that authenticates the request, testing if it has all the needed properties
+   * and getting the user after that
+   *
+   * @param request defines an object that represents the request
+   */
+  public authenticate(request: Request): void {
     if (!request.body || (request.query && request.query.error)) {
       return this.fail()
     }
@@ -59,27 +72,29 @@ export class GoogleStrategy extends Strategy {
     })
   }
 
+  /**
+   * Method that fetches for the user data
+   *
+   * @param accessToken defines oauth2 access token for google
+   * @param done defines a callback that will be called when request completed
+   */
   public userProfile(
     accessToken: string,
     done: (error?: Error, profile?: unknown) => void,
   ): void {
-    this._oauth2.get(
-      'https://www.googleapis.com/oauth2/v1/userinfo',
-      accessToken,
-      (error, body) => {
-        if (error) {
-          return void done(
-            new InternalOAuthError('Failed to fetch user profile', error),
-          )
-        }
+    this._oauth2.get(userUrl, accessToken, (error, body) => {
+      if (error) {
+        return void done(
+          new InternalOAuthError('Failed to fetch user profile', error),
+        )
+      }
 
-        done(null, JSON.parse(body as string))
+      done(null, JSON.parse(body as string))
 
-        try {
-        } catch (e) {
-          done(e)
-        }
-      },
-    )
+      try {
+      } catch (e) {
+        done(e)
+      }
+    })
   }
 }
