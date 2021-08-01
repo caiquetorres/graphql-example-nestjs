@@ -2,15 +2,15 @@ import { ConnectionType } from '@nestjs-query/query-graphql'
 import { ParseUUIDPipe } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-import { CurrentUser } from 'src/decorators/current-user/current-user.decorator'
-import { ProtectTo } from 'src/decorators/protect-to/protect-to.decorator'
+import { CurrentUser } from '../../../decorators/current-user/current-user.decorator'
+import { ProtectTo } from '../../../decorators/protect-to/protect-to.decorator'
 
 import { User } from '../entities/user.entity'
 
+import { RolesEnum } from '../../../models/enums/roles.enum'
 import { CreateUserInput } from '../dtos/create-user.input'
 import { QueryUsersArgs } from '../dtos/query-users.args'
 import { UpdateUserInput } from '../dtos/update-user.input'
-import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { UserService } from '../services/user.service'
 

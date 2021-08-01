@@ -2,9 +2,9 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
-import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
+import { ForbiddenException } from '../../exceptions/forbidden/forbidden.exception'
 
-import { User } from 'src/modules/user/entities/user.entity'
+import { User } from '../../modules/user/entities/user.entity'
 
 import { Request } from 'express'
 

@@ -1,7 +1,7 @@
 import { QueryArgsType } from '@nestjs-query/query-graphql'
 import { ArgsType } from '@nestjs/graphql'
 
-import { Comment } from 'src/modules/comment/entities/comment.entity'
+import { Comment } from '../entities/comment.entity'
 
 /**
  * The class that represents the arguments sent to the api for

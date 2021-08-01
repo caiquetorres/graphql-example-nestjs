@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
-import { User } from 'src/modules/user/entities/user.entity'
+import { User } from '../../modules/user/entities/user.entity'
 
 import { Request } from 'express'
 

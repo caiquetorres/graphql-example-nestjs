@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { JwtSignOptions } from '@nestjs/jwt'
 import { PassportStrategy } from '@nestjs/passport'
 
-import { User } from 'src/modules/user/entities/user.entity'
+import { User } from '../../user/entities/user.entity'
 
+import { EnvService } from '../../env/services/env.service'
 import { AuthService } from '../services/auth.service'
-import { EnvService } from 'src/modules/env/services/env.service'
 
 import { ExtractJwt, Strategy } from 'passport-jwt'
 

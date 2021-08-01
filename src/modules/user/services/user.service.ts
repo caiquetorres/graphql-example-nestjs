@@ -4,20 +4,20 @@ import { ConflictException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
-import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
-import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
-import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
+import { EntityAlreadyDisabledException } from '../../../exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from '../../../exceptions/entity-already-enabled/entity-already-enabled.exception'
+import { EntityNotFoundException } from '../../../exceptions/entity-not-found/entity-not-found.exception'
+import { ForbiddenException } from '../../../exceptions/forbidden/forbidden.exception'
 
 import { User } from '../entities/user.entity'
 
+import { RolesEnum } from '../../../models/enums/roles.enum'
 import { CreateUserInput } from '../dtos/create-user.input'
 import { QueryUsersArgs } from '../dtos/query-users.args'
 import { UpdateUserInput } from '../dtos/update-user.input'
-import { RolesEnum } from 'src/models/enums/roles.enum'
 
-import { PasswordService } from 'src/modules/password/services/password.service'
-import { PermissionService } from 'src/modules/permission/services/permission.service'
+import { PasswordService } from '../../password/services/password.service'
+import { PermissionService } from '../../permission/services/permission.service'
 
 /**
  * The class that represents the service that deals with the users

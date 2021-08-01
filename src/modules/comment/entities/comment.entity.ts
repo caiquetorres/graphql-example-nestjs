@@ -1,10 +1,10 @@
 import { FilterableField } from '@nestjs-query/query-graphql'
 import { ObjectType } from '@nestjs/graphql'
-import { Column, Entity, ManyToOne, RelationId } from 'typeorm'
+import { Entity, Column, RelationId, ManyToOne } from 'typeorm'
 
-import { Base } from 'src/common/base.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
-import { User } from 'src/modules/user/entities/user.entity'
+import { Base } from '../../../common/base.entity'
+import { Post } from '../../post/entities/post.entity'
+import { User } from '../../user/entities/user.entity'
 
 @Entity()
 @ObjectType({

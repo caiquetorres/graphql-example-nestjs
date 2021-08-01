@@ -1,17 +1,17 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { ParseUUIDPipe } from '@nestjs/common'
-import { Args, Mutation, Resolver, Query } from '@nestjs/graphql'
+import { Mutation, Args, Resolver, Query } from '@nestjs/graphql'
 
-import { CurrentUser } from 'src/decorators/current-user/current-user.decorator'
-import { ProtectTo } from 'src/decorators/protect-to/protect-to.decorator'
+import { CurrentUser } from '../../../decorators/current-user/current-user.decorator'
+import { ProtectTo } from '../../../decorators/protect-to/protect-to.decorator'
 
+import { User } from '../../user/entities/user.entity'
 import { Comment } from '../entities/comment.entity'
-import { User } from 'src/modules/user/entities/user.entity'
 
+import { RolesEnum } from '../../../models/enums/roles.enum'
 import { CreateCommentInput } from '../dtos/create-comment.input'
 import { QueryCommentsArgs } from '../dtos/query-comments.args'
 import { UpdateCommentInput } from '../dtos/update-comment.input'
-import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { CommentService } from '../services/comment.service'
 

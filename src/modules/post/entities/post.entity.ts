@@ -9,10 +9,10 @@ import {
   RelationId,
 } from 'typeorm'
 
-import { Base } from 'src/common/base.entity'
-import { Category } from 'src/modules/category/entities/category.entity'
-import { Comment } from 'src/modules/comment/entities/comment.entity'
-import { User } from 'src/modules/user/entities/user.entity'
+import { Base } from '../../../common/base.entity'
+import { Category } from '../../category/entities/category.entity'
+import { Comment } from '../../comment/entities/comment.entity'
+import { User } from '../../user/entities/user.entity'
 
 /**
  * The class that represents the user post

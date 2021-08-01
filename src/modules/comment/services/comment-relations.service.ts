@@ -2,9 +2,9 @@ import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { Post } from '../../post/entities/post.entity'
+import { User } from '../../user/entities/user.entity'
 import { Comment } from '../entities/comment.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
-import { User } from 'src/modules/user/entities/user.entity'
 
 /**
  * The class that represents the service that deals with the comment

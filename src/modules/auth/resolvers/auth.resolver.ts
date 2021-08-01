@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import { Mutation, Args, Resolver } from '@nestjs/graphql'
 
 import { LoginInput } from '../dtos/login.input'
 import { TokenModel } from '../dtos/token.model'

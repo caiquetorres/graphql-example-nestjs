@@ -4,9 +4,9 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
-import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
-import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
+import { EntityAlreadyDisabledException } from '../../../exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from '../../../exceptions/entity-already-enabled/entity-already-enabled.exception'
+import { EntityNotFoundException } from '../../../exceptions/entity-not-found/entity-not-found.exception'
 
 import { Category } from '../entities/category.entity'
 

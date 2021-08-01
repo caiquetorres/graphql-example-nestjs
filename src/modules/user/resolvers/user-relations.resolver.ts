@@ -1,12 +1,12 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 
+import { Comment } from '../../comment/entities/comment.entity'
+import { Post } from '../../post/entities/post.entity'
 import { User } from '../entities/user.entity'
-import { Comment } from 'src/modules/comment/entities/comment.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
 
-import { QueryCommentsArgs } from 'src/modules/comment/dtos/query-comments.args'
-import { QueryPostsArgs } from 'src/modules/post/dtos/query-posts.args'
+import { QueryCommentsArgs } from '../../comment/dtos/query-comments.args'
+import { QueryPostsArgs } from '../../post/dtos/query-posts.args'
 
 import { UserRelationsService } from '../services/user-relations.service'
 

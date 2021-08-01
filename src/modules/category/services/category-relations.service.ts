@@ -1,12 +1,12 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { Injectable } from '@nestjs/common'
 
-import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
+import { EntityNotFoundException } from '../../../exceptions/entity-not-found/entity-not-found.exception'
 
+import { Post } from '../../post/entities/post.entity'
 import { Category } from '../entities/category.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
 
-import { QueryPostsArgs } from 'src/modules/post/dtos/query-posts.args'
+import { QueryPostsArgs } from '../../post/dtos/query-posts.args'
 
 import { CategoryService } from './category.service'
 

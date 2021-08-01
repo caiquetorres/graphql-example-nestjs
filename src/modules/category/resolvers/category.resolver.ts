@@ -1,15 +1,15 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
 import { ParseUUIDPipe } from '@nestjs/common'
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Mutation, Args, Resolver, Query } from '@nestjs/graphql'
 
-import { ProtectTo } from 'src/decorators/protect-to/protect-to.decorator'
+import { ProtectTo } from '../../../decorators/protect-to/protect-to.decorator'
 
 import { Category } from '../entities/category.entity'
 
+import { RolesEnum } from '../../../models/enums/roles.enum'
 import { CreateCategoryInput } from '../dtos/create-category.input'
 import { QueryCategoryArgs } from '../dtos/query-category.args'
 import { UpdateCategoryInput } from '../dtos/update-category.input'
-import { RolesEnum } from 'src/models/enums/roles.enum'
 
 import { CategoryService } from '../services/category.service'
 

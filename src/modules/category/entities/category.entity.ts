@@ -1,9 +1,9 @@
 import { FilterableField } from '@nestjs-query/query-graphql'
 import { ObjectType } from '@nestjs/graphql'
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm'
 
-import { Base } from 'src/common/base.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
+import { Base } from '../../../common/base.entity'
+import { Post } from '../../post/entities/post.entity'
 
 @Entity()
 @ObjectType({

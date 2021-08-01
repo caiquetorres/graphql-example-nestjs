@@ -4,22 +4,22 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { EntityAlreadyDisabledException } from 'src/exceptions/entity-already-disabled/entity-already-disabled.exception'
-import { EntityAlreadyEnabledException } from 'src/exceptions/entity-already-enabled/entity-already-enabled.exception'
-import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
-import { ForbiddenException } from 'src/exceptions/forbidden/forbidden.exception'
+import { EntityAlreadyDisabledException } from '../../../exceptions/entity-already-disabled/entity-already-disabled.exception'
+import { EntityAlreadyEnabledException } from '../../../exceptions/entity-already-enabled/entity-already-enabled.exception'
+import { EntityNotFoundException } from '../../../exceptions/entity-not-found/entity-not-found.exception'
+import { ForbiddenException } from '../../../exceptions/forbidden/forbidden.exception'
 
+import { Post } from '../../post/entities/post.entity'
+import { User } from '../../user/entities/user.entity'
 import { Comment } from '../entities/comment.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
-import { User } from 'src/modules/user/entities/user.entity'
 
 import { CreateCommentInput } from '../dtos/create-comment.input'
 import { QueryCommentsArgs } from '../dtos/query-comments.args'
 import { UpdateCommentInput } from '../dtos/update-comment.input'
 
-import { PermissionService } from 'src/modules/permission/services/permission.service'
-import { PostService } from 'src/modules/post/services/post.service'
-import { UserService } from 'src/modules/user/services/user.service'
+import { PermissionService } from '../../permission/services/permission.service'
+import { PostService } from '../../post/services/post.service'
+import { UserService } from '../../user/services/user.service'
 
 /**
  * The class that represents the service that deals with the reviews

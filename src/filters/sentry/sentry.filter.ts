@@ -2,7 +2,7 @@ import { Catch, HttpException, HttpStatus } from '@nestjs/common'
 import { GqlExceptionFilter } from '@nestjs/graphql'
 import * as Sentry from '@sentry/node'
 
-import { EnvService } from 'src/modules/env/services/env.service'
+import { EnvService } from '../../modules/env/services/env.service'
 
 /**
  * Class that represents the filter that capture some exception and send

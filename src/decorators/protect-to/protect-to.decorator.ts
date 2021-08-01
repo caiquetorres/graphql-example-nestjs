@@ -4,10 +4,10 @@ import { applyDecorators, UseGuards } from '@nestjs/common'
 
 import { Roles } from '../roles/roles.decorator'
 
-import { JwtGuard } from 'src/guards/jwt/jwt.guard'
-import { RolesGuard } from 'src/guards/roles/roles.guard'
+import { JwtGuard } from '../../guards/jwt/jwt.guard'
+import { RolesGuard } from '../../guards/roles/roles.guard'
 
-import { RolesEnum } from 'src/models/enums/roles.enum'
+import { RolesEnum } from '../../models/enums/roles.enum'
 
 /**
  * Decorator that sets all the protect roles and it guards

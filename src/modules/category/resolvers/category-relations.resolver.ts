@@ -1,10 +1,10 @@
 import { ConnectionType } from '@nestjs-query/query-graphql'
-import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql'
+import { ResolveField, Args, Parent, Resolver } from '@nestjs/graphql'
 
+import { Post } from '../../post/entities/post.entity'
 import { Category } from '../entities/category.entity'
-import { Post } from 'src/modules/post/entities/post.entity'
 
-import { QueryPostsArgs } from 'src/modules/post/dtos/query-posts.args'
+import { QueryPostsArgs } from '../../post/dtos/query-posts.args'
 
 import { CategoryRelationsService } from '../services/category-relations.service'
 

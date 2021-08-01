@@ -4,17 +4,17 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { EntityNotFoundException } from 'src/exceptions/entity-not-found/entity-not-found.exception'
+import { EntityNotFoundException } from '../../../exceptions/entity-not-found/entity-not-found.exception'
 
+import { Category } from '../../category/entities/category.entity'
+import { Comment } from '../../comment/entities/comment.entity'
+import { User } from '../../user/entities/user.entity'
 import { Post } from '../entities/post.entity'
-import { Category } from 'src/modules/category/entities/category.entity'
-import { Comment } from 'src/modules/comment/entities/comment.entity'
-import { User } from 'src/modules/user/entities/user.entity'
 
-import { QueryCategoryArgs } from 'src/modules/category/dtos/query-category.args'
-import { QueryCommentsArgs } from 'src/modules/comment/dtos/query-comments.args'
+import { QueryCategoryArgs } from '../../category/dtos/query-category.args'
+import { QueryCommentsArgs } from '../../comment/dtos/query-comments.args'
 
-import { CategoryService } from 'src/modules/category/services/category.service'
+import { CategoryService } from '../../category/services/category.service'
 
 /**
  * The class that represents the service that deals with the post relations

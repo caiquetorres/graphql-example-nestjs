@@ -2,13 +2,13 @@ import { ConnectionType } from '@nestjs-query/query-graphql'
 import { ParseUUIDPipe } from '@nestjs/common'
 import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 
+import { Category } from '../../category/entities/category.entity'
+import { Comment } from '../../comment/entities/comment.entity'
+import { User } from '../../user/entities/user.entity'
 import { Post } from '../entities/post.entity'
-import { Category } from 'src/modules/category/entities/category.entity'
-import { Comment } from 'src/modules/comment/entities/comment.entity'
-import { User } from 'src/modules/user/entities/user.entity'
 
-import { QueryCategoryArgs } from 'src/modules/category/dtos/query-category.args'
-import { QueryCommentsArgs } from 'src/modules/comment/dtos/query-comments.args'
+import { QueryCategoryArgs } from '../../category/dtos/query-category.args'
+import { QueryCommentsArgs } from '../../comment/dtos/query-comments.args'
 
 import { PostRelationsService } from '../services/post-relations.service'
 
