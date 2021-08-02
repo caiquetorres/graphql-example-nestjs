@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm'
 
 import { EnvService } from '../../modules/env/services/env.service'
@@ -11,6 +11,8 @@ import * as path from 'path'
  */
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
+  private readonly logger = new Logger(TypeOrmConfigService.name)
+
   public constructor(private readonly envService: EnvService) {}
 
   /**
@@ -19,7 +21,16 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
    * @returns an object with all the configurations
    */
   public createTypeOrmOptions(): TypeOrmModuleOptions {
-    const entitiesPath = path.resolve(process.cwd(), '**', '*.entity.js')
+    const entities: string[] = []
+
+    if (this.envService.get('NODE_ENV') === 'test') {
+      this.logger.warn(
+        `The "test" mode should only be used with unit and e2e tests, otherwise the application will not connect to the database due to entity paths being incompatible with this connection`,
+      )
+      entities.push(path.resolve(process.cwd(), '**', '*.entity.ts'))
+    } else {
+      entities.push(path.resolve(process.cwd(), '**', '*.entity.js'))
+    }
 
     switch (this.envService.get('DATABASE_TYPE')) {
       case 'sqlite':
@@ -28,7 +39,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           database: this.envService.get('DATABASE_DATABASE'),
           synchronize: this.envService.get('DATABASE_SYNCHRONIZE'),
           migrationsRun: this.envService.get('DATABASE_MIGRATIONS_RUN'),
-          entities: [entitiesPath],
+          entities,
         }
       case 'mysql':
         return {
@@ -41,7 +52,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           password: this.envService.get('DATABASE_PASSWORD'),
           synchronize: this.envService.get('DATABASE_SYNCHRONIZE'),
           migrationsRun: this.envService.get('DATABASE_MIGRATIONS_RUN'),
-          entities: [entitiesPath],
+          entities,
         }
       case 'postgres':
         return {
@@ -55,7 +66,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           ssl: this.envService.get('DATABASE_SSL'),
           synchronize: this.envService.get('DATABASE_SYNCHRONIZE'),
           migrationsRun: this.envService.get('DATABASE_MIGRATIONS_RUN'),
-          entities: [entitiesPath],
+          entities,
         }
     }
   }
