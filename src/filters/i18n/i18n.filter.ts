@@ -26,14 +26,12 @@ export class I18nFilter implements GqlExceptionFilter {
       args: Record<string, unknown>
     }
 
-    if (!message.key) {
-      return exception
+    if (message.key) {
+      exception.message = await this.i18nService.translate(message.key, {
+        args: message.args,
+        lang: GqlArgumentsHost.create(host).getContext().i18nLang,
+      })
     }
-
-    exception.message = await this.i18nService.translate(message.key, {
-      args: message.args,
-      lang: GqlArgumentsHost.create(host).getContext().i18nLang,
-    })
 
     return exception
   }
