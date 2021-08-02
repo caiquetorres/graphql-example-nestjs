@@ -10,7 +10,10 @@ import { EnvService } from '../../modules/env/services/env.service'
  */
 @Catch()
 export class SentryFilter implements GqlExceptionFilter {
-  public constructor(envService: EnvService) {
+  public constructor(private readonly envService: EnvService) {
+    if (!envService.get('SENTRY_DSN')) {
+      return
+    }
     Sentry.init({
       environment: envService.get('NODE_ENV'),
       dsn: envService.get('SENTRY_DSN'),
@@ -30,7 +33,7 @@ export class SentryFilter implements GqlExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR
 
-    if (status >= 500) {
+    if (status >= 500 && this.envService.get('SENTRY_DSN')) {
       Sentry.captureException(exception)
     }
 
