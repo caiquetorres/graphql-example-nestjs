@@ -48,7 +48,10 @@ import * as path from 'path'
           pt: 'pt-BR',
         },
         parserOptions: {
-          path: path.join(__dirname, '../i18n/'),
+          path:
+            envService.get('NODE_ENV') === 'test'
+              ? path.join(__dirname, '../src/i18n/')
+              : path.join(__dirname, '../i18n/'),
           watch: true,
         },
       }),
