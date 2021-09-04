@@ -1,3 +1,4 @@
+import { GoogleAuthModule } from '@graphql-example/google-auth'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -6,6 +7,7 @@ import { GraphQLConfigService } from './config/graphql-config/graphql-config.ser
 import { TypeOrmConfigService } from './config/typeorm-config/typeorm-config.service'
 import { EnvService } from './modules/env/services/env.service'
 
+import { FacebookAuthModule } from '../libs/facebook-auth/src'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { CommentModule } from './modules/comment/comment.module'
@@ -14,7 +16,6 @@ import { PasswordModule } from './modules/password/password.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
-import { GoogleAuthModule } from '@graphql-example/google-auth'
 import { HeaderResolver, I18nJsonParser, I18nModule } from 'nestjs-i18n'
 import * as path from 'path'
 
@@ -58,6 +59,13 @@ import * as path from 'path'
       useFactory: (envService: EnvService) => ({
         clientID: envService.get('GOOGLE_CLIENT_ID'),
         clientSecret: envService.get('GOOGLE_CLIENT_SECRET'),
+      }),
+    }),
+    FacebookAuthModule.forRootAsync({
+      inject: [EnvService],
+      useFactory: (envService: EnvService) => ({
+        clientID: envService.get('FACEBOOK_CLIENT_ID'),
+        clientSecret: envService.get('FACEBOOK_CLIENT_SECRET'),
       }),
     }),
   ],
