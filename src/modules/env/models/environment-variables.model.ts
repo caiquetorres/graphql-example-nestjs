@@ -143,5 +143,17 @@ export class EnvironmentVariables {
   @IsString({ message: 'It is required to send a valid string value' })
   public GOOGLE_CLIENT_SECRET: string
 
+  //#region
+
+  @IsDefined({ message: 'It is required to set the "FACEBOOK_CLIENT_ID"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public FACEBOOK_CLIENT_ID: string
+
+  @IsDefined({ message: 'It is required to set the "FACEBOOK_CLIENT_SECRET"' })
+  @IsString({ message: 'It is required to send a valid string value' })
+  public FACEBOOK_CLIENT_SECRET: string
+
+  //#endregion
+
   //#endregion
 }

@@ -13,6 +13,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/google-auth/tsconfig.lib.json"
       }
+    },
+    "facebook-auth": {
+      "type": "library",
+      "root": "libs/facebook-auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/facebook-auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/facebook-auth/tsconfig.lib.json"
+      }
     }
   }
 }

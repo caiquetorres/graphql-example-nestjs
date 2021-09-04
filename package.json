@@ -105,7 +105,9 @@
     ],
     "moduleNameMapper": {
       "@graphql-example/google-auth/(.*)": "<rootDir>/libs/google-auth/src/$1",
-      "@graphql-example/google-auth": "<rootDir>/libs/google-auth/src"
+      "@graphql-example/google-auth": "<rootDir>/libs/google-auth/src",
+      "@graphql-example/facebook-auth/(.*)": "<rootDir>/libs/facebook-auth/src/$1",
+      "@graphql-example/facebook-auth": "<rootDir>/libs/facebook-auth/src"
     }
   }
 }

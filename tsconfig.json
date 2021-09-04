@@ -12,10 +12,26 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@graphql-example/google-auth": ["libs/google-auth/src"],
-      "@graphql-example/google-auth/*": ["libs/google-auth/src/*"]
+      "@graphql-example/google-auth": [
+        "libs/google-auth/src"
+      ],
+      "@graphql-example/google-auth/*": [
+        "libs/google-auth/src/*"
+      ],
+      "@graphql-example/facebook-auth": [
+        "libs/facebook-auth/src"
+      ],
+      "@graphql-example/facebook-auth/*": [
+        "libs/facebook-auth/src/*"
+      ]
     }
   },
-  "include": ["src/**/*", "libs/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": [
+    "src/**/*",
+    "libs/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
